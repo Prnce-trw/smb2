@@ -19,8 +19,8 @@ Route::post('loginUser', 'Auth\LoginController@login');
 //     return view('welcome');
 // });
 Route::middleware(['auth'])->group(function () {
-    Route::group(['prefix' => 'backoffice'], function()  
-    {  
+    Route::group(['prefix' => 'backoffice'], function()
+    {
         // backoffice
         Route::resource('/dashboard', 'IndexController');
         // car
@@ -131,6 +131,7 @@ Route::post('/new_address', 'frontend\FrontendController@new_address');
 Route::get('/account_customer_payment', 'frontend\FrontendController@account_customer_payment');
 Route::get('/filter_size/{id}', 'frontend\FrontendController@filter_size');
 Route::get('/pickcolor/{id}', 'frontend\FrontendController@pickcolor');
+Route::get('/products-tyre/{id}', 'frontend\FrontendController@productstyre');
 
 Route::get('/clc', function() {
 

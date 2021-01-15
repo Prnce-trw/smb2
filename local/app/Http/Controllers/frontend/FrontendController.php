@@ -48,24 +48,24 @@ class FrontendController extends Controller
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
         $data = array(
-            'size_diameter' => $size_diameter, 
-            'newproduct' => $newproduct, 
-            'news' => $news, 
-            'promotion' => $promotion, 
+            'size_diameter' => $size_diameter,
+            'newproduct' => $newproduct,
+            'news' => $news,
+            'promotion' => $promotion,
             'blog' => $blog,
-            'ads' => $ads, 
+            'ads' => $ads,
             'bestseller' => $bestseller,
             'productdiscount' => $productdiscount,
-            'banner' => $banner, 
-            'carbrand' => $carbrand, 
-            'sizetire' => $sizetire, 
+            'banner' => $banner,
+            'carbrand' => $carbrand,
+            'sizetire' => $sizetire,
         );
         return view('frontend.index', $data);
     }
 
     public function product()
     {
-        $product = product::paginate(12);
+        $product = product::where('product_type_id', 1)->paginate(12);
         $producttype = producttype::all();
         $brand = brand::all();
         $size = size::groupBy('size_diameter')->get();
@@ -73,13 +73,13 @@ class FrontendController extends Controller
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $data = array(
-            'product' => $product, 
-            'producttype' => $producttype, 
-            'brand' => $brand, 
-            'carbrand' => $carbrand, 
-            'pcd' => $pcd, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'product' => $product,
+            'producttype' => $producttype,
+            'brand' => $brand,
+            'carbrand' => $carbrand,
+            'pcd' => $pcd,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.products', $data);
     }
@@ -102,8 +102,8 @@ class FrontendController extends Controller
         $firstPromotion = promotion::orderBy('promotion_id', 'DESC')->first();
         $promotion = promotion::where('promotion_id', '!=', $firstPromotion->promotion_id)->orderBy('promotion_id', 'DESC')->paginate(6);
         $data = array(
-            'contact' => $contact, 
-            'promotion' => $promotion, 
+            'contact' => $contact,
+            'promotion' => $promotion,
             'firstPromotion' => $firstPromotion,
         );
         return view('frontend.promotion', $data);
@@ -115,9 +115,9 @@ class FrontendController extends Controller
         $carbrand = carbrand::all();
         $brand = brand::all();
         $data = array(
-            'award' => $award, 
-            'carbrand' => $carbrand, 
-            'brand' => $brand, 
+            'award' => $award,
+            'carbrand' => $carbrand,
+            'brand' => $brand,
         );
         return view('frontend.portfolio', $data);
     }
@@ -146,7 +146,7 @@ class FrontendController extends Controller
                 $html_carmodel .= '<option value="'.$value->car_model_id.'">'.$value->car_model_name.' ('.$getFirstYear->car_year_name.' - '.$getLatedYear->car_year_name.') </option>';
             }
             $data = array(
-                'html_carmodel' => $html_carmodel, 
+                'html_carmodel' => $html_carmodel,
             );
         }
         if ($carmodelId != null) { // find car year
@@ -156,10 +156,10 @@ class FrontendController extends Controller
                 $html_caryear .= '<option value="'.$value->car_year_id.'">'.$value->car_year_name.'</option>';
             }
             $data = array(
-                'html_caryear' => $html_caryear, 
+                'html_caryear' => $html_caryear,
             );
         }
-        
+
         return $data;
     }
 
@@ -204,16 +204,18 @@ class FrontendController extends Controller
         }
         $product = product::findOrFail($id);
         $color = color::where('color_product_id', $id)->get();
-        // dd( $color,$id);
-        $firstSize = $color[0]->getSizes[0]->size_diameter;
-        $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $id)->get();
-        $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
-        // dd($size_head);
+        if (!$color->isEmpty()) {
+            $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $id)->get();
+            $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
+        } else {
+            $size = size::where('', $id)->get();
+            $size_head = size::where('', $id)->get();
+        }
         $data = array(
             'size' => $size,
             'size_head' => $size_head,
-            'product' => $product, 
-            'color' => $color, 
+            'product' => $product,
+            'color' => $color,
         );
         return view('frontend.products-detail', $data);
     }
@@ -308,14 +310,14 @@ class FrontendController extends Controller
             }
         }
         $data = array(
-            'html_product' => $html_product, 
-            'product' => $product, 
-            'producttype' => $producttype, 
-            'brand' => $brand, 
-            'carbrand' => $carbrand, 
-            'pcd' => $pcd, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'html_product' => $html_product,
+            'product' => $product,
+            'producttype' => $producttype,
+            'brand' => $brand,
+            'carbrand' => $carbrand,
+            'pcd' => $pcd,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -409,16 +411,16 @@ class FrontendController extends Controller
                     </div>
                 </div>';
             }
-            
+
         }
         $data = array(
-            'html_product' => $html_product, 
-            'brand' => $brand, 
-            'producttype' => $producttype, 
-            'carbrand' => $carbrand, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
-            'product' => $product, 
+            'html_product' => $html_product,
+            'brand' => $brand,
+            'producttype' => $producttype,
+            'carbrand' => $carbrand,
+            'size' => $size,
+            'sizetire' => $sizetire,
+            'product' => $product,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -498,12 +500,12 @@ class FrontendController extends Controller
             }
         }
         $data = array(
-            'html_product' => $html_product, 
-            'brand' => $brand, 
-            'producttype' => $producttype, 
-            'carbrand' => $carbrand, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'html_product' => $html_product,
+            'brand' => $brand,
+            'producttype' => $producttype,
+            'carbrand' => $carbrand,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -518,15 +520,20 @@ class FrontendController extends Controller
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $data = array(
-            'product' => $product, 
-            'producttype' => $producttype, 
-            'brand' => $brand, 
-            'carbrand' => $carbrand, 
-            'pcd' => $pcd, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'product' => $product,
+            'producttype' => $producttype,
+            'brand' => $brand,
+            'carbrand' => $carbrand,
+            'pcd' => $pcd,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
-        return view('frontend.producttype', $data);
+        if ($id == 1) {
+            return view('frontend.producttype', $data);
+        } elseif ($id == 2) {
+            return view('frontend.product-tyre', $data);
+        }
+
     }
 
     public function productbrand($id)
@@ -539,13 +546,13 @@ class FrontendController extends Controller
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $data = array(
-            'product' => $product, 
-            'producttype' => $producttype, 
-            'brand' => $brand, 
-            'carbrand' => $carbrand, 
-            'pcd' => $pcd, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'product' => $product,
+            'producttype' => $producttype,
+            'brand' => $brand,
+            'carbrand' => $carbrand,
+            'pcd' => $pcd,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.producttype', $data);
     }
@@ -562,8 +569,8 @@ class FrontendController extends Controller
         $blog = blog::find($id);
         $recommended = blog::where('blog_id', '!=', $id)->orderBy('blog_id', 'DESC')->limit(3)->get();
         $data = array(
-            'blog' => $blog, 
-            'recommended' => $recommended, 
+            'blog' => $blog,
+            'recommended' => $recommended,
         );
         return view('frontend.blog-detail', $data);
     }
@@ -700,9 +707,9 @@ class FrontendController extends Controller
             </div>';
         }
         $data = array(
-            'html' => $html, 
-            'getProductCart' => $getProductCart, 
-            'productTotal' => $productTotal, 
+            'html' => $html,
+            'getProductCart' => $getProductCart,
+            'productTotal' => $productTotal,
             'productPriceTotal' => $productPriceTotal,
         );
         if ($watched_product != null) {
@@ -735,7 +742,7 @@ class FrontendController extends Controller
             }
             $data = array('html_Diameter' => $html_Diameter, );
         }
-        
+
         return $data;
     }
 
@@ -822,14 +829,14 @@ class FrontendController extends Controller
         }
 
         $data = array(
-            'html_product' => $html_product , 
-            'product' => $product, 
-            'producttype' => $producttype, 
-            'brand' => $brand, 
-            'carbrand' => $carbrand, 
-            'pcd' => $pcd, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'html_product' => $html_product ,
+            'product' => $product,
+            'producttype' => $producttype,
+            'brand' => $brand,
+            'carbrand' => $carbrand,
+            'pcd' => $pcd,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -909,12 +916,12 @@ class FrontendController extends Controller
             }
         }
         $data = array(
-            'html_product' => $html_product, 
-            'brand' => $brand, 
-            'producttype' => $producttype, 
-            'carbrand' => $carbrand, 
-            'size' => $size, 
-            'sizetire' => $sizetire, 
+            'html_product' => $html_product,
+            'brand' => $brand,
+            'producttype' => $producttype,
+            'carbrand' => $carbrand,
+            'size' => $size,
+            'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -922,7 +929,7 @@ class FrontendController extends Controller
     public function AddtoCart(Request $request)
     {
         Cart::add(array(
-            'id' => $request->sizeid, 
+            'id' => $request->sizeid,
             'name' => $request->ProductName,
             'price' => $request->ProductPrice,
             'quantity' => $request->amountProduct,
@@ -939,8 +946,8 @@ class FrontendController extends Controller
         $getUser = User::find($id);
         $getAddress = address::where('address_user_id', $getUser->user_id)->get();
         $data = array(
-            'productTotal' => $productTotal, 
-            'productPriceTotal' => $productPriceTotal, 
+            'productTotal' => $productTotal,
+            'productPriceTotal' => $productPriceTotal,
             'getProductCart' => $getProductCart,
             'getAddress' => $getAddress,
             'getUser' => $getUser,
@@ -954,7 +961,7 @@ class FrontendController extends Controller
     }
 
     public function delProductInCart(Request $request)
-    {   
+    {
         Cart::remove($request->id);
     }
 
@@ -989,9 +996,9 @@ class FrontendController extends Controller
 
     public function searchaward(Request $request)
     {
-        
+
         $getAward = award::query();
-        
+
         if (Input::has('carbrand'))
         {
            $getAward->where('award_cardbrand','like',Input::get('carbrand'));
@@ -1026,10 +1033,10 @@ class FrontendController extends Controller
             $html_price_promotion = '';
         }
         $data = array(
-            'size' => $size, 
-            'html' => $html, 
-            'html_price' => $html_price,  
-            'html_price_promotion' => $html_price_promotion, 
+            'size' => $size,
+            'html' => $html,
+            'html_price' => $html_price,
+            'html_price_promotion' => $html_price_promotion,
         );
         return $data;
     }

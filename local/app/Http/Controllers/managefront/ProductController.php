@@ -69,11 +69,11 @@ class ProductController extends Controller
                 $product->product_type_id	     = $request['product_type'];
                 $product->product_brand_id	     = $request['brand_id'];
                 // $product->product_price	         = $request['price'];
-    
+
                 // if ($request['price_discount'] != null) {
                 //     $product->product_price_discount = $request['price_discount'];
                 // }
-    
+
                 if ($request->file('imgcov') !== null)
                 {
                     $img = $request->file('imgcov');
@@ -85,9 +85,9 @@ class ProductController extends Controller
                 } else {
                     $product->product_imgcov  = 'nopic.png';
                 }
-    
+
                 $product->save();
-    
+
                 // if ($request['diameter'] != null || $request['width'] != null) {
                 //     foreach ($request['diameter'] as $key => $value) {
                 //         $size = new size();
@@ -97,59 +97,59 @@ class ProductController extends Controller
                 //         $size->save();
                 //     }
                 // }
-    
+
                 // if ($request['pcd'] != null) {
                 //     foreach ($request['pcd'] as $key => $value) {
                 //         $pcd = new pcd();
-                //         $pcd->pcd_name       = $value; 
+                //         $pcd->pcd_name       = $value;
                 //         $pcd->pcd_fkey       = $product->product_id;
                 //         $pcd->save();
                 //     }
                 // }
-                
+
                 // if ($request['et'] != null) {
                 //     foreach ($request['et'] as $key => $value) {
                 //         $et = new et();
-                //         $et->et_name        = $value; 
+                //         $et->et_name        = $value;
                 //         $et->et_fkey        = $product->product_id;
                 //         $et->save();
                 //     }
                 // }
-    
+
                 // if ($request['select_carbrand'] == 1) {
                 //     foreach ($request['carbrand'] as $key => $value) {
                 //         $datacar = new productcar();
-                //         $datacar->pc_carbrand_id        = $value; 
+                //         $datacar->pc_carbrand_id        = $value;
                 //         $datacar->pc_carmodel_id        = $request['carmodel'][$key];
                 //         $datacar->pc_caryear_id         = $request['caryear'][$key];
                 //         $datacar->pc_product_id         = $product->product_id;
                 //         $datacar->save();
                 //     }
                 // }
-    
+
                 // if ($request['select_carbrand'] == 2) {
                 //     $newcarbrand = new carbrand();
                 //     $newcarbrand->car_brand_name    = $request['carbrand_name'];
                 //     $newcarbrand->car_brand_logo    = 'nopic.png';
                 //     $newcarbrand->save();
-    
+
                 //     $getlastCarbrand = carbrand::orderBy('car_brand_id', 'DESC')->first();
                 //     $newcarmodel = new carmodel();
                 //     $newcarmodel->car_model_name        = $request['carbrand_model'];
                 //     $newcarmodel->car_model_year        = $request['carbrand_year'];
                 //     $newcarmodel->car_model_brand_id    = $getlastCarbrand->car_brand_id;
                 //     $newcarmodel->save();
-    
+
                 //     $getproduct_id = product::orderBy('product_id', 'DESC')->first();
                 //     $getcarbrand_id = carbrand::orderBy('car_brand_id', 'DESC')->first();
                 //     $getcarmodel_id = carmodel::orderBy('car_model_id', 'DESC')->first();
                 //     $datanewcar = new productcar();
-                //     $datanewcar->pc_carbrand_id        = $getcarbrand_id->car_brand_id; 
+                //     $datanewcar->pc_carbrand_id        = $getcarbrand_id->car_brand_id;
                 //     $datanewcar->pc_carmodel_id        = $getcarmodel_id->car_model_id;
                 //     $datanewcar->pc_product_id         = $getproduct_id->product_id;
                 //     $datanewcar->save();
                 // }
-    
+
                 // if ($request->file('img') !== null) {
                 //     $img = $request->file('img');
                 //     foreach($img as $key => $item) {
@@ -161,7 +161,7 @@ class ProductController extends Controller
                 //         $productimgset->save();
                 //     }
                 // }
-    
+
                 // if ($request->file('imggallery') !== null) {
                 //     $img = $request->file('imggallery');
                 //     foreach($img as $key => $item) {
@@ -173,21 +173,19 @@ class ProductController extends Controller
                 //         $productgallery->save();
                 //     }
                 // }
-    
+
             } elseif ($request['product_type'] == 2) { // Tires
+                // dd($request->all());
                 $product = new product();
                 $product->product_name	         = $request['product_name'];
-                $product->product_detail	     = $request['detail'];
-                $product->product_property	     = $request['property'];
-                $product->product_warranty	     = $request['warranty'];
                 $product->product_type_id	     = $request['product_type'];
                 $product->product_brand_id	     = $request['brand_id'];
                 $product->product_price	         = $request['price'];
-    
+
                 if ($request['price_discount'] != null) {
                     $product->product_price_discount = $request['price_discount'];
                 }
-    
+
                 if ($request->file('imgcov') !== null)
                 {
                     $img = $request->file('imgcov');
@@ -198,21 +196,20 @@ class ProductController extends Controller
                     }
                 } else {
                     $product->product_imgcov  = 'nopic.png';
-                }   
+                }
 
                 $product->save();
 
                 if ($request['diameter'] != null || $request['width'] != null || $request['overall'] != null) {
                     foreach ($request['diameter'] as $key => $value) {
-                        $product_id = product::orderBy('product_id', 'DESC')->first();
                         $size = new size();
                         $size->size_diameter      = $value;
                         $size->size_width         = $request['width'][$key];
                         $size->size_overall       = $request['overall'][$key];
-                        $size->size_fkey          = $product_id->product_id;
+                        $size->size_fkey          = $product->product_id;
                         $size->save();
                     }
-                } 
+                }
 
                 if ($request->file('img') !== null) {
                     $img = $request->file('img');
@@ -225,23 +222,15 @@ class ProductController extends Controller
                         $productimgset->save();
                     }
                 }
-    
-                if ($request->file('imggallery') !== null) {
-                    $img = $request->file('imggallery');
-                    foreach($img as $key => $item) {
-                        $name = rand().time().'.'.$item->getClientOriginalExtension();
-                        $item->storeAs('productgallery',  $name);
-                        $productgallery = new productgallery();
-                        $productgallery->product_gallery_name        = $name;
-                        $productgallery->product_gallery_product_id  = $product->product_id;
-                        $productgallery->save();
-                    }
-                }
             }
 
             DB::commit();
             // return back()->withSuccess('New Product Has Been Saved!');
-            return redirect('backoffice/addProductDetail/'.$product->product_id.'')->withSuccess('New Product Has Been Saved!');
+            if ($request['product_type'] == 1) {
+                return redirect('backoffice/addProductDetail/'.$product->product_id.'')->withSuccess('New Product Has Been Saved!');
+            } else {
+                return back()->withSuccess('New Product has been Saved!');
+            }
         } catch (\Throwable $th) {
             DB::rollback();
             return back()->withError('Something Wrong. New Product Can Not Saved!');
@@ -280,24 +269,25 @@ class ProductController extends Controller
 
         // $data = array(
         //     'productimggallery' => $productimggallery,
-        //     'productimgset' => $productimgset, 
-        //     'carmodel' => $carmodel, 
-        //     'et' => $et, 
-        //     'pcd' => $pcd, 
-        //     'size' => $size, 
-        //     'brand' => $brand, 
-        //     'product' => $product, 
-        //     'getdatacar' => $getdatacar, 
+        //     'productimgset' => $productimgset,
+        //     'carmodel' => $carmodel,
+        //     'et' => $et,
+        //     'pcd' => $pcd,
+        //     'size' => $size,
+        //     'brand' => $brand,
+        //     'product' => $product,
+        //     'getdatacar' => $getdatacar,
         //     'carbrand' => $carbrand,
         // );
         $product = product::findorFail($id);
-        $carmodel = carmodel::orderBy('car_model_id', 'desc')->groupBy('car_model_pcd')->get();
-        $carbrand = carbrand::all();
-        
+        // dd($product->getProductSizes);
+        // $carmodel = carmodel::orderBy('car_model_id', 'desc')->groupBy('car_model_pcd')->get();
+        // $carbrand = carbrand::all();
+
         $data = array(
-            'product' => $product, 
-            'carmodel' => $carmodel, 
-            'carbrand' => $carbrand, 
+            'product' => $product,
+            // 'carmodel' => $carmodel,
+            // 'carbrand' => $carbrand,
         );
         if ($product->product_type_id == 1) {
             return view('backoffice.managefront.product.wheel.productdetail',$data);
@@ -347,7 +337,7 @@ class ProductController extends Controller
                             $productimgset->save();
                         }
                     }
-                }             
+                }
 
                 // แก้ไข size
                 // if ($request->product_diameter != null || $request->product_width != null) {
@@ -358,8 +348,8 @@ class ProductController extends Controller
                 //         $getDiameter->size_width    = $request['product_width'][$key];
                 //         $getDiameter->save();
                 //     }
-                // } 
-                
+                // }
+
                 // store size ใหม่
                 if (!empty($request->diameter) || !empty($request->width) || !empty($request->pcd) || !empty($request->et)) {
                     foreach ($request['diameter'] as $key => $value) {
@@ -374,7 +364,7 @@ class ProductController extends Controller
                         $size->save();
                     }
                 }
-            
+
                 // แก้ไข pcd
                 // if ($request->product_pcd != null) {
                 //     $data_pcd = $request->product_pcd;
@@ -384,7 +374,7 @@ class ProductController extends Controller
                 //         $getPcd->save();
                 //     }
                 // }
-            
+
                 // store pcd ใหม่
                 // if ($request->pcd != null) {
                 //     foreach ($request['pcd'] as $key => $value) {
@@ -394,7 +384,7 @@ class ProductController extends Controller
                 //         $pcd->save();
                 //     }
                 // }
-            
+
                 // แก้ไข et
                 // if ($request->product_et != null) {
                 //     $data_et = $request->product_et;
@@ -404,7 +394,7 @@ class ProductController extends Controller
                 //         $getEt->save();
                 //     }
                 // }
-            
+
                 // store et ใหม่
                 // if ($request->et != null) {
                 //     foreach ($request['et'] as $key => $value) {
@@ -426,7 +416,7 @@ class ProductController extends Controller
                 //         $productimgset->save();
                 //     }
                 // }
-    
+
                 // if ($request->file('imggallery') !== null) {
                 //     $img = $request->file('imggallery');
                 //     foreach($img as $key => $item) {
@@ -438,7 +428,7 @@ class ProductController extends Controller
                 //         $productgallery->save();
                 //     }
                 // }
-            
+
                 // if ($request->file('imgset') !== null) {
                 //     $imgset = $request->file('imgset');
                 //     foreach($imgset as $key => $item) {
@@ -450,7 +440,7 @@ class ProductController extends Controller
                 //         $dataimgset->save();
                 //     }
                 // }
-            
+
                 // if ($request->file('imggal') !== null) {
                 //     $imggal = $request->file('imggal');
                 //     foreach($imggal as $key => $item) {
@@ -462,7 +452,7 @@ class ProductController extends Controller
                 //         $dataimggal->save();
                 //     }
                 // }
-            
+
                 // แก้ไข car brand
                 // if ($request['carbrand'] != null) {
                 //     $data_car = $request['carbrand'];
@@ -473,7 +463,7 @@ class ProductController extends Controller
                 //         $productcar->save();
                 //     }
                 // }
-            
+
                 // store car brand
                 // if ($request->select_carbrand != null) {
                 //     foreach ($request['select_carbrand'] as $key => $value) {
@@ -484,35 +474,35 @@ class ProductController extends Controller
                 //         $newproductcar->save();
                 //     }
                 // }
-            
+
                 // delete size
                 // if ($request->deletesize != null) {
                 //     foreach ($request->deletesize as $key => $value) {
                 //         $getSize = size::where('size_id', $value)->delete();
                 //     }
                 // }
-            
+
                 // delete pcd
                 // if ($request->deletepcd != null) {
                 //     foreach ($request->deletepcd as $key => $value) {
                 //         $getPcd = pcd::where('pcd_id', $value)->delete();
                 //     }
                 // }
-            
+
                 // delete et
                 // if ($request->deleteet != null) {
                 //     foreach ($request->deleteet as $key => $value) {
                 //         $getEt = et::where('et_id', $value)->delete();
                 //     }
                 // }
-            
+
                 // delete car
                 // if ($request->deletecar != null) {
                 //     foreach ($request->deletecar as $key => $value) {
                 //         $getProductCar = productcar::where('pc_id', $value)->delete();
                 //     }
                 // }
-            
+
                 // delete imgset
                 // if ($request->deleteimgset != null) {
                 //     foreach ($request->deleteimgset as $key => $value) {
@@ -523,7 +513,7 @@ class ProductController extends Controller
                 //         $getProductImgset = productimgset::destroy($value);
                 //     }
                 // }
-            
+
                 // delete imggal
                 // if ($request->deleteimggal != null) {
                 //     foreach ($request->deleteimggal as $key => $value) {
@@ -546,7 +536,7 @@ class ProductController extends Controller
                 }
                 $product->save();
 
-                // แก้ไข size 
+                // แก้ไข size
                 if ($request->product_size_id != null) {
                     foreach ($request->product_size_id as $key => $value) {
                         $getSize = size::where('size_id', $value)->first();
@@ -565,9 +555,10 @@ class ProductController extends Controller
                         $getDiameter->size_width        = $value;
                         $getDiameter->size_overall      = $request['product_new_overall'][$key];
                         $getDiameter->size_diameter     = $request['product_new_diameter'][$key];
+                        $getDiameter->size_price        = $request['price'][$key];
                         $getDiameter->save();
                     }
-                } 
+                }
 
                 // delete size
                 if ($request->deletesize != null) {
@@ -575,8 +566,8 @@ class ProductController extends Controller
                         $getSize = size::where('size_id', $value)->delete();
                     }
                 }
-                
-                
+
+
                 if ($request->file('newimg') !== null) {
                     $img = $request->file('newimg');
                     foreach($img as $key => $item) {
@@ -588,7 +579,7 @@ class ProductController extends Controller
                         $productimgset->save();
                     }
                 }
-    
+
                 if ($request->file('newimggallery') !== null) {
                     $img = $request->file('newimggallery');
                     foreach($img as $key => $item) {
@@ -624,7 +615,7 @@ class ProductController extends Controller
                         $dataimgset->save();
                     }
                 }
-            
+
                 if ($request->file('imggal') !== null) {
                     $imggal = $request->file('imggal');
                     foreach($imggal as $key => $item) {
@@ -646,7 +637,7 @@ class ProductController extends Controller
                         $getProductImgset = productimgset::destroy($value);
                     }
                 }
-            
+
                 // delete imggal
                 if ($request->deleteimggal != null) {
                     foreach ($request->deleteimggal as $key => $value) {
@@ -694,8 +685,8 @@ class ProductController extends Controller
         ->where('product_type_id', $brand->getProductType->p_type_id)
         ->get();
         $data = array(
-            'brand' => $brand, 
-            'product' => $product, 
+            'brand' => $brand,
+            'product' => $product,
         );
 
         return view('backoffice.managefront.product.product', $data);
@@ -726,7 +717,7 @@ class ProductController extends Controller
     {
         $producttype = producttype::where('p_type_id', $request->id)->first();
         $data = array(
-            'producttype' => $producttype, 
+            'producttype' => $producttype,
         );
         return view('backoffice.managefront.product.modal.producttype-edit', $data);
     }
@@ -751,15 +742,15 @@ class ProductController extends Controller
             ->groupBy('car_model_pcd')->get();
             $carbrand = carbrand::all();
             $data = array(
-                'brand' => $brand, 
-                'carmodel' => $carmodel, 
-                'carbrand' => $carbrand, 
+                'brand' => $brand,
+                'carmodel' => $carmodel,
+                'carbrand' => $carbrand,
             );
             return view('backoffice.managefront.product.modal.add-wheel', $data);
         } elseif ($request->product_type_id == 2) { // Tires
             $brand = brand::where('brand_id', $request->brand_id)->first();
             $data = array(
-                'brand' => $brand, 
+                'brand' => $brand,
             );
 
             return view('backoffice.managefront.product.modal.add-tire', $data);
@@ -780,7 +771,7 @@ class ProductController extends Controller
                 $html_carmodel .= '<option value="'.$value->car_model_id.'">'.$value->car_model_name.'</option>';
             }
             $data = array(
-                'html_carmodel' => $html_carmodel, 
+                'html_carmodel' => $html_carmodel,
             );
         }
         if ($carmodel_id != null) {
@@ -790,10 +781,10 @@ class ProductController extends Controller
                 $html_caryear .= '<option value="'.$value->car_year_id.'">'.$value->car_year_name.'</option>';
             }
             $data = array(
-                'html_caryear' => $html_caryear, 
+                'html_caryear' => $html_caryear,
             );
         }
-        
+
         return $data;
     }
 
@@ -850,10 +841,10 @@ class ProductController extends Controller
         $carbrand = carbrand::all();
         $color = color::where('color_product_id', $id)->get();
         $data = array(
-            'product' => $product, 
-            'carmodel' => $carmodel, 
-            'carbrand' => $carbrand, 
-            'color' => $color, 
+            'product' => $product,
+            'carmodel' => $carmodel,
+            'carbrand' => $carbrand,
+            'color' => $color,
         );
         return view('backoffice.managefront.product.wheel.productdetail', $data);
     }
@@ -865,10 +856,10 @@ class ProductController extends Controller
         $size = size::where('size_color_id', $id)->get();
         $productimgset = productimgset::where('product_imgset_product_id', $id)->get();
         $data = array(
-            'color' => $color, 
-            'carmodel' => $carmodel, 
-            'size' => $size, 
-            'productimgset' => $productimgset, 
+            'color' => $color,
+            'carmodel' => $carmodel,
+            'size' => $size,
+            'productimgset' => $productimgset,
         );
         return view('backoffice.managefront.product.modal.edit-color', $data);
     }
@@ -892,7 +883,7 @@ class ProductController extends Controller
                 $size->save();
             }
 
-            if ($request->file('imgset') != null) { 
+            if ($request->file('imgset') != null) {
                 $imgset = $request->file('imgset');
                 foreach($imgset as $key => $item) {
                     $dataimgset = productimgset::where('product_imgset_id', $key)->first();

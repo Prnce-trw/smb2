@@ -2012,7 +2012,7 @@
                     </div>
                 </section>
                 @endforeach
-                
+
                 {{-- <section id="color03" class="simplegallery">
                     <div class="society-set select-display-slide">
                         <li class="active" rel="1">
@@ -2055,7 +2055,7 @@
                         </div>
                     </div>
                 </section> --}}
-                
+
                 <div class="pd-color">
                     <br>
                     <h4>COLORS</h4>
@@ -2122,7 +2122,7 @@
                             </div>
                         </div>
                         <!--ราคาปกติ-->
-                        <!--  
+                        <!--
                         <div class="product-price" style="margin-top:15px;">
                             <div class="special-price">ราคาปกติวงละ<span>10,500</span>บาท</div>
                         </div> -->
@@ -2551,7 +2551,7 @@
                 }
             });
         });
-        
+
         $('.owl-news.owl-carousel').owlCarousel({
             navigation: false,
             items: 4,
@@ -2579,14 +2579,14 @@
                 }
             }
         });
-        
+
         $(".products-wheel.owl-carousel").owlCarousel({
             navigation: false,
             loop: true,
             margin: 15,
             responsiveClass: true,
             dots: false,
-            navText: ['<img src="images/products-detail/owl-prev.png">', '<img src="images/products-detail/owl-next.png">'],
+            navText: ['<img src="{{asset("smb-frontend/images/products-detail/owl-prev.png")}}">', '<img src="{{asset("smb-frontend/images/products-detail/owl-next.png")}}">'],
             navClass: ['owl-prev', 'owl-next']
         });
 
@@ -2611,7 +2611,6 @@
         });
 
         function pickcolor(color_id) {
-            var name = $(this).attr('');
             if (color_id != null) {
                 $.ajax({
                 url: '{{url('pickcolor')}}' + '/' + color_id,

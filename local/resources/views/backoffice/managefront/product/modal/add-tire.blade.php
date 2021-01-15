@@ -10,7 +10,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_tire" name="addproduct_tire"> 
+            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_tire" name="addproduct_tire">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
@@ -20,7 +20,7 @@
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One.</span>
                                 </span>
-                            </span>    
+                            </span>
                         </label>
                         <div class="col-sm-10">
                             <div class="row">
@@ -28,7 +28,7 @@
                                     <input type="hidden" name="brand_id" value="{{$brand->brand_id}}"> <!-- brand id -->
                                     <input type="hidden" name="product_type" value="{{$brand->brand_product_type}}"> <!-- product type id -->
                                     <input type="file" name="imgcov[]" class="imgcov" id="addimgcov" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
-                                    <button type="button" class="btn btn-success" onclick="document.getElementById('addimgcov').click();"><i class="fa fa-plus"></i> Add Logo</button>
+                                    <button type="button" class="btn btn-success" onclick="document.getElementById('addimgcov').click();"><i class="fa fa-plus"></i> Add Cover</button>
                                 </div>
                                 <div class="col-sm-6">
                                     <div id="previewcov"></div>
@@ -56,26 +56,8 @@
                                     <input type="text" name="diameter[]" class="form-control" placeholder="Diameter...">
                                 </div>
                             </div>
-                            <div id="appendsize"></div>
-                            <button type="button" class="btn btn-primary" id="addsize">Add Size</button>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Detail</label>
-                        <div class="col-sm-10">
-                            <textarea name="detail" class="form-control" cols="30" rows="10" placeholder="Write Something..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Property</label>
-                        <div class="col-sm-10">
-                            <textarea name="property" class="form-control" cols="30" rows="10" placeholder="Property..."></textarea>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Warranty</label>
-                        <div class="col-sm-10">
-                            <textarea name="warranty" class="form-control" cols="30" rows="10" placeholder="Warranty..."></textarea>
+                            {{-- <div id="appendsize"></div>
+                            <button type="button" class="btn btn-primary" id="addsize">Add Size</button> --}}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -83,57 +65,34 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" name="price" class="form-control" placeholder="Price...">
+                                    <input type="number" name="price[]" class="form-control" placeholder="Price...">
                                 </div>
-                                <div class="col-6 input-group">
+                                {{-- <div class="col-6 input-group">
                                     <span>
-                                        {{-- <input type="checkbox" name="discount" id="discount" value="1" aria-label="Text input with dropdown button"> --}}
                                         <button type="button" id="discount" name="discount" value="1" class="btn btn-default"><i class="fa fa-certificate"></i></button>
                                     </span>
                                     <input type="number" name="price_discount" class="form-control removiediscount" placeholder="Price (Discount)..." disabled="disabled">
-                                </div>
+                                </div> --}}
                             </div>
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
                             <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Product Images Set</span>
+                                <span class="tooltip-item">Images Detail</span>
                                 <span class="tooltip-content clearfix">
-                                    <span class="tooltip-text">Multiple.</span>
+                                    <span class="tooltip-text">Choose One.</span>
                                 </span>
                             </span>
                         </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-12">
-                                    <input type="file" name="img[]" class="imgset" id="addimgset" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
-                                    <button type="button" class="btn btn-success" onclick="document.getElementById('addimgset').click();"><i class="fa fa-plus"></i> Add Image Set</button>
+                                    <input type="file" name="img[]" class="imgset" id="addimgset" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
+                                    <button type="button" class="btn btn-success" onclick="document.getElementById('addimgset').click();"><i class="fa fa-plus"></i> Add Image Detail</button>
                                 </div>
                                 <div class="col-sm-12">
                                     <div id="previewset"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <hr>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Product Gallery</span>
-                                <span class="tooltip-content clearfix">
-                                    <span class="tooltip-text">Multiple.</span>
-                                </span>
-                            </span>
-                        </label>
-                        <div class="col-sm-10">
-                            <div class="row">
-                                <div class="col-sm-12">
-                                    <input type="file" name="imggallery[]" class="gallery" id="addimggal" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
-                                    <button type="button" class="btn btn-success" onclick="document.getElementById('addimggal').click();"><i class="fa fa-plus"></i> Add Gallery</button>
-                                </div>
-                                <div class="col-sm-12">
-                                    <div id="previewgal"></div>
                                 </div>
                             </div>
                         </div>
@@ -206,7 +165,7 @@
             var checkCount = $(this).val();
             event.preventDefault();
             $(".removiediscount").prop('disabled', function (_, val) {
-                return ! val; 
+                return ! val;
             });
         });
     })

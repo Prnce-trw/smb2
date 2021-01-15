@@ -59,7 +59,12 @@
                                     width="100px" alt="Product Cover"></td>
                                 <td class="text-middle">{{$item->product_name}}</td>
                                 <td class="text-center text-middle">
+                                    @if ($brand->getProductType->p_type_id == 1)
                                     <a href="{{url('backoffice\addProductDetail', $item->product_id)}}" class="btn btn-warning"><i class="fa fa-edit"></i> Edit</a>
+                                    @else
+                                    <a href="#" class="btn btn-warning" onclick="modaledit({{$item->product_id}})"><i class="fa fa-edit"></i> Edit</a>
+                                    @endif
+
                                     {{-- <button type="button" class="btn btn-warning" data-toggle="modal"
                                         data-target="#edit-Modal" onclick="modaledit({{$item->product_id}})"><i
                                             class="fa fa-edit"></i>
@@ -81,12 +86,12 @@
 <div id="result-modaleditproduct"></div>
 
 <form action="" method="post" id="deleteproduct">
-    
+
     @csrf
 </form>
 @endsection
 @section('js')
-@include('flash-message') 
+@include('flash-message')
 <script>
     $("#example1").DataTable();
 
@@ -149,7 +154,7 @@
                     $( "#deleteproduct" ).attr('action',urlaction);
                     $( "#deleteproduct" ).submit();
                     // $(this).closest('form').submit();
-                    
+
                     swalWithBootstrapButtons.fire(
                         'Deleted!',
                         'Your file has been deleted.',
@@ -158,7 +163,7 @@
                 } else if (
                 /* Read more about handling dismissals below */
                     result.dismiss === Swal.DismissReason.cancel
-                ) 
+                )
                 {
                     swalWithBootstrapButtons.fire(
                         'Cancelled',
