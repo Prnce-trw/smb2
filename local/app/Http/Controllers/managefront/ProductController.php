@@ -752,7 +752,6 @@ class ProductController extends Controller
             $data = array(
                 'brand' => $brand,
             );
-
             return view('backoffice.managefront.product.modal.add-tire', $data);
         }
     }
