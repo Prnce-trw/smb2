@@ -64,11 +64,6 @@
                                     @else
                                     <a href="#" class="btn btn-warning" onclick="modaledit({{$item->product_id}})"><i class="fa fa-edit"></i> Edit</a>
                                     @endif
-
-                                    {{-- <button type="button" class="btn btn-warning" data-toggle="modal"
-                                        data-target="#edit-Modal" onclick="modaledit({{$item->product_id}})"><i
-                                            class="fa fa-edit"></i>
-                                        Edit</button> --}}
                                     <button type="button" class="btn btn-danger" onclick="delproduct({{$item->product_id}})" value="{{$item->product_id}}"><i class="fa fa-trash-o"></i>
                                         Delete</button>
                                 </td>

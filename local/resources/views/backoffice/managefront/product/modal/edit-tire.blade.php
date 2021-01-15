@@ -118,12 +118,6 @@
                                     <input type="number" name="price[]" class="form-control" placeholder="Price..." value="{{$item->size_price}}">
                                     @endforeach
                                 </div>
-                                {{-- <div class="col-6 input-group">
-                                    <span>
-                                        <button type="button" id="discount" name="discount" value="1" class="btn btn-default"><i class="fa fa-certificate"></i></button>
-                                    </span>
-                                    <input type="number" name="price_discount" class="form-control removiediscount" placeholder="Price (Discount)..." disabled="disabled">
-                                </div> --}}
                             </div>
                         </div>
                     </div>
