@@ -1,0 +1,10 @@
+----------------------------------------------------------------------------------------------
+-เพิ่ม images 
+-หน้า header เพิ่ม add fancybox เปลี่ยน link font เป็น prompt  เปลี่ยน favicon
+-หน้าแรก เพิ่ม popup 
+-ไฟล์ css เปลี่ยน font  
+-เพิ่มหน้า stores
+-หน้า bangna แก้ไขปุ่ม "กลับ" ให้ link ไปหน้า stores.php และแก้ไข graphic map
+-หน้า footer ตรง contact แก้ font ให้เล็ก 
+-หน้า Navbar เพิ่ม menu Blog
+-หน้า footer แก้ไขให้ !important font-size: 13px!important;

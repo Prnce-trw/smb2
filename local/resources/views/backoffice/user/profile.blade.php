@@ -1,0 +1,1389 @@
+@extends('backoffice.layouts.master')
+@section('css')
+@endsection
+@section('content')
+<div class="row">
+    <div class="col-lg-12">
+        <div class="cover-profile">
+            <div class="profile-bg-img ">
+                <img class="profile-bg-img img-fluid" src="{{asset('files/assets/images/user-profile/bg-img1.jpg')}}" alt="bg-img">
+                <div class="card-block user-info">
+                    <div class="col-md-12">
+                        <div class="media-left">
+                            <div class="profile-image img-fluid">
+                                <img class="user-img img-radius" src="{{asset('local/storage/app/userprofile/'.$user->user_img.'')}}" width="150" alt="user-img">
+                            </div>
+                        </div>
+                        <div class="media-body row">
+                            <div class="col-lg-12">
+                                <div class="user-title">
+                                    <h2>{{$user->name}} {{$user->user_lname}}</h2>
+                                    <span>{!! $user->checkUsersStatus() !!}</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-lg-12">
+        <!-- tab header start -->
+        <div class="tab-header card">
+            <ul class="nav nav-tabs md-tabs tab-timeline" role="tablist" id="mytab">
+                <li class="nav-item">
+                    <a class="nav-link active" data-toggle="tab" href="#personal" role="tab"><i class="icofont icofont-user"></i> Personal Info</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#binfo" role="tab"><i class="icofont icofont-history"></i> Activity Log</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#contacts" role="tab">User's Contacts</a>
+                    <div class="slide"></div>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-toggle="tab" href="#review" role="tab">Reviews</a>
+                    <div class="slide"></div>
+                </li>
+            </ul>
+        </div>
+        <!-- tab header end -->
+        <!-- tab content start -->
+        <div class="tab-content">
+            <!-- tab panel personal start -->
+            <div class="tab-pane active" id="personal" role="tabpanel">
+                <!-- personal card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-header-text">About Me</h5>
+                        <button id="edit-btn" type="button" class="btn btn-sm btn-warning waves-effect waves-light f-right" data-toggle="modal" data-target="#edit-Modal" onclick="modaledit({{$user->user_id}})">
+                            <i class="icofont icofont-edit"></i>
+                        </button>
+                    </div>
+                    <div class="card-block">
+                        <div class="view-info">
+                            <div class="row">
+                                <div class="col-lg-12">
+                                    <div class="general-info">
+                                        <div class="row">
+                                            <div class="col-lg-12 col-xl-6">
+                                                <div class="table-responsive">
+                                                    <table class="table m-0">
+                                                        <tbody>
+                                                            <tr>
+                                                                <th scope="row">Full Name</th>
+                                                                <td>{{$user->name}} {{$user->user_lname}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Status</th>
+                                                                <td>{!! $user->checkUsersStatus() !!}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Phone</th>
+                                                                <td>{{$user->user_phone}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Email</th>
+                                                                <td>{{$user->email}}</td>
+                                                            </tr>
+                                                            <tr>
+                                                                <th scope="row">Last Login</th>
+                                                                <td>{{date('d /m / Y', strtotime($user->last_login_at))}}</td>
+                                                            </tr>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <!-- end of table col-lg-6 -->
+                                            <div class="col-lg-12 col-xl-6">
+                                                
+                                            </div>
+                                            <!-- end of table col-lg-6 -->
+                                        </div>
+                                        <!-- end of row -->
+                                    </div>
+                                    <!-- end of general info -->
+                                </div>
+                                <!-- end of col-lg-12 -->
+                            </div>
+                            <!-- end of row -->
+                        </div>
+                    </div>
+                    <!-- end of card-block -->
+                </div>
+                <!-- personal card end-->
+            </div>
+            <!-- tab pane personal end -->
+            <!-- tab pane info start -->
+            <div class="tab-pane" id="binfo" role="tabpanel">
+                <!-- info card start -->
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-header-text">Your Activity</h5>
+                    </div>
+                    <div class="card-block">
+                        <div class="row">
+                            @foreach ($log as $item)
+                            <div class="col-md-6">
+                                <div class="card b-l-success business-info services m-b-20">
+                                    <div class="card-header">
+                                        <div class="row">
+                                            <div class="col-6 text-left">
+                                                <div class="service-header">
+                                                    <a href="#">
+                                                        <h5 class="card-header-text">{{$item->log_description}}</h5>
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="col-6 text-right">
+                                                <p>{{date('d/m/Y H:i:s', strtotime($item->created_at))}}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="card-block">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                                <p class="task-detail">You've {{$item->log_description}} On 
+                                                    <span class="mytooltip tooltip-effect-5">
+                                                        <span class="tooltip-item">{{$item->getSitemap->sitemap_name}}</span>
+                                                        <span class="tooltip-content clearfix">
+                                                            <span class="tooltip-text">{{$item->getSitemap->sitemap_description}}</span>
+                                                        </span>
+                                                    </span>
+                                                </p>
+                                            </div>
+                                            <!-- end of col-sm-8 -->
+                                        </div>
+                                        <!-- end of row -->
+                                    </div>
+                                    <!-- end of card-block -->
+                                </div>
+                            </div>
+                            @endforeach
+                        </div>
+                        {{ $log->links() }}
+                    </div>
+                </div>
+            </div>
+            <!-- tab pane info end -->
+            <!-- tab pane contact start -->
+            <div class="tab-pane" id="contacts" role="tabpanel">
+                <div class="row">
+                    <div class="col-xl-3">
+                        <!-- user contact card left side start -->
+                        <div class="card">
+                            <div class="card-header contact-user">
+                                <img class="img-radius img-40" src="../files/assets/images/avatar-4.jpg" alt="contact-user">
+                                <h5 class="m-l-10">John Doe</h5>
+                            </div>
+                            <div class="card-block">
+                                <ul class="list-group list-contacts">
+                                    <li class="list-group-item active"><a href="#">All Contacts</a></li>
+                                    <li class="list-group-item"><a href="#">Recent Contacts</a></li>
+                                    <li class="list-group-item"><a href="#">Favourite Contacts</a></li>
+                                </ul>
+                            </div>
+                            <div class="card-block groups-contact">
+                                <h4>Groups</h4>
+                                <ul class="list-group">
+                                    <li class="list-group-item justify-content-between">
+                                        Project
+                                        <span class="badge badge-primary badge-pill">30</span>
+                                    </li>
+                                    <li class="list-group-item justify-content-between">
+                                        Notes
+                                        <span class="badge badge-success badge-pill">20</span>
+                                    </li>
+                                    <li class="list-group-item justify-content-between">
+                                        Activity
+                                        <span class="badge badge-info badge-pill">100</span>
+                                    </li>
+                                    <li class="list-group-item justify-content-between">
+                                        Schedule
+                                        <span class="badge badge-danger badge-pill">50</span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card">
+                            <div class="card-header">
+                                <h4 class="card-title">Contacts<span class="f-15"> (100)</span></h4>
+                            </div>
+                            <div class="card-block">
+                                <div class="connection-list">
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-1.jpg" alt="f-1" data-toggle="tooltip" data-placement="top" data-original-title="Airi Satou">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-2.jpg" alt="f-2" data-toggle="tooltip" data-placement="top" data-original-title="Angelica Ramos">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-3.jpg" alt="f-3" data-toggle="tooltip" data-placement="top" data-original-title="Ashton Cox">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-4.jpg" alt="f-4" data-toggle="tooltip" data-placement="top" data-original-title="Cara Stevens">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-5.jpg" alt="f-5" data-toggle="tooltip" data-placement="top" data-original-title="Garrett Winters">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-1.jpg" alt="f-6" data-toggle="tooltip" data-placement="top" data-original-title="Cedric Kelly">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-3.jpg" alt="f-7" data-toggle="tooltip" data-placement="top" data-original-title="Brielle Williamson">
+                                    </a>
+                                    <a href="#"><img class="img-fluid img-radius" src="../files/assets/images/user-profile/follower/f-5.jpg" alt="f-8" data-toggle="tooltip" data-placement="top" data-original-title="Jena Gaines">
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- user contact card left side end -->
+                    </div>
+                    <div class="col-xl-9">
+                        <div class="row">
+                            <div class="col-sm-12">
+                                <!-- contact data table card start -->
+                                <div class="card">
+                                    <div class="card-header">
+                                        <h5 class="card-header-text">Contacts</h5>
+                                    </div>
+                                    <div class="card-block contact-details">
+                                        <div class="data_table_main table-responsive dt-responsive">
+                                            <table id="simpletable" class="table  table-striped table-bordered nowrap">
+                                                <thead>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Mobileno.</th>
+                                                        <th>Favourite</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star-o" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    <tr>
+                                                        <td>Garrett Winters</td>
+                                                        <td>abc123@gmail.com</td>
+                                                        <td>9989988988</td>
+                                                        <td><i class="fa fa-star" aria-hidden="true"></i></td>
+                                                        <td class="dropdown">
+                                                            <button type="button" class="btn btn-primary dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"><i class="fa fa-cog" aria-hidden="true"></i></button>
+                                                            <div class="dropdown-menu dropdown-menu-right b-none contact-menu">
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-edit"></i>Edit</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-delete"></i>Delete</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye-alt"></i>View</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-tasks-alt"></i>Project</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-ui-note"></i>Notes</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-eye"></i>Activity</a>
+                                                                <a class="dropdown-item" href="#!"><i class="icofont icofont-badge"></i>Schedule</a>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                </tbody>
+                                                <tfoot>
+                                                    <tr>
+                                                        <th>Name</th>
+                                                        <th>Email</th>
+                                                        <th>Mobileno.</th>
+                                                        <th>Favourite</th>
+                                                        <th>Action</th>
+                                                    </tr>
+                                                </tfoot>
+                                            </table>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- contact data table card end -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- tab pane contact end -->
+            <div class="tab-pane" id="review" role="tabpanel">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-header-text">Review</h5>
+                    </div>
+                    <div class="card-block">
+                        <ul class="media-list">
+                            <li class="media">
+                                <div class="media-left">
+                                    <a href="#">
+                                        <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-1.jpg" alt="Generic placeholder image">
+                                    </a>
+                                </div>
+                                <div class="media-body">
+                                    <h6 class="media-heading">Sortino media<span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                    <div class="stars-example-css review-star">
+                                        <i class="icofont icofont-star"></i>
+                                        <i class="icofont icofont-star"></i>
+                                        <i class="icofont icofont-star"></i>
+                                        <i class="icofont icofont-star"></i>
+                                        <i class="icofont icofont-star"></i>
+                                    </div>
+                                    <p class="m-b-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                    <div class="m-b-25">
+                                        <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                    </div>
+                                    <hr>
+                                    <!-- Nested media object -->
+                                    <div class="media mt-2">
+                                        <a class="media-left" href="#">
+                                            <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-2.jpg" alt="Generic placeholder image">
+                                        </a>
+                                        <div class="media-body">
+                                            <h6 class="media-heading">Larry heading <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                            <div class="stars-example-css review-star">
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                            </div>
+                                            <p class="m-b-0"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                            <div class="m-b-25">
+                                                <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                            </div>
+                                            <hr>
+                                            <!-- Nested media object -->
+                                            <div class="media mt-2">
+                                                <div class="media-left">
+                                                    <a href="#">
+                                                        <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Colleen Hurst <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                                    <div class="stars-example-css review-star">
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                    </div>
+                                                    <p class="m-b-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                                    <div class="m-b-25">
+                                                        <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <!-- Nested media object -->
+                                    <div class="media mt-2">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-1.jpg" alt="Generic placeholder image">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h6 class="media-heading">Cedric Kelly<span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                            <div class="stars-example-css review-star">
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                            </div>
+                                            <p class="m-b-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                            <div class="m-b-25">
+                                                <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                    <div class="media mt-2">
+                                        <a class="media-left" href="#">
+                                            <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-4.jpg" alt="Generic placeholder image">
+                                        </a>
+                                        <div class="media-body">
+                                            <h6 class="media-heading">Larry heading <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                            <div class="stars-example-css review-star">
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                            </div>
+                                            <p class="m-b-0"> Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                            <div class="m-b-25">
+                                                <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                            </div>
+                                            <hr>
+                                            <!-- Nested media object -->
+                                            <div class="media mt-2">
+                                                <div class="media-left">
+                                                    <a href="#">
+                                                        <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-3.jpg" alt="Generic placeholder image">
+                                                    </a>
+                                                </div>
+                                                <div class="media-body">
+                                                    <h6 class="media-heading">Colleen Hurst <span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                                    <div class="stars-example-css review-star">
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                        <i class="icofont icofont-star"></i>
+                                                    </div>
+                                                    <p class="m-b-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                                    <div class="m-b-25">
+                                                        <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                                    </div>
+                                                </div>
+                                                <hr>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="media mt-2">
+                                        <div class="media-left">
+                                            <a href="#">
+                                                <img class="media-object img-radius comment-img" src="../files/assets/images/avatar-2.jpg" alt="Generic placeholder image">
+                                            </a>
+                                        </div>
+                                        <div class="media-body">
+                                            <h6 class="media-heading">Mark Doe<span class="f-12 text-muted m-l-5">Just now</span></h6>
+                                            <div class="stars-example-css review-star">
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                                <i class="icofont icofont-star"></i>
+                                            </div>
+                                            <p class="m-b-0">Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis.</p>
+                                            <div class="m-b-25">
+                                                <span><a href="#!" class="m-r-10 f-12">Reply</a></span><span><a href="#!" class="f-12">Edit</a> </span>
+                                            </div>
+                                            <hr>
+                                        </div>
+                                    </div>
+                                </div>
+                            </li>
+                        </ul>
+                        <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Right addon">
+                            <span class="input-group-addon"><i class="icofont icofont-send-mail"></i></span>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- tab content end -->
+    </div>
+</div>
+<div id="result-modaledituser"></div>
+@endsection
+@section('js')
+@include('flash-message')
+<script>
+    function modaledit(id) {
+        $.ajax({
+            url: '{{ url('backoffice/user') }}/' + id + '/edit',
+            type: 'GET',
+            data: {id: id},
+        }).done(function (data) {
+            $('#result-modaledituser').html(data);
+            $("#modaledituser").modal('show');
+        });
+    }
+</script>
+@endsection

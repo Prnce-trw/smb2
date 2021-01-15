@@ -1,0 +1,35 @@
+
+-หน้า contcact เพิ่ม link ไป หน้า bangna.php
+
+-หน้า cart เพิ่ม style บรรทัด 7 และเพิ่ม script ต่อจาก script อันแรก
+
+-หน้า cart เพิ่ม แนะนำ product
+
+-แก้ footer
+
+-แก้ navbar เปลี่ยน ชื่อเมนูเป็น icon cart กับ icon login เวลาเอาเมาส์ไปชี้จะแสดงชื่อ 
+แก้ไฟล์ css
+
+-หน้าแรก ตัด map ด้านล่างออก ตัดเมนูออก
+ตรง slide สินค้าด้านหน้าปรับไม่ให้ slide
+
+-หน้าผลงาน ตรง viewmore ปรับให้เพิ่มรายละเอียดสินค้าด้านล่างรูปที่ slide
+
+-เปลี่ยน font เป็น kanit หน้า header.php
+
+-เพิ่มหน้า products-break-detail.php
+
+-เพิ่มหน้า products-tyre-detail.php
+
+-เพิ่มหน้า products-shock-detail.php
+
+-หน้า Product detail แก้ตรงเลือก size และ 3 รูปด้านล่าง (จัดส่งสินค้า วิธีชำระเงิน ผ่อน)
+
+-เพิ่มหน้า bangna (หน้า รายละเอียดของแต่ละสาขา)
+
+-เพิ่มเมนูแนะนำในหน้า Cart.php
+
+หน้า portfolio แก้ modal และเพิ่มไฟล์ใน css
+เพิ่ม css ใน style หน้า portfolio
+
+ 
