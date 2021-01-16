@@ -2107,6 +2107,7 @@
                                         </span>
                                     </ul>
                                 </div>
+                                @if (!$color->isEmpty())
                                 @foreach ($color[0]->getSizes as $key => $item)
                                 <div class="tab-pane fade" id="" role="tabpanel" aria-labelledby="">
                                     <ul>
@@ -2119,6 +2120,7 @@
                                     </ul>
                                 </div>
                                 @endforeach
+                                @endif
                             </div>
                         </div>
                         <!--ราคาปกติ-->
@@ -2128,8 +2130,11 @@
                         </div> -->
                         <!--ราคาพิเศษ-->
                         <div class="product-price" style="margin-top:15px;">
+                            @if (!$color->isEmpty())
                             <span id="result_price"><div class="through">ราคาปกติวงละ<span>{{$size[0]->size_price}}</span>บาท</div></span>
                             <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
+                            @endif
+                            
                         </div>
                     </div>
                 </div>
@@ -2220,59 +2225,17 @@
                         <img src="{{asset('smb-frontend/images/products-detail/gal.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> แกลลอรี่สินค้า</a>
                         <div class="container py-5">
                             <div id="news" class="carousel" data-ride="carousel">
-                                <div class="owl-news owl-carousel owl-theme my-3" data-aos="fade-up">
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top box-homenew-2" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0048.jpg')}}" alt="Card image">
+                                @if ($gallery != null)
+                                    <div class="owl-news owl-carousel owl-theme my-3" data-aos="fade-up">
+                                        @foreach ($gallery->getAwardImgs as $item)
+                                        <div class="item">
+                                            <div class="card newsIndex">
+                                                <img class="card-img-top box-homenew-2" src="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" alt="Card image">
+                                            </div>
                                         </div>
+                                        @endforeach
                                     </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0049.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0050.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0051.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0052.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/c02b8d54a07eda7f84949d09db73d85eb_37466838_190309_0053.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/IMG_2824.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/IMG_2827.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/IMG_2850.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                    <div class="item">
-                                        <div class="card newsIndex">
-                                            <img class="card-img-top" src="{{asset('smb-frontend/images/Cosmis_XT_seires_XT-206R/IMG_2859.jpg')}}" alt="Card image">
-                                        </div>
-                                    </div>
-                                </div>
-
+                                @endif
                             </div>
                         </div>
                     </div>
@@ -2562,7 +2525,7 @@
             autoplayHoverPause: true,
             responsiveClass: true,
             dots: false,
-            navText: ['<img src="images/products-detail/owl-prev.png">', '<img src="images/products-detail/owl-next.png">'],
+            navText: ['<img src="{{asset("smb-frontend/images/products-detail/owl-prev.png")}}">', '<img src="{{asset("smb-frontend/images/products-detail/owl-next.png")}}">'],
             navClass: ['owl-prev', 'owl-next'],
             responsive: {
                 0: {

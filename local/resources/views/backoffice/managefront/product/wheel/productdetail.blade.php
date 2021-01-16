@@ -79,6 +79,12 @@
                     <button type="button" class="btn btn-primary" id="addcolor">Add Color</button>
                 </div>
             </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Gallery Match</label>
+                <div class="col-sm-4">
+                    <input type="text" class="form-control" placeholder="Gallery Match...">
+                </div>
+            </div>
         </form>
     </div>
     <div class="card-footer">

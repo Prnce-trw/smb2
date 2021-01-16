@@ -587,10 +587,10 @@
                 <div class="tab-content">
                     <ul class="nav nav-tabs mt-3" role="tablist">
                         <li class="nav-item">
-                            <a id="gg" class="nav-link active container tab-pane" data-toggle="tab" href="#max"><img src="images/navbar-right/2.png" class="img-flex">การค้นหาแม็กซ์</a>
+                            <a id="gg" class="nav-link active container tab-pane" data-toggle="tab" href="#max"><img src="{{asset('smb-frontend/images/navbar-right/2.png')}}" class="img-flex">การค้นหาแม็กซ์</a>
                         </li>
                         <li class="nav-item">
-                            <a id="gg" class="nav-link container tab-pane" data-toggle="tab" href="#wheel"><img src="images/navbar-right/3.png" class="img-flex">การค้นหายาง</a>
+                            <a id="gg" class="nav-link container tab-pane" data-toggle="tab" href="#wheel"><img src="{{asset('smb-frontend/images/navbar-right/3.png')}}" class="img-flex">การค้นหายาง</a>
                         </li>
                     </ul>
                 </div>

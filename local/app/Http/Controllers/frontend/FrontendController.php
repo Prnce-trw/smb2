@@ -42,9 +42,9 @@ class FrontendController extends Controller
         $promotion = Promotion::orderBy('promotion_id', 'DESC')->take(2)->get();
         $blog = blog::orderBy('blog_id', 'DESC')->first();
         $banner = banner::where('banner_id', 1)->first();
-        $newproduct = product::take(5)->where('product_show_status', 1)->orderBy('product_id', 'asc')->get();
-        $bestseller = product::where('product_bestseller', 1)->get();
-        $productdiscount = product::take(5)->where('product_price_discount', '!=', null)->orderBy('product_id', 'asc')->get();
+        $newproduct = product::take(5)->where('product_show_status', 1)->where('product_type_id', 1)->orderBy('product_id', 'asc')->get();
+        $bestseller = product::where('product_bestseller', 1)->where('product_type_id', 1)->get();
+        $productdiscount = product::take(5)->where('product_price_discount', '!=', null)->where('product_type_id', 1)->orderBy('product_id', 'asc')->get();
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
         $data = array(
@@ -208,14 +208,17 @@ class FrontendController extends Controller
             $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $id)->get();
             $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
         } else {
-            $size = size::where('', $id)->get();
-            $size_head = size::where('', $id)->get();
+            $size = size::where('size_fkey', $id)->get();
+            $size_head = size::where('size_fkey', $id)->get();
         }
+        $gallery = award::where('award_product', $id)->first();
+
         $data = array(
             'size' => $size,
             'size_head' => $size_head,
             'product' => $product,
             'color' => $color,
+            'gallery' => $gallery,
         );
         return view('frontend.products-detail', $data);
     }
