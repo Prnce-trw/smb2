@@ -2183,9 +2183,9 @@
             <li class="nav-item">
                 <a id="tab-A" href="#pane-A" class="nav-link active" data-toggle="tab" role="tab">รายละเอียดสินค้า</a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a id="tab-B" href="#pane-B" class="nav-link" data-toggle="tab" role="tab">คุณสมบัติ</a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a id="tab-C" href="#pane-C" class="nav-link" data-toggle="tab" role="tab">แกลลอรี่สินค้า</a>
             </li>
@@ -2202,22 +2202,22 @@
                     <div class="card-body">
                         <img src="{{asset('smb-frontend/images/products-detail/list.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> รายละเอียดสินค้า</a>
                         <br>
-                        <h4 class="my-3">Cosmis XT-206R (Minor Change)</h4>
-                        <b> สำหรับล้อแม็กสุดคลาสสิคที่มีชื่อว่า XT-206R เป็นอีกโมเดลที่ Hot อย่างต่อเนื่องตลอด 4 ปีมานี้ไม่แพ้กัน ซึ่ง XT-206R ก็เป็นแม็กแบรนด์คนไทยที่โด่งดังไปทั่วโลก โดยเฉพาะแถบอมริกาและยุโรป และครั้งนี้เราขอแนะนำ XT-206R Minor Change เป็นลักษณะ Fin Design หรือล้อแม็กแบบครีบถี่ๆ สเป็ค 20x9.5 ET12 6H114.3 - 139.7 และ 20x9.5 ET12 5H114.3-130 ตัวก้านแม็กได้ถูกออกแบบใหม่มีความแข็งแกร่งขึ้น มีเส้นสายที่เฉียบคม ตัวก้านถูกยกให้สูงกว่าเดิม ซึ่งช่วยให้ล้อแม็กมีมิติมากขึ้น ในการใช้งานเหมาะกับการขับขี่ทั่วไป ช่วยให้สมรรถนะการขับขี่ที่ดีเยี่ยม และวิ่งบนความเร็วสูงได้นิ่งเสถียรกว่าเดิม โดย XT-206R สเป็ค 5 รู จะทำมาใส่กับรถซีดานสไตล์ Wide Body หรือกระบะที่เป็น 5 รู อย่าง Vigo, Revo, Triton ส่วน 6 รู ก็จะทำมาใส่กับ Dmax, Revo, Vigo, Colorado, Ranger, BT50, Triton, BT50 Pro, Triton Plus, Raptor, Rocco, Mu-X, Trailbrazer, Fortuner, Pajero</b>
+                        <h4 class="my-3">{{$product->getBrand->brand_name}} {{$product->product_name}}</h4>
+                        <b> {{$product->product_detail}}</b>
                     </div>
                 </div>
             </div>
 
-            <div id="pane-B" class="card tab-pane fade mt-3" role="tabpanel" aria-labelledby="tab-B">
+            {{-- <div id="pane-B" class="card tab-pane fade mt-3" role="tabpanel" aria-labelledby="tab-B">
                 <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
                     <div class="card-body">
                         <img src="{{asset('smb-frontend/images/products-detail/list.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> คุณสมบัติ</a>
                         <br>
-                        <h4 class="my-3">Cosmis XT-206R (Minor Change)</h4>
-                        <b> สำหรับล้อแม็กสุดคลาสสิคที่มีชื่อว่า XT-206R เป็นอีกโมเดลที่ Hot อย่างต่อเนื่องตลอด 4 ปีมานี้ไม่แพ้กัน ซึ่ง XT-206R ก็เป็นแม็กแบรนด์คนไทยที่โด่งดังไปทั่วโลก โดยเฉพาะแถบอมริกาและยุโรป และครั้งนี้เราขอแนะนำ XT-206R Minor Change เป็นลักษณะ Fin Design หรือล้อแม็กแบบครีบถี่ๆ สเป็ค 20x9.5 ET12 6H114.3 - 139.7 และ 20x9.5 ET12 5H114.3-130 ตัวก้านแม็กได้ถูกออกแบบใหม่มีความแข็งแกร่งขึ้น มีเส้นสายที่เฉียบคม ตัวก้านถูกยกให้สูงกว่าเดิม ซึ่งช่วยให้ล้อแม็กมีมิติมากขึ้น ในการใช้งานเหมาะกับการขับขี่ทั่วไป ช่วยให้สมรรถนะการขับขี่ที่ดีเยี่ยม และวิ่งบนความเร็วสูงได้นิ่งเสถียรกว่าเดิม โดย XT-206R สเป็ค 5 รู จะทำมาใส่กับรถซีดานสไตล์ Wide Body หรือกระบะที่เป็น 5 รู อย่าง Vigo, Revo, Triton ส่วน 6 รู ก็จะทำมาใส่กับ Dmax, Revo, Vigo, Colorado, Ranger, BT50, Triton, BT50 Pro, Triton Plus, Raptor, Rocco, Mu-X, Trailbrazer, Fortuner, Pajero</b>
+                        <h4 class="my-3">{{$product->getBrand->brand_name}} {{$product->product_name}}</h4>
+                        <b> {{$product->product_detail}}</b>
                     </div>
                 </div>
-            </div>
+            </div> --}}
 
             <div id="pane-C" class="card tab-pane fade show active mt-3" role="tabpanel" aria-labelledby="tab-C">
                 <div id="collapse-C" class="collapse show" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">

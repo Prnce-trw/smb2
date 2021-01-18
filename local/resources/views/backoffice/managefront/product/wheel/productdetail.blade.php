@@ -72,17 +72,12 @@
                     <textarea name="warranty" id="" cols="30" rows="10" class="form-control">{{$product->product_detail}}</textarea>
                 </div>
             </div>
-            <div id="resultAppend"></div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label"></label>
-                <div class="col-sm-4">
-                    <button type="button" class="btn btn-primary" id="addcolor">Add Color</button>
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Gallery Match</label>
-                <div class="col-sm-4">
-                    <input type="text" class="form-control" placeholder="Gallery Match...">
+            <div id="resultAppend">
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-4">
+                        <button type="button" class="btn btn-primary" id="addcolor">Add Color</button>
+                    </div>
                 </div>
             </div>
         </form>
@@ -135,6 +130,7 @@
                                                         <th class="text-center">PCD</th>
                                                         <th class="text-center">ET</th>
                                                         <th class="text-center">Price</th>
+                                                        <th class="text-center">Promotion Price</th>
                                                     </tr>
                                                 </thead>
                                                 <tbody>
@@ -145,6 +141,7 @@
                                                         <td class="text-middle text-center">{{$itemSize->size_pcd}}</td>
                                                         <td class="text-middle text-center">{{$itemSize->size_et}}</td>
                                                         <td class="text-middle text-center">{{number_format($itemSize->size_price)}} B</td>
+                                                        <td class="text-middle text-center">{{number_format($itemSize->size_promotion_price)}} B</td>
                                                     </tr>
                                                     @endforeach
                                                 </tbody>
@@ -199,9 +196,23 @@
                     '</div>'+
                 '</div>'+
                 '<div class="form-group row">'+
-                    '<label class="col-sm-2 col-form-label">Material</label>'+
-                    '<div class="col-sm-4">'+
-                        '<input type="text" class="form-control" name="material" placeholder="Material...">'+
+                    '<label class="col-sm-2 col-form-label">'+
+                        '<span class="mytooltip tooltip-effect-5">'+
+                            '<span class="tooltip-item">Image Set</span>'+
+                            '<span class="tooltip-content clearfix">'+
+                                '<span class="tooltip-text">Multiple.</span>'+
+                            '</span>'+
+                        '</span>'+
+                    '</label>'+
+                    '<div class="col-sm-10">'+
+                        '<div class="row">'+
+                            '<div class="col-sm-6">'+
+                                '<input type="file" name="imgset[]" class="imgset" id="addimgset" accept="image/x-png,image/gif,image/jpeg" multiple>'+
+                            '</div>'+
+                            '<div class="col-sm-6">'+
+                                '<div id="previewcov"></div>'+
+                            '</div>'+
+                        '</div>'+
                     '</div>'+
                 '</div>'+
                 '<div class="form-group row">'+
@@ -235,7 +246,7 @@
                     '<div class="col-sm-2">'+
                         '<div class="border-checkbox-section">'+
                             '<div class="border-checkbox-group border-checkbox-group-primary">'+
-                                '<input class="border-checkbox promotion_check" type="checkbox" id="promotion_check_'+no+'" data-number="'+no+'" onclick="promotion('+no+')" value="1">'+
+                                '<input class="border-checkbox promotion_check" name="color_price_status[]" type="checkbox" id="promotion_check_'+no+'" data-number="'+no+'" onclick="promotion('+no+')" value="1">'+
                                 '<label class="border-checkbox-label" for="promotion_check_'+no+'">Promotion</label>'+
                             '</div>'+
                         '</div>'+
@@ -253,6 +264,7 @@
                 '</div>'+
                 '<hr>'+
             '</div>');
+            $(this).hide();
         no++;
     });
     function delete_color(x) {

@@ -310,6 +310,7 @@ class ProductController extends Controller
         DB::beginTransaction();
         try {
             if ($request['product_type'] == 1) {
+                // dd($request->all(), $id);
                 $product = product::where('product_id', $id)->first();
                 $product->product_name	         = $request['name'];
                 // $product->product_material	     = $request['product_material'];
@@ -326,8 +327,22 @@ class ProductController extends Controller
                     $color->color_material           = $request['material'];
                     $color->save();
 
+                    // รูปปก
                     if ($request->file('imgcov') !== null) {
                         $img = $request->file('imgcov');
+                        foreach($img as $keyImg => $item) {
+                            $name = rand().time().'.'.$item->getClientOriginalExtension();
+                            $item->storeAs('productimgset',  $name);
+                            $productimgset = new productimgset();
+                            $productimgset->product_imgset_name        = $name;
+                            $productimgset->product_imgset_product_id  = $color->color_id;
+                            $productimgset->save();
+                        }
+                    }
+
+                    // รูปเซ็ท
+                    if ($request->file('imgset') !== null) {
+                        $img = $request->file('imgset');
                         foreach($img as $keyImg => $item) {
                             $name = rand().time().'.'.$item->getClientOriginalExtension();
                             $item->storeAs('productimgset',  $name);
@@ -360,7 +375,14 @@ class ProductController extends Controller
                         $size->size_color_id      = $color->color_id;
                         $size->size_pcd           = $request['pcd'][$key];
                         $size->size_et            = $request['et'][$key];
-                        $size->size_price         = $request['colr_price'][$key];
+                        $size->size_price         = $request['color_price'][$key];
+                        if (!empty($request['color_price_status'][$key])) {
+                            $size->size_promotion_status    = $request['color_price_status'][$key];
+                            $size->size_promotion_price     = $request['color_price_promotion'][$key];
+                        } else {
+                            $size->size_promotion_status    = 0;
+                            $size->size_promotion_price     = 0;
+                        }
                         $size->save();
                     }
                 }
@@ -525,15 +547,13 @@ class ProductController extends Controller
                 //     }
                 // }
             } elseif ($request['product_type'] == 2) {
+                
                 $product = product::where('product_id', $id)->first();
                 $product->product_name	         = $request['product_name'];
                 $product->product_detail	     = $request['detail'];
                 $product->product_property	     = $request['property'];
                 $product->product_warranty	     = $request['warranty'];
                 $product->product_price	         = $request['price'];
-                if ($request['price_discount'] != null) {
-                    $product->product_price_discount = $request['price_discount'];
-                }
                 $product->save();
 
                 // แก้ไข size
@@ -865,20 +885,28 @@ class ProductController extends Controller
 
     public function updatecolor(Request $request, $id)
     {
-        // dd($request->all(), $id);
+        // dd($request->all(), $id, !$request['color_price_status'][$key]->isEmpty());
         DB::beginTransaction();
-        try {
+        // try {
             $color = color::findOrFail($id);
             $color->color_name          = $request['name'];
             $color->save();
 
+            // แก้ไข size
             foreach ($request['diameter'] as $key => $value) {
                 $size = size::findOrFail($key);
-                $size->size_diameter    = $value;
-                $size->size_width       = $request['width'][$key];
-                $size->size_pcd         = $request['pcd'][$key];
-                $size->size_et          = $request['et'][$key];
-                $size->size_price       = $request['color_price'][$key];
+                $size->size_diameter            = $value;
+                $size->size_width               = $request['width'][$key];
+                $size->size_pcd                 = $request['pcd'][$key];
+                $size->size_et                  = $request['et'][$key];
+                $size->size_price               = $request['color_price'][$key];
+                if (!empty($request['editcolor_price_status'][$key])) {
+                    $size->size_promotion_status    = $request['editcolor_price_status'][$key];
+                    $size->size_promotion_price     = $request['editcolor_price_promotion'][$key];
+                } else {
+                    $size->size_promotion_status    = 0;
+                    $size->size_promotion_price     = 0;
+                }
                 $size->save();
             }
 
@@ -936,15 +964,22 @@ class ProductController extends Controller
                     $size->size_pcd           = $request['addpcd'][$key];
                     $size->size_et            = $request['addet'][$key];
                     $size->size_price         = $request['addcolr_price'][$key];
+                    if ($request['addcolor_price_status'][$key] != null) {
+                        $size->size_promotion_status    = $request['addcolor_price_status'][$key];
+                        $size->size_promotion_price     = $request['addcolor_price_promotion'][$key];
+                    } else {
+                        $size->size_promotion_status    = 0;
+                        $size->size_promotion_price     = 0;
+                    }
                     $size->save();
                 }
             }
 
             DB::commit();
             return back()->with('success', 'Product Has Been Updated!');
-        } catch (\Throwable $th) {
+        // } catch (\Throwable $th) {
             DB::rollback();
             return back()->with('error','Something Wrong. Product Can Not Updated!');
-        }
+        // }
     }
 }

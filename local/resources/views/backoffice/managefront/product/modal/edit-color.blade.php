@@ -71,9 +71,27 @@
                         </div>
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Price</label>
-                            <div class="col-sm-4">
+                            <div class="col-sm-2">
                                 <input type="number" class="form-control" name="color_price[{{$item->size_id}}]" placeholder="Price..." value="{{$item->size_price}}">
                             </div>
+                            <div class="col-sm-2">
+                                <div class="border-checkbox-section">
+                                    <div class="border-checkbox-group border-checkbox-group-primary">
+                                        <input class="border-checkbox promotion_check_edit" name="color_price_status[{{$item->size_id}}]" type="checkbox" 
+                                        id="promotionedit_check_{{$item->size_id}}" data-number="{{$item->size_id}}" onclick="promotion({{$item->size_id}})" value="1" {{ $item->size_promotion_status == 1 ? "checked" : "" }}>
+                                        <label class="border-checkbox-label" for="promotionedit_check_{{$item->size_id}}">Promotion</label>
+                                    </div>
+                                </div>
+                            </div>
+                            @if ($item->size_promotion_status == 1)
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." value="{{$item->size_promotion_price}}">
+                            </div>
+                            @else 
+                            <div class="col-sm-4">
+                                <input type="number" class="form-control" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." style="display: none;">
+                            </div>
+                            @endif
                         </div>
                     </div>
                     @endforeach
@@ -113,6 +131,15 @@
         }
     });
 
+    $(document).on('click','.promotion_check_edit',function () {
+        var number = $(this).attr('data-number');
+        if ($(this).is(":checked")) {
+            $("#pricepromotionedit_"+number).show();
+        } else {
+            $("#pricepromotionedit_"+number).hide();
+        }
+    });
+
     var sizenoedit = 1;
     function addsizeedit() {
         $('#resultAppendSizeEdit').append('<div id="appendsize_'+sizenoedit+'">'+
@@ -141,9 +168,20 @@
             '</div>'+
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
-                '<div class="col-sm-4">'+
+                '<div class="col-sm-2">'+
                     '<input type="number" class="form-control" name="addcolr_price[]" placeholder="Price...">'+
                 '</div>'+
+                '<div class="col-sm-2">'+
+                        '<div class="border-checkbox-section">'+
+                            '<div class="border-checkbox-group border-checkbox-group-primary">'+
+                                '<input class="border-checkbox addpromotion_check" name="addcolor_price_status[]" type="checkbox" id="addpromotion_check_'+sizenoedit+'" data-addnumber="'+sizenoedit+'" onclick="promotion('+sizenoedit+')" value="1">'+
+                                '<label class="border-checkbox-label" for="addpromotion_check_'+sizenoedit+'">Promotion</label>'+
+                            '</div>'+
+                        '</div>'+
+                    '</div>'+
+                    '<div class="col-sm-4">'+
+                        '<input type="number" class="form-control" name="addcolor_price_promotion[]" id="addpricepromotion_'+sizenoedit+'" placeholder="Promotion Price..." style="display: none;">'+
+                    '</div>'+
             '</div>'+
         '</div>');
         sizenoedit++;
@@ -153,4 +191,13 @@
         $("#appendsize_"+y).remove();
         sizenoedit--;
     }
+
+    $(document).on('click','.addpromotion_check',function () {
+        var addnumber = $(this).attr('data-addnumber');
+        if ($(this).is(":checked")) {
+            $("#addpricepromotion_"+addnumber).show();
+        } else {
+            $("#addpricepromotion_"+addnumber).hide();
+        }
+    });
 </script>
