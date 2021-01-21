@@ -56,7 +56,6 @@ class product extends Model
         } else {
             return '<span style="color: #FF5370;"><i class="fa fa-2x fa-times"></i></span>'; 
         }
-        
     }
 
     public function getAward_img()

@@ -261,6 +261,7 @@
 
         .img_product {
             height: 270px;
+            width: 270px;
             overflow: hidden;
         }
 
@@ -756,7 +757,7 @@
                         @foreach ($product as $item)
                         <div class="col-xl-3 col-md-6">
                             <div class="img_product text-center">
-                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
+                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product" width="270" height="270">
                             </div>
                             <div class="text_product">
                                 <div class="product-name">
@@ -767,8 +768,16 @@
                                         </a>
                                     </div>
                                     <div class="product-price">
-                                        @if ($item->product_price_discount != null)
-                                        <del>{{$item->product_price}}</del>
+                                        @if (!empty($item->getColors->getSizes))
+                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
+                                            @else
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
+                                            @endif
+                                        @endif
+                                        {{-- @if ($item->product_price_discount != null)
+                                        
                                         @endif
                                         <a id="orange19"> 
                                             @if ($item->product_price_discount == null)
@@ -776,7 +785,7 @@
                                             @else
                                             {{$item->product_price_discount}}
                                             @endif
-                                        </a>
+                                        </a> --}}
                                     </div>
                                 </div>
                             </div>

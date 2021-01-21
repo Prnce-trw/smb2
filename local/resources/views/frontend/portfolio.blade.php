@@ -100,7 +100,7 @@
                                 </div>
                                 <div class="card-body">
                                     <div class="text_about_his" id="aboutUS" style="padding-left: 15px;">
-                                        <h6 class="card-title_a">{{ $item->getProduct->product_name }}</h6>
+                                        <h6 class="card-title_a"></h6>
                                         <div class="row">
                                             <div class="col-lg-6 col-xs-12">
                                                 <a id="orange16" style="font-size: 16px;">{{$item->getAwardImgs->count()}} Photo</a>
@@ -130,7 +130,7 @@
                                                                                         </div> --}}
                                                                                         <div class="card-body">
                                                                                             <div class="text_about_his" id="aboutUS" style="padding-left: 15px;">
-                                                                                                <h6 id="orange" class="card-title_inside_modal">{{ $itemImg->getProductBrand != null ? $itemImg->getProductBrand->brand_name : "" }} {{ $itemImg->getProduct != null ? $itemImg->getProduct->product_name : "" }} </h6>
+                                                                                                <h6 id="orange" class="card-title_inside_modal">{{ $itemImg->getProductBrand != null ? $itemImg->getProductBrand->brand_name : "" }}  </h6>
                                                                                                 {{-- <h6 class="card-title_inside_modal">Lorem Ipsum is not simply random text.</h6>
                                                                                                 <h6 class="card-title_inside_modal">The standard chunk of Lorem Ipsum used since the 1500s</h6> --}}
                                                                                             </div>

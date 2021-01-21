@@ -2135,12 +2135,12 @@
                         <!--ราคาพิเศษ-->
                         <div class="product-price" style="margin-top:15px;">
                             @if (!empty($size))
-                            @if ($size[0]->size_promotion_status == 1)
-                            <span id="result_price"><div class="through">ราคาปกติวงละ<span>{{$size[0]->size_price}}</span>บาท</div></span>
-                            <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_promotion_price}}</span>บาท</div></span>
-                            @else
-                            <span id="result_price_promotion"><div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
-                            @endif
+                                @if ($size[0]->size_promotion_status == 1)
+                                <span id="result_price"><div class="through">ราคาปกติวงละ<span>{{$size[0]->size_price}}</span>บาท</div></span>
+                                <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_promotion_price}}</span>บาท</div></span>
+                                @else
+                                <span id="result_price_promotion"><div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
+                                @endif
                             @endif
                         </div>
                     </div>
