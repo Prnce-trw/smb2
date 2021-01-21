@@ -5,9 +5,9 @@
     <title>Products - SMB</title>
     @include('frontend.header')
     <style>
-        .sticky-offset {
-            top: 56px;
-        }
+         .product-name .about-us a{
+        color: #252525;
+    }
 
         #body-row {
             margin-left: 0;
