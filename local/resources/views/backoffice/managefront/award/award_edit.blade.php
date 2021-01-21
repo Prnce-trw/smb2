@@ -53,7 +53,7 @@
                 </select>
             </div>
         </div>
-        <div class="form-group row">
+        {{-- <div class="form-group row">
             <label class="col-sm-2 col-form-label">Product Brand</label>
             <div class="col-sm-5">
                 <select name="productbrand_main" class="form-control filterproduct_brand productbrand">
@@ -68,7 +68,7 @@
                     <option value="{{ $award->getProduct->product_id }}">{{ $award->getProduct->product_name }}</option>
                 </select>
             </div>
-        </div>
+        </div> --}}
     </div>
 </div>
 <div class="card">
@@ -94,7 +94,7 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label">Set to Cover</label>
+                    <label class="col-sm-4 col-form-label">Set to Cover</label>
                     <div class="col-sm-5">
                         <div class="form-radio">
                             <div class="radio radio-inline">
@@ -106,7 +106,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="form-group row">
+                {{-- <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Product Brand</label>
                     <div class="col-sm-5">
                         <select name="productbrand[{{$item->award_img_id}}]" class="form-control filterproduct_brand productbrand">
@@ -120,6 +120,32 @@
                         <select name="product[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
                             @if ($item->award_product_id != null)
                             <option selected>{{$item->getProduct->product_name}}</option>
+                            @else
+                            <option disabled>Select Product...</option>
+                            @endif
+                        </select>
+                    </div>
+                </div> --}}
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Product Brand</label>
+                    <div class="col-sm-5">
+                        <select name="productbrand[]" class="form-control filterproduct_brand productbrand">
+                            @foreach ($item->getAwardProductBrand as $number => $itembrand)
+                            <option value="{{$itembrand->AwardgetBrand->brand_id}}">{{$itembrand->AwardgetBrand->brand_name}}</option>
+                            @endforeach
+                            <optgroup label="Select New Brand">
+                                @foreach ($brand as $number => $itembrand)
+                                <option data-number="{{$key+1}}" {{ $item->award_productbrand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>
+                                @endforeach
+                            </optgroup>
+                        </select>
+                    </div>
+                    <div class="col-sm-5">
+                        <select name="product[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
+                            @if ($item->award_product_id != null)
+                            @foreach ($item->getAwardProductBrand as $number => $itemproduct)
+                            <option value="{{$itemproduct->AwardgetProducts->product_id}}">{{$itemproduct->AwardgetProducts->product_name}}</option>
+                            @endforeach
                             @else
                             <option disabled>Select Product...</option>
                             @endif
@@ -151,10 +177,10 @@
 @include('flash-message')
 <script src="{{asset('files/bower_components/lightbox2/js/lightbox.min.js')}}"></script>
 <!-- Switch component js -->
-<script src="{{asset('/files/bower_components/switchery/js/switchery.min.js')}}"></script>
-<script src="{{asset('/files/assets/pages/advance-elements/swithces.js')}}"></script>
+{{-- <script src="{{asset('/files/bower_components/switchery/js/switchery.min.js')}}"></script> --}}
+{{-- <script src="{{asset('/files/assets/pages/advance-elements/swithces.js')}}"></script> --}}
 <script>
-    $('.js-switch').bootstrapSwitch();
+    // $('.js-switch').bootstrapSwitch();
 
     $(document).on('change', '.filtercar_award',function () {
         var carid = $(this).val();
@@ -199,17 +225,17 @@
                 '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">Product Brand</label>'+
                         '<div class="col-sm-5">'+
-                            '<select name="productbrand[{{$item->award_img_id}}]" class="form-control filterproduct_brand productbrand">'+
+                            '<select name="productbrand[]" class="form-control filterproduct_brand productbrand">'+
                                 '<option selected disabled>Select Product Brand...</option>'+
                                 '@foreach ($brand as $number => $itembrand)'+
-                                '<option data-number="{{$key+1}}" {{ $item->award_productbrand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>'+
+                                '<option data-number="'+id+'_'+no+'" value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>'+
                                 '@endforeach'+
                             '</select>'+
                         '</div>'+
                         '<div class="col-sm-5">'+
-                            '<select name="product[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">'+
+                            '<select name="product[]" id="product_'+id+'_'+no+'" class="form-control">'+
                                 '@if ($item->award_product_id != null)'+
-                                '<option selected>{{$item->getProduct->product_name}}</option>'+
+                                '<option selected></option>'+
                                 '@else'+
                                 '<option disabled>Select Product...</option>'+
                                 '@endif'+

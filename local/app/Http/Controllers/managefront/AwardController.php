@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\award;
 use App\award_img;
+use App\award_probrand;
 use App\carbrand;
 use App\carmodel;
 use App\brand;
@@ -100,6 +101,7 @@ class AwardController extends Controller
         $award = award::findOrFail($id);
         $carbrand = carbrand::all();
         $brand = brand::all();
+        // dd($award->getAwardImgs[0]->getAwardProductBrand[0]->AwardgetBrand);
         $data = array(
             'award' => $award, 
             'carbrand' => $carbrand, 
@@ -134,17 +136,22 @@ class AwardController extends Controller
                     $item->storeAs('award', $name);
                     $dataimgset->award_img_name         = $name;
                     $dataimgset->save();
+
+                    
                 }
             }
 
             if ($request['productbrand'] != null || $request['product'] != null) {
-                foreach ($request['productbrand'] as $key => $value) {
-                    $award_img = award_img::findOrFail($key);
-                    $award_img->award_productbrand_id  = $request['productbrand'][$key];
-                    $award_img->award_product_id       = $request['product'][$key];
-                    $award_img->save();
+                foreach ($request['productbrand'] as $number => $value) {
+                    $award_probrand = new award_probrand();
+                    $award_probrand->award_img_id           = $number;
+                    $award_probrand->award_brand_id         = $request['productbrand'][$number];
+                    $award_probrand->award_product_id       = $request['product'][$number];
+                    $award_probrand->save();
                 }
             }
+
+            
 
             // if ($request['cover'] != null) {
             //     foreach ($request['cover'] as $keyCover => $valueCover) {

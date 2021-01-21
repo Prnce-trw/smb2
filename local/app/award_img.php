@@ -23,4 +23,9 @@ class award_img extends Model
     {
         return $this->hasOne(brand::class, 'brand_id', 'award_productbrand_id');
     }
+
+    public function getAwardProductBrand()
+    {
+        return $this->hasMany(award_probrand::class, 'award_img_id', 'award_img_id');
+    }
 }

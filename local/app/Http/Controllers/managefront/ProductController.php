@@ -885,9 +885,9 @@ class ProductController extends Controller
 
     public function updatecolor(Request $request, $id)
     {
-        // dd($request->all(), $id, !$request['color_price_status'][$key]->isEmpty());
+        // dd($request->all(), $id, $request->color_price_status[5]);
         DB::beginTransaction();
-        // try {
+        try {
             $color = color::findOrFail($id);
             $color->color_name          = $request['name'];
             $color->save();
@@ -900,8 +900,8 @@ class ProductController extends Controller
                 $size->size_pcd                 = $request['pcd'][$key];
                 $size->size_et                  = $request['et'][$key];
                 $size->size_price               = $request['color_price'][$key];
-                if (!empty($request['editcolor_price_status'][$key])) {
-                    $size->size_promotion_status    = $request['editcolor_price_status'][$key];
+                if (!empty($request['color_price_status'][$key])) {
+                    $size->size_promotion_status    = 1;
                     $size->size_promotion_price     = $request['editcolor_price_promotion'][$key];
                 } else {
                     $size->size_promotion_status    = 0;
@@ -965,7 +965,7 @@ class ProductController extends Controller
                     $size->size_et            = $request['addet'][$key];
                     $size->size_price         = $request['addcolr_price'][$key];
                     if ($request['addcolor_price_status'][$key] != null) {
-                        $size->size_promotion_status    = $request['addcolor_price_status'][$key];
+                        $size->size_promotion_status    = 1;
                         $size->size_promotion_price     = $request['addcolor_price_promotion'][$key];
                     } else {
                         $size->size_promotion_status    = 0;
@@ -977,9 +977,9 @@ class ProductController extends Controller
 
             DB::commit();
             return back()->with('success', 'Product Has Been Updated!');
-        // } catch (\Throwable $th) {
+        } catch (\Throwable $th) {
             DB::rollback();
             return back()->with('error','Something Wrong. Product Can Not Updated!');
-        // }
+        }
     }
 }

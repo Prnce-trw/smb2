@@ -145,6 +145,7 @@ class ContactController extends Controller
         DB::beginTransaction();
         try {
             $contact = contact::where('contact_id', $id)->first();
+            // dd($request->all() ,$contact->contact_img);
             $contact->contact_title	         = $request['title'];
             $contact->contact_detail	     = $request['detail'];
             $contact->contact_tell  	     = $request['tel'];
@@ -161,8 +162,8 @@ class ContactController extends Controller
                 $imgcov = $request->file('editimgcov');
                 foreach ($imgcov as $key => $value) {
                     unlink('local/storage/app/contact/'.$contact->contact_img);
-                    $name = rand().time().'.'.$item->getClientOriginalExtension();
-                    $item->storeAs('contact',  $name);
+                    $name = rand().time().'.'.$value->getClientOriginalExtension();
+                    $value->storeAs('contact',  $name);
                     $contact->contact_img = $name;
                 }
             }
@@ -172,8 +173,8 @@ class ContactController extends Controller
                 $imgmap = $request->file('editmap');
                 foreach ($imgmap as $key => $value) {
                     unlink('local/storage/app/contact/'.$contact->contact_imgmap);
-                    $name = rand().time().'.'.$item->getClientOriginalExtension();
-                    $item->storeAs('contact',  $name);
+                    $name = rand().time().'.'.$value->getClientOriginalExtension();
+                    $value->storeAs('contact',  $name);
                     $contact->contact_imgmap = $name;
                 }
             }

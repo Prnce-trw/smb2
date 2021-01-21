@@ -54,6 +54,23 @@
     </div>
     <div class="container mt-5 my-5">
         <div class="row">
+            <div class="card-deck">
+                @foreach ($promotion as $item)
+                <div class="card mb-4 promotion-fix">
+                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/promotion/'.$item->promotion_img.'')}}" alt="Card image cap">
+                    <div class="card-body" id="cardT" style="margin: 10px;">
+                        <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted-black" style="font-weight: 400;font-size: 14px;"><i class="far fa-calendar-alt"></i> {{date('d/m/Y', strtotime($item->promotion_date_start))}}</small></p>
+                        <h4 class="card-title">{{$item->promotion_header}}</h4>
+                        <p class="card-text">{!! Str::limit($item->promotion_content, 150) !!}</p>
+                        <a id="text-white" href="{{url('promotion_detail', $item->promotion_id)}}"><button type="button" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านต่อ</button></a>
+                    </div>
+                </div>
+                @endforeach
+            </div>
+        </div>
+    </div>
+    <div class="container mt-5 my-5">
+        <div class="row">
             <div class="col-12">
                 <nav aria-label="Page navigation example">
                     {{$promotion->links('frontend.paginate')}}
@@ -66,7 +83,7 @@
                 </nav>
             </div>
         </div>
-    </div>
+    </div> 
     @include('frontend.footer')
 </body>
 

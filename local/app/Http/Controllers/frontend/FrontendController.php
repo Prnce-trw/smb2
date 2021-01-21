@@ -99,8 +99,8 @@ class FrontendController extends Controller
     public function promotion()
     {
         $contact = contact::find(1);
-        $firstPromotion = promotion::orderBy('promotion_id', 'DESC')->first();
-        $promotion = promotion::where('promotion_id', '!=', $firstPromotion->promotion_id)->orderBy('promotion_id', 'DESC')->paginate(6);
+        $firstPromotion = promotion::orderBy('promotion_id', 'DESC')->where('promotion_show', 1)->first();
+        $promotion = promotion::where('promotion_id', '!=', $firstPromotion->promotion_id)->where('promotion_show', 1)->orderBy('promotion_id', 'DESC')->paginate(6);
         $data = array(
             'contact' => $contact,
             'promotion' => $promotion,
@@ -204,13 +204,8 @@ class FrontendController extends Controller
         }
         $product = product::findOrFail($id);
         $color = color::where('color_product_id', $id)->get();
-        if (!$color->isEmpty()) {
-            $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $id)->get();
-            $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
-        } else {
-            $size = size::where('size_fkey', $id)->get();
-            $size_head = size::where('size_fkey', $id)->get();
-        }
+        $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->get();
+        $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
         $gallery = award::where('award_product', $id)->first();
 
         $data = array(
@@ -220,6 +215,7 @@ class FrontendController extends Controller
             'color' => $color,
             'gallery' => $gallery,
         );
+        // dd($data);
         return view('frontend.products-detail', $data);
     }
 
@@ -1021,7 +1017,7 @@ class FrontendController extends Controller
         $html = '';
         foreach ($size as $key => $value) {
             $html .= '
-            <li>
+            <li class="size checkSizePrice" data-sizeId="'.$value->size_id.'">
                 <span class="col-size">'.$value->size_diameter.' x '.$value->size_width.'</span>
                 <span class="col-ET">'.$value->size_et.'</span>
                 <span class="col-PCD">'.$value->size_pcd.'</span>
@@ -1030,7 +1026,7 @@ class FrontendController extends Controller
         }
         if ($size[0]->size_promotion_status == 1) {
             $html_price = '<div class="through">ราคาปกติวงละ<span>'.$size[0]->size_price.'</span>บาท</div>';
-            $html_price_promotion = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">'.$size[0]->size_price.'</span>บาท</div>';
+            $html_price_promotion = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">'.$size[0]->size_promotion_price.'</span>บาท</div>';
         } else {
             $html_price = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">'.$size[0]->size_price.'</span>บาท</div>';
             $html_price_promotion = '';
@@ -1066,6 +1062,22 @@ class FrontendController extends Controller
         }
 
         $data = array('html' => $html,);
+        return $data;
+    }
+
+    public function sizeCheckPrice(Request $request)
+    {
+        $size = size::where('size_id', $request->sizeID)->first();
+        $htmlPrice = '';
+        $htmlPromotionPrice = '';
+        if ($size->size_promotion_status == 1) {
+            $htmlPrice = '<div class="through">ราคาปกติวงละ<span>'.$size->size_price.'</span>บาท</div>';
+            $htmlPromotionPrice = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">'.$size->size_promotion_price.'</span>บาท</div>';
+        } else {
+            $htmlPrice = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">'.$size->size_price.'</span>บาท</div>';
+            $htmlPromotionPrice = '';
+        }
+        $data = array('htmlPrice' => $htmlPrice, 'htmlPromotionPrice' => $htmlPromotionPrice);
         return $data;
     }
 }

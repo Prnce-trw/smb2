@@ -132,6 +132,7 @@ Route::get('/account_customer_payment', 'frontend\FrontendController@account_cus
 Route::get('/filter_size/{id}', 'frontend\FrontendController@filter_size');
 Route::get('/pickcolor/{id}', 'frontend\FrontendController@pickcolor');
 Route::get('/products-tyre/{id}', 'frontend\FrontendController@productstyre');
+Route::get('/sizeCheckPrice', 'frontend\FrontendController@sizeCheckPrice');
 
 Route::get('/clc', function() {
 

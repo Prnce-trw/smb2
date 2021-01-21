@@ -29,7 +29,7 @@
                             </select>
                         </div>
                     </div>
-                    <div class="form-group row">
+                    {{-- <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Product Brand</label>
                         <div class="col-sm-5">
                             <select name="productbrand" class="form-control filterproduct_brand productbrand">
@@ -44,7 +44,7 @@
                                 <option selected disabled>Select Product...</option>
                             </select>
                         </div>
-                    </div>
+                    </div> --}}
                     <div id="appendproduct"></div>
                     <hr>
                     <div class="form-group row">

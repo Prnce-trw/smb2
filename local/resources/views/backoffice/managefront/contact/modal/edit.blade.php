@@ -60,7 +60,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Link Google Map</label>
+                        <label class="col-sm-2 col-form-label">Hotline</label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="tell" placeholder="Tell..." value="{{$contact->contact_tell}}">
                         </div>

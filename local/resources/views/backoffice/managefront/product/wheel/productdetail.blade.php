@@ -43,7 +43,7 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Image Cover</label>
                 <div class="col-sm-4">
-                    <img src="{{asset('local/storage/app/product/'.$product->product_imgcov.'')}}">
+                    <img src="{{asset('local/storage/app/product/'.$product->product_imgcov.'')}}" width="270">
                 </div>
             </div>
             <div class="form-group row">
@@ -281,7 +281,7 @@
         }
     });
 
-    var sizeno = 1;
+    var sizeno = 2;
     function addsize(appendsizeno) { 
         $('#resultAppendSize_'+appendsizeno).append('<div id="appendsize_'+sizeno+''+appendsizeno+'">'+
             '<div class="form-group row">'+
@@ -310,7 +310,18 @@
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-4">'+
-                    '<input type="number" class="form-control" name="colr_price[]" placeholder="Price...">'+
+                    '<input type="number" class="form-control" name="color_price[]" placeholder="Price...">'+
+                '</div>'+
+                '<div class="col-sm-2">'+
+                    '<div class="border-checkbox-section">'+
+                        '<div class="border-checkbox-group border-checkbox-group-primary">'+
+                            '<input class="border-checkbox promotion_check" name="color_price_status[]" type="checkbox" id="promotion_check_'+sizeno+'" data-number="'+sizeno+'" onclick="promotion('+sizeno+')" value="1">'+
+                            '<label class="border-checkbox-label" for="promotion_check_'+sizeno+'">Promotion</label>'+
+                        '</div>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="col-sm-2">'+
+                    '<input type="number" class="form-control" name="color_price_promotion[]" id="pricepromotion_'+sizeno+'" placeholder="Promotion Price..." style="display: none;">'+
                 '</div>'+
             '</div>'+
         '</div>');

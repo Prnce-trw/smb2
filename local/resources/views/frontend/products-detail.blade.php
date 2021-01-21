@@ -1989,7 +1989,11 @@
         <div class="row">
             <div class="col-lg-5 label-relative">
                 <div class="label-special">
-                    <img src="{{asset('smb-frontend/images/label-special.png')}}">
+                    @if (!empty($size))
+                        @if ($size[0]->size_promotion_status == 1)
+                        <img src="{{asset('smb-frontend/images/label-special.png')}}">
+                        @endif
+                    @endif
                 </div>
                 <div class="product-text">
                     <img src="{{asset('local/storage/app/brand/'.$product->getBrand->brand_img.'')}}" width="200px">
@@ -2097,8 +2101,8 @@
                                             <span class="col-PCD">PCD.</span>
                                         </li>
                                         <span id="result_filtersize">
-                                        @foreach ($size as $item)
-                                        <li class="size">
+                                        @foreach ($size as $number => $item)
+                                        <li class="size checkSizePrice" data-sizeId="{{$item->size_id}}">
                                             <span class="col-size">{{$item->size_diameter}} x {{$item->size_width}}</span>
                                             <span class="col-ET">{{$item->size_et}}</span>
                                             <span class="col-PCD">{{$item->size_pcd}}</span>
@@ -2130,11 +2134,14 @@
                         </div> -->
                         <!--ราคาพิเศษ-->
                         <div class="product-price" style="margin-top:15px;">
-                            @if (!$color->isEmpty())
+                            @if (!empty($size))
+                            @if ($size[0]->size_promotion_status == 1)
                             <span id="result_price"><div class="through">ราคาปกติวงละ<span>{{$size[0]->size_price}}</span>บาท</div></span>
-                            <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
+                            <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_promotion_price}}</span>บาท</div></span>
+                            @else
+                            <span id="result_price_promotion"><div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
                             @endif
-                            
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -2585,8 +2592,16 @@
             }
         }
 
-        $(document).on('click','.size_getprice',function () {
-
+        $(document).on('click','.checkSizePrice',function () {
+            var sizeID = $(this).attr('data-sizeId');
+            $.ajax({
+                url: '{{url('sizeCheckPrice')}}',
+                type: 'GET',
+                data: {sizeID: sizeID},
+            }).done(function (data) {
+                $('#result_price').html(data.htmlPrice);
+                $('#result_price_promotion').html(data.htmlPromotionPrice);
+            });
         });
     </script>
     <!--End Sidebar Script-->

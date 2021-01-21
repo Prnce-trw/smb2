@@ -73,4 +73,9 @@ class product extends Model
     {
         return $this->hasOne(color::class, 'color_product_id', 'product_id');
     }
+
+    public function getAwardProduct()
+    {
+        return $this->belongsTo(award_probrand::class, 'product_id');
+    }
 }
