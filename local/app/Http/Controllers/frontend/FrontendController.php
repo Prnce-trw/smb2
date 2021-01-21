@@ -204,7 +204,7 @@ class FrontendController extends Controller
         }
         $product = product::findOrFail($id);
         $color = color::where('color_product_id', $id)->get();
-        $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->get();
+        $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $color[0]->color_id)->get();
         $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
         $gallery = award::where('award_product', $id)->first();
 
