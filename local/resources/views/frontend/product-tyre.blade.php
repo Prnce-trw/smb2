@@ -1135,77 +1135,84 @@
                     </div>
                 </div>
                 <div class="wow fadeInDown" style="visibility: visible; animation-name: fadeInDown;">
-                    @foreach ($product as $item)
-                    <div class="pd-tyre row">
-                        <div class="img_product col-12 col-md-3">
-                            <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
-                        </div>
-                        <div class="text_product col-12 col-md-9">
-                            <div class="about-us">
-                                <div class="col-left">
-                                    <div class="product-text">
-                                        <img src="{{asset('local/storage/app/brand/'.$item->getBrand->brand_img.'')}}" height="100px">
-                                        <p class="series-mobel">{{$item->product_name}}</p>
-                                        <p class="size-mobel">
-                                            @foreach ($item->getProductSizes as $item_size)
-                                            {{$item_size->size_width}}/{{$item_size->size_overall}}ZR{{$item_size->size_diameter}}
-                                            @endforeach AGILIS <span class="label"><img src="{{asset('smb-frontend/images/label-special.png')}}"></span></p>
-                                        <div class="sub-item">
-                                            @foreach ($item->getProductSizes as $key => $item_price)
-                                            <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">{{$item_price->size_price}}</span> บาท</p>
-                                            <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                    <div class="row">
+                        @foreach ($product as $item)
+                        <div class="col-sm-6">
+                            <div class="pd-tyre row">
+                                <div class="img_product col-12 col-md-3">
+                                    <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
+                                </div>
+                                <div class="text_product col-12 col-md-9">
+                                    <div class="about-us">
+                                        <div class="col-left">
+                                            <div class="product-text">
+                                                <img src="{{asset('local/storage/app/brand/'.$item->getBrand->brand_img.'')}}" height="100px">
+                                                <p class="series-mobel">{{$item->product_name}}</p>
+                                                <p class="size-mobel">
+                                                    @foreach ($item->getProductSizes as $item_size)
+                                                    {{$item_size->size_width}}/{{$item_size->size_overall}}ZR{{$item_size->size_diameter}}
+                                                    @endforeach AGILIS <span class="label"><img src="{{asset('smb-frontend/images/label-special.png')}}"></span></p>
+                                                <div class="sub-item">
+                                                    @foreach ($item->getProductSizes as $key => $item_price)
+                                                    <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">{{$item_price->size_price}}</span> บาท</p>
+                                                    <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                                                    @endforeach
+        
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-right">
+                                            @foreach ($item->getProductImgSets as $key => $item)
+                                            <a class="popup-detail" data-toggle="modal" data-target="#exampleModal"><img src="{{asset('local/storage/app/productgallery/'.$item->product_imgset_name.'')}}" class="image_product"></a>
+                                            <!-- Modal -->
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                                <div class="modal-dialog" role="document">
+                                                    <div class="modal-content">
+                                                        <img src="{{asset('local/storage/app/productgallery/'.$item->product_imgset_name.'')}}" class="image_product">
+                                                    </div>
+                                                </div>
+                                            </div>
                                             @endforeach
-
+                                        </div>
+                                        <div class="sub-bottom">
+                                            <ul>
+                                                <li>
+                                                    <div class="form-check">
+                                                        <input type="checkbox" class="form-check-input" id="ChooseCompare">
+                                                        <label class="form-check-label" for="ChooseCompare">เลือกเพื่อเปรียบเทียบ เลือกได้สูงสุด 3 สินค้า</label>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <div class="product-quantity" id="pq">
+                                                        <div class="product-quantity-subtract">
+                                                            <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                                <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                            </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                                        </div>
+                                                        <div>
+                                                            <input type="text" id="product-quantity-input" placeholder="0" value="0">
+                                                        </div>
+                                                        <div class="product-quantity-add">
+                                                            <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                                <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                            </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                                        </div>
+                                                    </div>
+                                                </li>
+                                                <li>
+                                                    <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
+                                                </li>
+                                            </ul>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-right">
-                                    @foreach ($item->getProductImgSets as $key => $item)
-                                    <a class="popup-detail" data-toggle="modal" data-target="#exampleModal"><img src="{{asset('local/storage/app/productgallery/'.$item->product_imgset_name.'')}}" class="image_product"></a>
-                                    <!-- Modal -->
-                                    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-                                        <div class="modal-dialog" role="document">
-                                            <div class="modal-content">
-                                                <img src="{{asset('local/storage/app/productgallery/'.$item->product_imgset_name.'')}}" class="image_product">
-                                            </div>
-                                        </div>
-                                    </div>
-                                    @endforeach
-                                </div>
-                                <div class="sub-bottom">
-                                    <ul>
-                                        <li>
-                                            <div class="form-check">
-                                                <input type="checkbox" class="form-check-input" id="ChooseCompare">
-                                                <label class="form-check-label" for="ChooseCompare">เลือกเพื่อเปรียบเทียบ เลือกได้สูงสุด 3 สินค้า</label>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <div class="product-quantity" id="pq">
-                                                <div class="product-quantity-subtract">
-                                                    <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
-                                                    </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
-                                                </div>
-                                                <div>
-                                                    <input type="text" id="product-quantity-input" placeholder="0" value="0">
-                                                </div>
-                                                <div class="product-quantity-add">
-                                                    <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                                        <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
-                                                    </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
-                                                </div>
-                                            </div>
-                                        </li>
-                                        <li>
-                                            <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
-                                        </li>
-                                    </ul>
                                 </div>
                             </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
+                    
+                    
+                    
 
                     <!--
                     <div class="row">
