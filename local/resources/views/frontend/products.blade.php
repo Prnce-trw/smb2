@@ -6,8 +6,8 @@
     @include('frontend.header')
     <style>
          .product-name .about-us a{
-        color: #252525;
-    }
+            color: #252525;
+        }
 
         #body-row {
             margin-left: 0;

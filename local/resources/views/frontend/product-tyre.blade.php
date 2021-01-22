@@ -1168,7 +1168,7 @@
                                             <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                                 <div class="modal-dialog" role="document">
                                                     <div class="modal-content">
-                                                        <img src="{{asset('local/storage/app/productgallery/'.$item->product_imgset_name.'')}}" class="image_product">
+                                                        <img src="{{asset('local/storage/app/productgallery/'.$$item->getProductImgSets->product_imgset_name.'')}}" class="image_product">
                                                     </div>
                                                 </div>
                                             </div>
