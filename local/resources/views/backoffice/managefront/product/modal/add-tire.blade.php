@@ -65,7 +65,7 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" name="price[]" class="form-control" placeholder="Price...">
+                                    <input type="number" name="price" class="form-control" placeholder="Price...">
                                 </div>
                                 {{-- <div class="col-6 input-group">
                                     <span>

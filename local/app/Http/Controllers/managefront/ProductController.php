@@ -182,9 +182,9 @@ class ProductController extends Controller
                 $product->product_brand_id	     = $request['brand_id'];
                 $product->product_price	         = $request['price'];
 
-                if ($request['price_discount'] != null) {
-                    $product->product_price_discount = $request['price_discount'];
-                }
+                // if ($request['price_discount'] != null) {
+                //     $product->product_price_discount = $request['price_discount'];
+                // }
 
                 if ($request->file('imgcov') !== null)
                 {
