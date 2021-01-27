@@ -206,7 +206,9 @@ class FrontendController extends Controller
         $color = color::where('color_product_id', $id)->get();
         $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $color[0]->color_id)->get();
         $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
-        $gallery = award::where('award_product', $id)->first();
+        $gallery = award_img::where('award_img_f', $id)->whereHas('getAwardProductBrand', function($query) use($id) {
+            $query->where('award_product_id', '=', $id);
+        })->limit(5)->get();
 
         $data = array(
             'size' => $size,
@@ -215,7 +217,6 @@ class FrontendController extends Controller
             'color' => $color,
             'gallery' => $gallery,
         );
-        // dd($data);
         return view('frontend.products-detail', $data);
     }
 

@@ -101,7 +101,7 @@ class AwardController extends Controller
         $award = award::findOrFail($id);
         $carbrand = carbrand::all();
         $brand = brand::all();
-        // dd($award->getAwardImgs[0]->getAwardProductBrand[0]->AwardgetBrand);
+        // dd($award->getAwardImgs[0]->getAwardProductBrand[0]->AwardgetProducts);
         $data = array(
             'award' => $award, 
             'carbrand' => $carbrand, 
@@ -121,49 +121,49 @@ class AwardController extends Controller
     {
         DB::beginTransaction();
         try {
-            // dd( $request->all(), $id);
+            // dd( $request->all(), $id, isset($request->edit_img));
             $award = award::findOrFail($id);
             $award->award_cardbrand     = $request['carbrand'];
             $award->award_carmodel      = $request['carmodel'];
             $award->save();
 
-            if ($request->file('img') != null) { 
-                $imgset = $request->file('img');
-                foreach($imgset as $key => $item) {
+            if ($request['cover'] != null) {
+                $getAllImg = award_img::where('award_img_f', $id)->update(["award_cover" =>  0,]);
+                $getImgData = award_img::where('award_img_id', $request['cover'])->update(["award_cover" => 1,]);
+            }
+
+            if (isset($request->edit_img))
+            {
+                $imgads = $request->edit_img;
+                foreach($imgads as $key => $item) {
                     $dataimgset = award_img::where('award_img_id', $key)->first();
                     unlink('local/storage/app/award/'.$dataimgset->award_img_name);
                     $name = rand().time().'.'.$item->getClientOriginalExtension();
-                    $item->storeAs('award', $name);
-                    $dataimgset->award_img_name         = $name;
+                    $item->storeAs('award',  $name);
+                    $dataimgset->award_img_name = $name;
                     $dataimgset->save();
-
-                    
                 }
             }
 
-            if ($request['productbrand'] != null || $request['product'] != null) {
+            if ($request['edit_productbrand'] != null || $request['edit_productselect'] != null) {
+                foreach ($request['edit_productbrand'] as $key => $value) {
+                    $dataimgprobrand = award_probrand::where('award_img_id', $key)->first();
+                    $dataimgprobrand->award_brand_id         = $request['edit_productbrand'][$key];
+                    $dataimgprobrand->award_product_id       = $request['edit_productselect'][$key];
+                    $dataimgprobrand->save();
+                }
+            }
+
+            if ($request['productbrand'] != null || $request['productselect'] != null) {
                 foreach ($request['productbrand'] as $number => $value) {
+                    // dd($number);
                     $award_probrand = new award_probrand();
-                    $award_probrand->award_img_id           = $number;
+                    $award_probrand->award_img_id           = $request['img_id'][$number];
                     $award_probrand->award_brand_id         = $request['productbrand'][$number];
-                    $award_probrand->award_product_id       = $request['product'][$number];
+                    $award_probrand->award_product_id       = $request['productselect'][$number];
                     $award_probrand->save();
                 }
             }
-
-            
-
-            // if ($request['cover'] != null) {
-            //     foreach ($request['cover'] as $keyCover => $valueCover) {
-            //         $award_cover = award_img::where('award_img_id', $keyCover)->wheere('award_img_f', $id)->first();
-            //         if ($award_cover != null) {
-            //             $award_cover->award_cover = $valueCover;
-            //         } else {
-            //             # code...
-            //         }
-            //         $award_cover->save();
-            //     }
-            // }
 
             DB::commit();
             return back()->with('success','Award Has Been Updated!');

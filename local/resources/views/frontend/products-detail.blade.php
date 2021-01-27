@@ -2234,7 +2234,7 @@
                             <div id="news" class="carousel" data-ride="carousel">
                                 @if ($gallery != null)
                                     <div class="owl-news owl-carousel owl-theme my-3" data-aos="fade-up">
-                                        @foreach ($gallery->getAwardImgs as $item)
+                                        @foreach ($gallery as $item)
                                         <div class="item">
                                             <div class="card newsIndex">
                                                 <img class="card-img-top box-homenew-2" src="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" alt="Card image">

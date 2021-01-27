@@ -418,7 +418,7 @@
                                     <div class="item">
                                         <div class="card newsIndex">
                                             <div class="img_product">
-                                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
+                                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product" style="height: 270px !important;">
                                             </div>
                                             <div class="text_product">
                                                 <div class="product-name">
@@ -599,7 +599,7 @@
         <div class="row row-margin">
             @foreach ($promotion as $item)
             <div class="col-lg-6 text-center pb-10">
-                <a href="{{url('promotion_detail', $item->promotion_id)}}"><img src="{{asset('local/storage/app/promotion/'.$item->promotion_img.'')}}" class="img-fluid"></a>
+                <a href="{{url('promotion_detail', $item->promotion_id)}}"><img src="{{asset('local/storage/app/promotion/'.$item->promotion_img.'')}}" class="img-fluid" style="height: 500px !important;"></a>
             </div>
             @endforeach
         </div>
@@ -621,7 +621,7 @@
                     <div class="card-deck">
                         @foreach ($news as $item)
                         <div class="card mb-4">
-                            <img class="card-img-top img-fluid" src="{{asset('local/storage/app/news/'.$item->news_imgcover.'')}}" alt="Card image cap">
+                            <img class="card-img-top img-fluid" src="{{asset('local/storage/app/news/'.$item->news_imgcover.'')}}" alt="Card image cap" style="height: 270px !important;">
                             <div class="card-body" id="cardT">
                                 <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"> {{date('d/m/Y', strtotime($item->news_date))}}</small></p>
                                 <h4 class="card-title">{{$item->news_title}}</h4>
@@ -636,12 +636,12 @@
             @if ($blog != null)
             <div class="col-12 col-md-3">
                 <div class="row">
-                    <div class="col-7">
+                    <div class="col-6">
                         <div class="about-us">
                             <h4 id="black-news" style="padding-bottom: 15px;color: #ff8200">บล็อค</h4>
                         </div>
                     </div>
-                    <div class="col-5" style="margin-bottom: 40px;">
+                    <div class="col-6" style="margin-bottom: 40px;">
                         <div class="about-us pull-right">
                             <a href="{{url('blog')}}" style="color: #898989">ดูบล็อคทั้งหมด</a>
                         </div>
@@ -649,7 +649,7 @@
                     <div class="col-12">
                         <div class="card-deck">
                             <div class="card">
-                                <img class="card-img-top img-fluid" src="{{asset('local/storage/app/blog/'.$blog->blog_banner.'')}}" alt="Card image cap">
+                                <img class="card-img-top img-fluid" src="{{asset('local/storage/app/blog/'.$blog->blog_banner.'')}}" alt="Card image cap" style="height: 270px !important;">
                                 <div class="card-body" id="cardT">
                                     <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"> {{date('d/m/Y', strtotime($blog->blog_date))}}</small></p>
                                     <h4 class="card-title">{{$blog->blog_title}}</h4>

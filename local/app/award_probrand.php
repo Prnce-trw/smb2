@@ -16,11 +16,11 @@ class award_probrand extends Model
 
     public function AwardgetBrand()
     {
-        return $this->hasOne(brand::class, 'brand_id', 'award_probrand_id');
+        return $this->hasOne(brand::class, 'brand_id', 'award_brand_id');
     }
 
     public function AwardgetProducts()
     {
-        return $this->hasMany(product::class, 'product_id', 'award_product_id');
+        return $this->hasOne(product::class, 'product_id', 'award_product_id');
     }
 }

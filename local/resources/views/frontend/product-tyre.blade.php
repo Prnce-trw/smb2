@@ -5,11 +5,30 @@
     <title>Products - SMB</title>
     @include('frontend.header')
     <style>
-    .pd-tyre {
-    width: 85%;
-    margin: 0 auto;
-    padding: 0 20px;
-    border-bottom: 2px solid #ebebeb;
+        /*แก้ไขใหม่*/
+.pd-tyre {
+    width: 48%;
+    float: left;
+    padding: 0 10px;
+    margin: 0 10px;
+    border: 2px solid #ebebeb;
+}
+
+.pd-tyre .img_product {
+    position: relative;
+        margin: 20px 0;
+}
+
+.pd-tyre .img_product .label {
+    width: 40px;
+    height: auto;
+    display: inline-block;
+    position: absolute;
+}
+
+.pd-tyre .img_product .label img {
+    width: 100%;
+    height: auto;
 }
 
 .pd-tyre .about-us {
@@ -18,17 +37,17 @@
 }
 
 .pd-tyre .about-us .col-left {
-    width: 60%;
+    width: 80%;
     float: left;
 }
 
 .pd-tyre .about-us .col-right {
-    width: 40%;
+    width: 20%;
     float: right;
 }
 
 .pd-tyre .about-us .col-right .popup-detail {
-    width: 130px;
+    /*    width: 130px;*/
     display: block;
     border: 1px solid #000;
 }
@@ -48,17 +67,20 @@
 }
 
 .pd-tyre .text_product {
-    padding: 30px 0;
+    padding: 30px 0 0;
 }
 
 .pd-tyre .product-text {
     width: 100%;
     display: inline-block;
+}
 
+.pd-tyre .product-text img {
+    width: 145px;
 }
 
 .pd-tyre .series-mobel {
-    font-size: 22px;
+    font-size: 18px;
     margin-bottom: 10px;
     color: #252525;
     padding-bottom: 0;
@@ -68,22 +90,11 @@
 }
 
 .pd-tyre .size-mobel {
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 0;
     color: #252525;
     display: block;
-}
-
-.pd-tyre .size-mobel .label {
-    width: 50px;
-    height: auto;
-    display: inline-block;
-}
-
-.pd-tyre .size-mobel .label img {
-    width: 100%;
-    height: auto;
 }
 
 .pd-tyre .sub-item {
@@ -92,7 +103,7 @@
 }
 
 .pd-tyre .sub-item p {
-    font-size: 18px;
+    font-size: 14px;
     margin-bottom: 5px;
     line-height: 24px;
     font-weight: 300;
@@ -100,15 +111,16 @@
 }
 
 .pd-tyre .sub-item p.price-special {
+    display: inline-block;
     line-height: 14px;
-    margin: 15px 0;
+    margin: 0;
 }
 
 .pd-tyre .sub-item p .bg-pm {
     color: #fff;
     background: #FF0000;
     padding: 2px 20px;
-
+    margin: 0 10px;
 }
 
 .pd-tyre .sub-item p .color_pm {
@@ -116,7 +128,7 @@
 }
 
 .pd-tyre .sub-item p .font-large {
-    font-size: 30px;
+    font-size: 26px;
     font-weight: 500;
 }
 
@@ -1135,7 +1147,7 @@
                     </div>
                 </div>
                 <div class="wow fadeInDown" style="visibility: visible; animation-name: fadeInDown;">
-                    <div class="row">
+                    {{-- <div class="row">
                         @foreach ($product as $item)
                         <div class="col-sm-6">
                             <div class="pd-tyre row">
@@ -1209,6 +1221,73 @@
                             </div>
                         </div>
                         @endforeach
+                    </div> --}}
+                    <div class="row">
+                        @foreach ($product as $item)
+                        <div class="pd-tyre row">
+                            <div class="img_product col-12 col-md-4">
+                               <span class="label"><img src="{{asset('smb-frontend/images/label-special.png')}}"></span>
+                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
+                            </div>
+                            <div class="text_product col-12 col-md-8">
+                                <div class="about-us">
+                                    <div class="col-left">
+                                        <div class="product-text">
+                                            <img src="{{asset('local/storage/app/brand/'.$item->getBrand->brand_img.'')}}">
+                                            <p class="series-mobel">{{$item->product_name}}</p>
+                                            <p class="size-mobel">
+                                                @foreach ($item->getProductSizes as $item_size)
+                                                    {{$item_size->size_width}}/{{$item_size->size_overall}}ZR{{$item_size->size_diameter}}
+                                                @endforeach 
+                                            </p>
+                                            <div class="sub-item">
+                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">3,000</span> บาท</p>
+                                                <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-right">
+                                        @foreach ($item->getProductImgSets as $itemmodal) 
+                                        <a class="popup-detail" data-toggle="modal" data-target="#exampleModal"><img src="{{asset('local/storage/app/productgallery/'.$itemmodal->product_imgset_name.'')}}" class="image_product"></a>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <img src="{{asset('local/storage/app/productgallery/'.$itemmodal->product_imgset_name.'')}}" class="image_product">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        @endforeach
+                                    </div>
+                                    <div class="sub-bottom">
+                                        <ul>
+                                            <li>
+                                                <div class="product-quantity" id="pq">
+                                                    <div class="product-quantity-subtract">
+                                                        <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" id="product-quantity-input" placeholder="0" value="0">
+                                                    </div>
+                                                    <div class="product-quantity-add">
+                                                        <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endforeach
+                        
                     </div>
                     
                     

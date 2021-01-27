@@ -30,7 +30,7 @@
     </div>
 </div>
 
-<form action="{{url('backoffice/award',$award->award_id)}}" id="award_update" method="POST" >
+<form action="{{url('backoffice/award',$award->award_id)}}" id="award_update" method="POST" enctype="multipart/form-data">
     @csrf
     {{method_field('PUT')}}
 <div class="card">
@@ -87,9 +87,9 @@
                     </div>
                 </div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-10">
-                        <input type="file" name="img[{{$item->award_img_id}}]" class="imgcov" id="img" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
+                    <label class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
+                        <input type="file" name="edit_img[{{$item->award_img_id}}]" class="imgcov" id="img" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
                         <button type="button" class="btn btn-warning" onclick="document.getElementById('img').click();">Edit Image</button>
                     </div>
                 </div>
@@ -99,7 +99,7 @@
                         <div class="form-radio">
                             <div class="radio radio-inline">
                                 <label>
-                                    <input type="radio" name="cover[{{$item->award_img_id}}]" value="1">
+                                    <input type="radio" name="cover" value="{{$item->award_img_id}}" {{ $item->award_cover == 1 ? "checked" : "" }}>
                                     <i class="helper"></i> Cover
                                 </label>
                             </div>
@@ -126,13 +126,18 @@
                         </select>
                     </div>
                 </div> --}}
+                @if (!$item->getAwardProductBrand->isEmpty())
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Product Brand</label>
                     <div class="col-sm-5">
-                        <select name="productbrand[]" class="form-control filterproduct_brand productbrand">
+                        <select name="edit_productbrand[{{$item->award_img_id}}]" class="form-control filterproduct_brand productbrand">
+                            @if ($item->getAwardProductBrand->isEmpty())
+                            <option selected disabled>Select Product Brand...</option>
+                            @else
                             @foreach ($item->getAwardProductBrand as $number => $itembrand)
                             <option value="{{$itembrand->AwardgetBrand->brand_id}}">{{$itembrand->AwardgetBrand->brand_name}}</option>
                             @endforeach
+                            @endif
                             <optgroup label="Select New Brand">
                                 @foreach ($brand as $number => $itembrand)
                                 <option data-number="{{$key+1}}" {{ $item->award_productbrand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>
@@ -141,21 +146,18 @@
                         </select>
                     </div>
                     <div class="col-sm-5">
-                        <select name="product[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
-                            @if ($item->award_product_id != null)
+                        <select name="edit_productselect[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
                             @foreach ($item->getAwardProductBrand as $number => $itemproduct)
-                            <option value="{{$itemproduct->AwardgetProducts->product_id}}">{{$itemproduct->AwardgetProducts->product_name}}</option>
+                                <option value="{{$itemproduct->AwardgetProducts->product_id}}">{{$itemproduct->AwardgetProducts->product_name}}</option>
                             @endforeach
-                            @else
-                            <option disabled>Select Product...</option>
-                            @endif
                         </select>
                     </div>
                 </div>
+                @endif
                 <div id="resultappend_{{$item->award_img_id}}"></div>
                 <div class="form-group row">
-                    <label class="col-sm-2 col-form-label"></label>
-                    <div class="col-sm-5">
+                    <label class="col-sm-4 col-form-label"></label>
+                    <div class="col-sm-8">
                         <button type="button" class="btn btn-primary" onclick="addproductbrand({{$item->award_img_id}})">Add Product Brand</button>
                     </div>
                 </div>
@@ -166,12 +168,13 @@
     <div class="card-footer">
         <div class="row">
             <div class="col-sm-12 text-right">
-                <button type="submit" class="btn btn-primary" form="award_update">ยืนยัน</button>
+                <button type="submit" class="btn btn-primary" form="award_update">Submit</button>
             </div>
         </div>
     </div>
 </div>
 </form>
+
 @endsection
 @section('js')
 @include('flash-message')
@@ -225,6 +228,7 @@
                 '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">Product Brand</label>'+
                         '<div class="col-sm-5">'+
+                            '<input type="hidden" name="img_id[]" value="'+id+'">'+
                             '<select name="productbrand[]" class="form-control filterproduct_brand productbrand">'+
                                 '<option selected disabled>Select Product Brand...</option>'+
                                 '@foreach ($brand as $number => $itembrand)'+
@@ -233,7 +237,7 @@
                             '</select>'+
                         '</div>'+
                         '<div class="col-sm-5">'+
-                            '<select name="product[]" id="product_'+id+'_'+no+'" class="form-control">'+
+                            '<select name="productselect[]" id="product_'+id+'_'+no+'" class="form-control">'+
                                 '@if ($item->award_product_id != null)'+
                                 '<option selected></option>'+
                                 '@else'+

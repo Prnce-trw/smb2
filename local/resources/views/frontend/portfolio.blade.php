@@ -91,7 +91,11 @@
             <div class="row mb-5">
                 @foreach ($award as $item)
                 <div class="col-lg-6 col-xs-12 mb25">
+                    @if ($item->getAwardImgs[0]->award_cover == 1)
+                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$getCover->award_img_name.'')}}" alt="Card image car">
+                    @else
                     <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$item->getAwardImgs[0]->award_img_name.'')}}" alt="Card image car">
+                    @endif
                     <div class="text-block">
                         <div id="smb-portfolio" class="col-12 col-md-12 col-lg-12">
                             <div class="color-orange-1">
@@ -130,7 +134,11 @@
                                                                                         </div> --}}
                                                                                         <div class="card-body">
                                                                                             <div class="text_about_his" id="aboutUS" style="padding-left: 15px;">
-                                                                                                <h6 id="orange" class="card-title_inside_modal">{{ $itemImg->getProductBrand != null ? $itemImg->getProductBrand->brand_name : "" }}  </h6>
+                                                                                                <h6 id="orange" class="card-title_inside_modal">
+                                                                                                    @foreach ($itemImg->getAwardProductBrand as $itemproduct)
+                                                                                                    {{$itemproduct->AwardgetProducts->product_name}}, 
+                                                                                                    @endforeach
+                                                                                                </h6>
                                                                                                 {{-- <h6 class="card-title_inside_modal">Lorem Ipsum is not simply random text.</h6>
                                                                                                 <h6 class="card-title_inside_modal">The standard chunk of Lorem Ipsum used since the 1500s</h6> --}}
                                                                                             </div>
