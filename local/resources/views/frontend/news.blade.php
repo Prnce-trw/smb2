@@ -31,17 +31,19 @@
             </div>
             <div class="card-deck">
                 <div id="resultsearch_news">
-                    @foreach ($news as $item)
-                    <div class="card mb-4">
-                        <img class="card-img-top img-fluid" src="{{asset('local/storage/app/news/'.$item->news_imgcover.'')}}" alt="Card image cap">
-                        <div class="card-body" id="cardT">
-                            <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"></i> {{date('d/m/Y', strtotime($item->news_date))}}</small></p>
-                            <h4 class="card-title">{{$item->news_title}}</h4>
-                            <p class="card-text">{{ Str::limit($item->news_content, 150) }}</p>
-                            <a id="text-white" href="{{url('news_detail', $item->news_id)}}" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">Readmore</a>
+                    <div class="row">
+                        @foreach ($news as $item)
+                        <div class="card col-12 col-md-6">
+                            <img class="card-img-top img-fluid" src="{{asset('local/storage/app/news/'.$item->news_imgcover.'')}}" alt="Card image cap" style="height: 270px;">
+                            <div class="card-body" id="cardT">
+                                <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"></i> {{date('d/m/Y', strtotime($item->news_date))}}</small></p>
+                                <h4 class="card-title">{{$item->news_title}}</h4>
+                                <p class="card-text">{{ Str::limit($item->news_content, 150) }}</p>
+                                <a id="text-white" href="{{url('news_detail', $item->news_id)}}" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">Readmore</a>
+                            </div>
                         </div>
+                        @endforeach
                     </div>
-                    @endforeach
                 </div>
             </div>
         </div>
