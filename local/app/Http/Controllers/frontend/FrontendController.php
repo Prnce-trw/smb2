@@ -237,76 +237,43 @@ class FrontendController extends Controller
         $product = product::where('product_type_id', 1)->paginate(12);
         $producttype = producttype::all();
         $brand = brand::all();
-        $size = size::groupBy('size_diameter')->get();
+        $size_diameter = size::groupBy('size_diameter')->get();
+        // dd($size);
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
 
-        $datasize = size::where('size_diameter', $wheelSize)->get();
-        $dataPcd = DB::table('tb_pcd')->where('pcd_name', $wheelsPcd)->pluck('pcd_fkey');
-        $datapcd_array = $dataPcd->toArray();
+        $datasize = size::where('size_diameter', $wheelSize)->where('size_pcd', $wheelsPcd)->groupBy('size_fkey')->get();
+        // $dataPcd = DB::table('tb_pcd')->where('pcd_name', $wheelsPcd)->pluck('pcd_fkey');
+        // $datapcd_array = $dataPcd->toArray();
         $html_product = '';
         foreach ($datasize as $key => $value_size) {
-            $filterproduct_size = product::where('product_id', $value_size->size_fkey)->WhereIn('product_id', $datapcd_array)->where('product_type_id', 1)->get();
-            // dd($filterproduct_size);
+            $filterproduct_size = product::where('product_id', $value_size->size_fkey)
+            // ->WhereIn('product_id', $datapcd_array)
+            ->where('product_type_id', 1)->get();
+            
             foreach ($filterproduct_size as $key => $value) {
                 $pathimg = asset("local/storage/app/product/".$value->product_imgcov."");
                 $path = url("product_detail/".$value->product_id."");
-                $dataSize = '';
-                $dataPcd = '';
-                $dataEt = '';
-                foreach ($value->getProductSizes as $key => $valueSize) {
-                    $dataSize .= $valueSize->size_diameter.'x'.$valueSize->size_width.', ';
-                }
-                foreach ($value->getProductPcds as $key => $valuePcd) {
-                    $dataPcd .= $valuePcd->pcd_name.', ';
-                }
-                foreach ($value->getProductEts as $key => $valueEt) {
-                    $dataEt .= $valueEt->et_name.', ';
-                }
-                if ($value->product_price_discount != null) {
-                    $html_product .= '
-                    <div class="col-xl-3 col-md-6">
-                        <div class="img_product">
-                            <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                        </div>
-                        <div class="text_product">
-                            <div class="product-name">
-                                <div class="about-us">
-                                    <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                </div>
-                                Size: '.$dataSize.'
-                                <br>PCD: '.$dataPcd.'
-                                <br>ET: '.$dataEt.'
-                                <div class="product-price"><del>฿'.$value->product_price_discount.'‎‎‏‏‎ ‎</del><a id="orange19"> ฿'.$value->product_price.'</a></div>
-                                <div class="product-price2 text-center">
-                                    <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="'.$path.'"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
-                                </div>
+                $html_product .=
+                '<div class="col-xl-3 col-md-6">
+                    <div class="img_product text-center">
+                        <img src="'.$pathimg.'" alt="Avatar" class="image_product" width="270" height="270">
+                    </div>
+                    <div class="text_product">
+                        <div class="product-name">
+                            <div class="about-us">
+                                <a href="'.$path.'">
+                                    <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;">'.$value->product_name.'</h6>
+                                    <p>'.$value->product_series.'</p>
+                                </a>
+                            </div>
+                            <div class="product-price">
+                                
                             </div>
                         </div>
-                    </div>';
-                } else {
-                    $html_product .= '
-                    <div class="col-xl-3 col-md-6">
-                        <div class="img_product">
-                            <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                        </div>
-                        <div class="text_product">
-                            <div class="product-name">
-                                <div class="about-us">
-                                    <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                </div>
-                                Size: '.$dataSize.'
-                                <br>PCD: '.$dataPcd.'
-                                <br>ET: '.$dataEt.'
-                                <div class="product-price"><a id="orange19"> ฿'.$value->product_price.'</a></div>
-                                <div class="product-price2 text-center">
-                                    <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="'.$path.'"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>';
-                }
+                    </div>
+                </div>';
             }
         }
         $data = array(
@@ -316,7 +283,7 @@ class FrontendController extends Controller
             'brand' => $brand,
             'carbrand' => $carbrand,
             'pcd' => $pcd,
-            'size' => $size,
+            'size_diameter' => $size_diameter,
             'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
@@ -430,81 +397,113 @@ class FrontendController extends Controller
         $producttype = producttype::all();
         $carbrand = carbrand::all();
         $brand = brand::all();
-        $size = size::groupBy('size_diameter')->get();
+        $size_diameter = size::groupBy('size_diameter')->get();
         $sizetire = size::groupBy('size_width')->get();
         $html_product = '';
         if ($request->wheelsCarmodel != null) {
             $carModel = carmodel::where('car_model_id', $request->wheelsCarmodel)->where('car_model_brand_id', $request->wheelsCarbrand)->first();
-            $getPcd = pcd::where('pcd_name', '=', $carModel->car_model_pcd)->get();
-            foreach ($getPcd as $key => $value_pcd) {
-                $product = product::where('product_id', $value_pcd->pcd_fkey)->where('product_type_id', 1)->get();
-                foreach ($product as $key => $value) {
+            $getSize = size::where('size_pcd', '=', $carModel->car_model_pcd)->groupBy('size_fkey')->get();
+            // dd($request->all(), $getSize, $carModel);
+            foreach ($getSize as $key => $value_size) {
+                $filterproduct_size = product::where('product_id', $value_size->size_fkey)
+                ->where('product_type_id', 1)->get();
+                foreach ($filterproduct_size as $key => $value) {
                     $pathimg = asset("local/storage/app/product/".$value->product_imgcov."");
                     $path = url("product_detail/".$value->product_id."");
-                    $dataSize = '';
-                    $dataPcd = '';
-                    $dataEt = '';
-                    foreach ($value->getProductSizes as $key => $valueSize) {
-                        $dataSize .= $valueSize->size_diameter.'x'.$valueSize->size_width.', ';
-                    }
-                    foreach ($value->getProductPcds as $key => $valuePcd) {
-                        $dataPcd .= $valuePcd->pcd_name;
-                    }
-                    foreach ($value->getProductEts as $key => $valueEt) {
-                        $dataEt .= $valueEt->et_name;
-                    }
-                    if ($value->product_price_discount != null) {
-                        $html_product .= '
-                        <div class="col-xl-3 col-md-6">
-                            <div class="img_product">
-                                <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                            </div>
-                            <div class="text_product">
-                                <div class="product-name">
-                                    <div class="about-us">
-                                        <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                    </div>
-                                    Size: '.$dataSize.'
-                                    <br>PCD: '.$dataPcd.'
-                                    <br>ET: '.$dataEt.'
-                                    <div class="product-price"><del>฿'.$value->product_price.' ‎</del><a id="orange19"> ฿'.$value->product_price_discount.'</a></div>
-                                    <div class="product-price2 text-center">
-                                        <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="products-detail.php"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
-                                    </div>
+                    $html_product .=
+                    '<div class="col-xl-3 col-md-6">
+                        <div class="img_product text-center">
+                            <img src="'.$pathimg.'" alt="Avatar" class="image_product" width="270" height="270">
+                        </div>
+                        <div class="text_product">
+                            <div class="product-name">
+                                <div class="about-us">
+                                    <a href="'.$path.'">
+                                        <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;">'.$value->product_name.'</h6>
+                                        <p>'.$value->product_series.'</p>
+                                    </a>
+                                </div>
+                                <div class="product-price">
+
                                 </div>
                             </div>
-                        </div>';
-                    } else {
-                        $html_product .= '
-                        <div class="col-xl-3 col-md-6">
-                            <div class="img_product">
-                                <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                            </div>
-                            <div class="text_product">
-                                <div class="product-name">
-                                    <div class="about-us">
-                                        <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                    </div>
-                                    Size: '.$dataSize.'
-                                    <br>PCD: '.$dataPcd.'
-                                    <br>ET: '.$dataEt.'
-                                    <div class="product-price"><a id="orange19"> ฿'.$value->product_price.'</a></div>
-                                    <div class="product-price2 text-center">
-                                        <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="'.$path.'"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>';
-                    }
+                        </div>
+                    </div>';
                 }
             }
         }
+        // if ($request->wheelsCarmodel != null) {
+        //     $carModel = carmodel::where('car_model_id', $request->wheelsCarmodel)->where('car_model_brand_id', $request->wheelsCarbrand)->first();
+        //     $getPcd = pcd::where('pcd_name', '=', $carModel->car_model_pcd)->get();
+        //     foreach ($getPcd as $key => $value_pcd) {
+        //         $product = product::where('product_id', $value_pcd->pcd_fkey)->where('product_type_id', 1)->get();
+        //         foreach ($product as $key => $value) {
+        //             $pathimg = asset("local/storage/app/product/".$value->product_imgcov."");
+        //             $path = url("product_detail/".$value->product_id."");
+        //             $dataSize = '';
+        //             $dataPcd = '';
+        //             $dataEt = '';
+        //             foreach ($value->getProductSizes as $key => $valueSize) {
+        //                 $dataSize .= $valueSize->size_diameter.'x'.$valueSize->size_width.', ';
+        //             }
+        //             foreach ($value->getProductPcds as $key => $valuePcd) {
+        //                 $dataPcd .= $valuePcd->pcd_name;
+        //             }
+        //             foreach ($value->getProductEts as $key => $valueEt) {
+        //                 $dataEt .= $valueEt->et_name;
+        //             }
+        //             if ($value->product_price_discount != null) {
+        //                 $html_product .= '
+        //                 <div class="col-xl-3 col-md-6">
+        //                     <div class="img_product">
+        //                         <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
+        //                     </div>
+        //                     <div class="text_product">
+        //                         <div class="product-name">
+        //                             <div class="about-us">
+        //                                 <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
+        //                             </div>
+        //                             Size: '.$dataSize.'
+        //                             <br>PCD: '.$dataPcd.'
+        //                             <br>ET: '.$dataEt.'
+        //                             <div class="product-price"><del>฿'.$value->product_price.' ‎</del><a id="orange19"> ฿'.$value->product_price_discount.'</a></div>
+        //                             <div class="product-price2 text-center">
+        //                                 <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="products-detail.php"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 </div>';
+        //             } else {
+        //                 $html_product .= '
+        //                 <div class="col-xl-3 col-md-6">
+        //                     <div class="img_product">
+        //                         <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
+        //                     </div>
+        //                     <div class="text_product">
+        //                         <div class="product-name">
+        //                             <div class="about-us">
+        //                                 <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
+        //                             </div>
+        //                             Size: '.$dataSize.'
+        //                             <br>PCD: '.$dataPcd.'
+        //                             <br>ET: '.$dataEt.'
+        //                             <div class="product-price"><a id="orange19"> ฿'.$value->product_price.'</a></div>
+        //                             <div class="product-price2 text-center">
+        //                                 <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="'.$path.'"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
+        //                             </div>
+        //                         </div>
+        //                     </div>
+        //                 </div>';
+        //             }
+        //         }
+        //     }
+        // }
         $data = array(
             'html_product' => $html_product,
             'brand' => $brand,
             'producttype' => $producttype,
             'carbrand' => $carbrand,
-            'size' => $size,
+            'size_diameter' => $size_diameter,
             'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search', $data);
@@ -727,7 +726,7 @@ class FrontendController extends Controller
         $sizeOverall = $request->TireOverall;
 
         if ($sizeWidth != null) {
-            $size = size::where('size_width', '=', $sizeWidth)->groupBy('size_width')->get();
+            $size = size::where('size_width', $sizeWidth)->where('size_color_id', '=', null)->groupBy('size_width')->get();
             $html_Overall = '<option>เลือก</option>';
             foreach ($size as $key => $value_overall) {
                 $html_Overall .= '<option value="'.$value_overall->size_overall.'">'.$value_overall->size_overall.'</option>';
@@ -758,7 +757,7 @@ class FrontendController extends Controller
         $product = product::where('product_type_id', 2)->paginate(12);
         $producttype = producttype::all();
         $brand = brand::all();
-        $size = size::groupBy('size_diameter')->get();
+        $size_diameter = size::groupBy('size_diameter')->get();
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
@@ -768,63 +767,117 @@ class FrontendController extends Controller
         foreach ($datasize as $key => $value_sizeProductId) {
             $getProduct = product::where('product_id', $value_sizeProductId->size_fkey)->where('product_type_id', 2)->get();
             foreach ($getProduct as $key => $value) {
+                $pathimgband = asset('local/storage/app/brand/'.$value->getBrand->brand_img."");
                 $pathimg = asset("local/storage/app/product/".$value->product_imgcov."");
                 $path = url("product_detail/".$value->product_id."");
-                $dataSize = '';
-                $dataPcd = '';
-                $dataEt = '';
-                foreach ($value->getProductSizes as $key => $valueSize) {
-                    $dataSize .= $valueSize->size_diameter.'x'.$valueSize->size_width.', ';
-                }
-                foreach ($value->getProductPcds as $key => $valuePcd) {
-                    $dataPcd .= $valuePcd->pcd_name;
-                }
-                foreach ($value->getProductEts as $key => $valueEt) {
-                    $dataEt .= $valueEt->et_name;
-                }
-                if ($value->product_price_discount != null) {
+                if ($value_sizeProductId->product_price_discount == 1) {
                     $html_product .= '
-                    <div class="col-xl-3 col-md-6">
-                        <div class="img_product">
-                            <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                        </div>
-                        <div class="text_product">
-                            <div class="product-name">
+                    <div class="pd-tyre row">
+                            <div class="img_product col-12 col-md-4">
+                               <span class="label"><img src=""></span>
+                                <img src="'.$pathimg.'" alt="Avatar" class="image_product" width="144" height="155">
+                            </div>
+                            <div class="text_product col-12 col-md-8">
                                 <div class="about-us">
-                                    <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                </div>
-                                Size: '.$dataSize.'
-                                <br>PCD: '.$dataPcd.'
-                                <br>ET: '.$dataEt.'
-                                <div class="product-price"><del>฿'.$value->product_price.' ‎</del><a id="orange19"> ฿'.$value->product_price_discount.'</a></div>
-                                <div class="product-price2 text-center">
-                                    <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="products-detail.php"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
+                                    <div class="col-left">
+                                        <div class="product-text">
+                                            <img src="'.$pathimgband.'">
+                                            <p class="series-mobel">'.$value_sizeProductId->product_name.'</p>
+                                            <p class="size-mobel">
+                                                
+                                            </p>
+                                            <div class="sub-item">
+                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">3,000</span> บาท</p>
+                                                <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-right">
+                                        
+                                    </div>
+                                    <div class="sub-bottom">
+                                        <ul>
+                                            <li>
+                                                <div class="product-quantity" id="pq">
+                                                    <div class="product-quantity-subtract">
+                                                        <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" id="product-quantity-input" placeholder="0" value="0">
+                                                    </div>
+                                                    <div class="product-quantity-add">
+                                                        <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>';
+                    ';
                 } else {
                     $html_product .= '
-                    <div class="col-xl-3 col-md-6">
-                        <div class="img_product">
-                            <img src="'.$pathimg.'" width="100%" alt="Avatar" class="image_product">
-                        </div>
-                        <div class="text_product">
-                            <div class="product-name">
+                    <div class="pd-tyre row">
+                            <div class="img_product col-12 col-md-4">
+                               <span class="label"><img src=""></span>
+                                <img src="'.$pathimg.'" alt="Avatar" class="image_product">
+                            </div>
+                            <div class="text_product col-12 col-md-8">
                                 <div class="about-us">
-                                    <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">'.$value->product_name.'</h6>
-                                </div>
-                                Size: '.$dataSize.'
-                                <br>PCD: '.$dataPcd.'
-                                <br>ET: '.$dataEt.'
-                                <div class="product-price"><a id="orange19"> ฿'.$value->product_price.'</a></div>
-                                <div class="product-price2 text-center">
-                                    <button type="button" class="btn btn-black-unavialable rounded-0 text-center" style="color: #fff;"><a href="'.$path.'"><img src="smb-frontend/images/cart_small.png"> ADD PRODUCTS</a></button>
+                                    <div class="col-left">
+                                        <div class="product-text">
+                                            <img src="'.$pathimgband.'">
+                                            <p class="series-mobel">'.$value_sizeProductId->product_name.'</p>
+                                            <p class="size-mobel">
+                                                
+                                            </p>
+                                            <div class="sub-item">
+                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">3,000</span> บาท</p>
+                                                <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-right">
+                                        
+                                    </div>
+                                    <div class="sub-bottom">
+                                        <ul>
+                                            <li>
+                                                <div class="product-quantity" id="pq">
+                                                    <div class="product-quantity-subtract">
+                                                        <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                    <div>
+                                                        <input type="text" id="product-quantity-input" placeholder="0" value="0">
+                                                    </div>
+                                                    <div class="product-quantity-add">
+                                                        <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                            <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                                        </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                                    </div>
+                                                </div>
+                                            </li>
+                                            <li>
+                                                <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
+                                            </li>
+                                        </ul>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>';
+                    ';
                 }
+                
             }
         }
 
@@ -835,10 +888,10 @@ class FrontendController extends Controller
             'brand' => $brand,
             'carbrand' => $carbrand,
             'pcd' => $pcd,
-            'size' => $size,
+            'size_diameter' => $size_diameter,
             'sizetire' => $sizetire,
         );
-        return view('frontend.productresult-search', $data);
+        return view('frontend.productresult-search-tyre', $data);
     }
 
     public function search_tireByCar(Request $request)
@@ -1079,6 +1132,25 @@ class FrontendController extends Controller
             $htmlPromotionPrice = '';
         }
         $data = array('htmlPrice' => $htmlPrice, 'htmlPromotionPrice' => $htmlPromotionPrice);
+        return $data;
+    }
+
+    public function filterdatawheels(Request $request)
+    {
+        if ($request->WheelSize != 'เลือก') {
+            $size = size::where('size_diameter', $request->WheelSize)->orderBy('size_diameter', 'ASC')->groupBy('size_pcd')->get();
+            $html_pcd = '<option selected disabled>เลือก</option>';
+            foreach ($size as $key => $value) {
+                if ($value->size_pcd == null) {
+                    $html_pcd .= '';
+                } else {
+                    $html_pcd .= '<option value="'.$value->size_pcd.'">'.$value->size_pcd.'</option>';
+                }
+            }
+            $data = array(
+                'html_pcd' => $html_pcd,
+            );
+        }
         return $data;
     }
 }

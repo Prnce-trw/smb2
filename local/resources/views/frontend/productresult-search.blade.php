@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>สินค้า - SMB Wheel</title>
+    <title>Products - SMB</title>
     @include('frontend.header')
     <style>
-        .sticky-offset {
-            top: 56px;
+         .product-name .about-us a{
+            color: #252525;
         }
 
         #body-row {
@@ -244,19 +244,25 @@
             transition: all 0.5s;
         }
 
-        /*Edit on 25/6/20*/
+
         #gg {
             padding-top: 5px !important;
             padding-right: 0px;
-            padding-left: 10px !important;
+            padding-left: 25px !important;
             padding-bottom: 0px;
             padding-right: 25px !important;
         }
-        /*End*/
+
 
         .img-flex {
             display: flex;
             padding-left: 25px;
+        }
+
+        .img_product {
+            height: 270px;
+            width: 270px;
+            overflow: hidden;
         }
 
         @media screen and (min-width:320px) and (max-width:374px) {
@@ -274,9 +280,9 @@
 
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 15px !important;
+                padding-left: 18px !important;
                 padding-bottom: 0px;
-                padding-right: 15px !important;
+                padding-right: 25px !important;
 
             }
         }
@@ -295,7 +301,7 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 20px !important;
+                padding-left: 37px !important;
                 padding-bottom: 0px;
                 padding-right: 35px !important;
             }
@@ -335,7 +341,7 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 30px !important;
+                padding-left: 45px !important;
                 padding-bottom: 0px;
                 padding-right: 50px !important;
             }
@@ -377,8 +383,7 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                font-size: 15px;
-                padding-left: 11px !important;
+                padding-left: 6px !important;
                 padding-bottom: 0px;
                 padding-right: 10px !important;
             }
@@ -387,6 +392,7 @@
                 width: 80%;
             }
         }
+
     </style>
 </head>
 
@@ -437,8 +443,8 @@
                                 </label>
                                 <select id="selectSize" name="wheelsSize" class="form-control-5 filterSize">
                                     <option selected disabled>เลือก</option>
-                                    @foreach ($sizetire as $item)
-                                        <option value="{{$item->size_diameter}}">{{$item->size_diameter}}</option>
+                                    @foreach ($size_diameter as $item)
+                                    <option value="{{$item->size_diameter}}">{{$item->size_diameter}}</option>
                                     @endforeach
                                 </select>
                                 </div>
@@ -457,7 +463,6 @@
                                     <div class="buttom_register"><button type="submit" id="a" form="searchbysize_wheels">ค้นหา</div>
                                 </div>
                             </div>
-                            
                             <hr>
                             <b>ค้นหาตามรุ่นรถยนต์</b>
                             <form action="{{url('search_wheelByCar')}}" method="POST" enctype="multipart/form-data">
@@ -755,12 +760,6 @@
                         <div class="row">
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
-                                    {{-- <ul class="pagination justify-content-center">
-                                        <li class="page-item page-np"><a href="#" style="color: black;">Prev</a></li>
-                                        <li class="page-item page-np active"><a href="#" style="color: #ff8200;">1</a></li>
-                                        <li class="page-item page-np"><a href="#" style="color: black;">2</a></li>
-                                        <li class="page-item page-np"><a href="#" style="color: #ff8200;">Next</a></li>
-                                    </ul> --}}
                                 </nav>
                             </div>
                         </div>
@@ -825,7 +824,7 @@
             $('.pricemin').val(values[0]);
             $('.pricemax').val(values[1]);
         });
-    
+
         var carbrandId1;
         var carmodelId1;
         var sizeDiameter;
@@ -847,10 +846,10 @@
             tire_filterdatacar(carbrandId, carmodelId);
         });
 
+        // ล้อ
         $(document).on('change', '.filterSize', function () { 
-            sizeDiameter = $('#selectSize').val();
-            sizePcd = $('#selectPcd').val();
-            filterdatesize(sizeDiameter, sizePcd);
+            var WheelSize = $('#selectSize').val();
+            filterWheelSize(WheelSize);
         });
 
         // ยาง
@@ -903,13 +902,12 @@
             });
         }
 
-        function filterdatesize(sizeDiameter, sizePcd) { 
+        function filterWheelSize(WheelSize) {
             $.ajax({
-                url: '{{url('filterdatesize')}}',
+                url: '{{url('filterdatawheels')}}',
                 type: 'GET',
                 data: {
-                    sizeDiameter: sizeDiameter,
-                    sizePcd: sizePcd,
+                    WheelSize: WheelSize,
                 },
             }).done(function (data) {
                 $('#selectPcd').html(data.html_pcd)
@@ -932,9 +930,7 @@
         }
     </script>
     <!--End Sidebar Script-->
-
     @include('frontend.footer')
-
 </body>
 
 </html>

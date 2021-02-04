@@ -96,7 +96,6 @@
         modalproduct(brand_id, product_type_id)
     })
     function modalproduct(brand_id, product_type_id) {
-        // alert(brand_id + '\n' + product_type_id);
         $.ajax({
             url: '{{url('backoffice/addwheel')}}',
             type: 'GET',

@@ -787,6 +787,12 @@
             filterdatacar(carbrandId, carmodelId);
         });
 
+        // ล้อ
+        $(document).on('change', '.filterSize', function () { 
+            var WheelSize = $('#selectSize').val();
+            filterWheelSize(WheelSize);
+        });
+
         // ยาง
         $(document).on('change', '.filterSizeTire', function () { 
             var TireWidth = $('#TireWidth').val();
@@ -799,6 +805,18 @@
             var tire_carmodelId = $('#tire_carmodel').val();
             tire_filterdatacar(tire_carbrandId, tire_carmodelId);
         });
+
+        function filterWheelSize(WheelSize) {
+            $.ajax({
+                url: '{{url('filterdatawheels')}}',
+                type: 'GET',
+                data: {
+                    WheelSize: WheelSize,
+                },
+            }).done(function (data) {
+                $('#selectPcd').html(data.html_pcd)
+            });
+        }
 
         function filterdatacar(carbrandId, carmodelId) {
             $.ajax({

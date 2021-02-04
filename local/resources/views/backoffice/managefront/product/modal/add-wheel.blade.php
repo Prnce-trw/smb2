@@ -60,6 +60,15 @@
                             <textarea name="warranty" id="" cols="30" rows="10" class="form-control"></textarea>
                         </div>
                     </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Price Rate</label>
+                        <div class="col-sm-5">
+                            <input type="number" name="price_min" class="form-control" placeholder="Min...">
+                        </div>
+                        <div class="col-sm-5">
+                            <input type="number" name="price_max" class="form-control" placeholder="Max...">
+                        </div>
+                    </div>
                 </div>
             </form>
             <div class="modal-footer">

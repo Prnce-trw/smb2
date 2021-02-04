@@ -18,7 +18,7 @@
                             <span class="mytooltip tooltip-effect-5">
                                 <span class="tooltip-item">Image Cover</span>
                                 <span class="tooltip-content clearfix">
-                                    <span class="tooltip-text">Choose One.</span>
+                                    <span class="tooltip-text">Choose One. (Height: 270px, width: 270px)</span>
                                 </span>
                             </span>
                         </label>

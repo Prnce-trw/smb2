@@ -2,11 +2,11 @@
 <html lang="en">
 
 <head>
-    <title>Products - SMB</title>
+    <title>สินค้า - SMB Wheel</title>
     @include('frontend.header')
     <style>
-         .product-name .about-us a{
-            color: #252525;
+        .sticky-offset {
+            top: 56px;
         }
 
         #body-row {
@@ -244,25 +244,19 @@
             transition: all 0.5s;
         }
 
-
+        /*Edit on 25/6/20*/
         #gg {
             padding-top: 5px !important;
             padding-right: 0px;
-            padding-left: 25px !important;
+            padding-left: 10px !important;
             padding-bottom: 0px;
             padding-right: 25px !important;
         }
-
+        /*End*/
 
         .img-flex {
             display: flex;
             padding-left: 25px;
-        }
-
-        .img_product {
-            height: 270px;
-            width: 270px;
-            overflow: hidden;
         }
 
         @media screen and (min-width:320px) and (max-width:374px) {
@@ -280,9 +274,9 @@
 
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 18px !important;
+                padding-left: 15px !important;
                 padding-bottom: 0px;
-                padding-right: 25px !important;
+                padding-right: 15px !important;
 
             }
         }
@@ -301,7 +295,7 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 37px !important;
+                padding-left: 20px !important;
                 padding-bottom: 0px;
                 padding-right: 35px !important;
             }
@@ -341,7 +335,7 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 45px !important;
+                padding-left: 30px !important;
                 padding-bottom: 0px;
                 padding-right: 50px !important;
             }
@@ -383,7 +377,8 @@
             #gg {
                 padding-top: 5px !important;
                 padding-right: 0px;
-                padding-left: 6px !important;
+                font-size: 15px;
+                padding-left: 11px !important;
                 padding-bottom: 0px;
                 padding-right: 10px !important;
             }
@@ -392,7 +387,6 @@
                 width: 80%;
             }
         }
-
     </style>
 </head>
 
@@ -463,6 +457,7 @@
                                     <div class="buttom_register"><button type="submit" id="a" form="searchbysize_wheels">ค้นหา</div>
                                 </div>
                             </div>
+                            
                             <hr>
                             <b>ค้นหาตามรุ่นรถยนต์</b>
                             <form action="{{url('search_wheelByCar')}}" method="POST" enctype="multipart/form-data">
@@ -754,39 +749,18 @@
                 </div>
                 <div class="wow fadeInDown" style="visibility: visible; animation-name: fadeInDown;">
                     <div class="row">
-                        @foreach ($product as $item)
-                        <div class="col-xl-3 col-md-6">
-                            <div class="img_product text-center">
-                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product" width="270" height="270">
-                            </div>
-                            <div class="text_product">
-                                <div class="product-name">
-                                    <div class="about-us">
-                                        <a href="{{url('product_detail', $item->product_id)}}">
-                                            <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;">{{$item->product_name}}</h6>
-                                            <p>{{$item->product_series}}</p>
-                                        </a>
-                                    </div>
-                                    <div class="product-price">
-                                        @if (!empty($item->getColors->getSizes))
-                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
-                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
-                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
-                                            @else
-                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
-                                            @endif
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
+                        {!! $html_product !!}
                     </div>
                     <div class="row">
                         <div class="row">
                             <div class="col-12">
                                 <nav aria-label="Page navigation example">
-                                    {{$product->links('frontend.paginate')}}
+                                    {{-- <ul class="pagination justify-content-center">
+                                        <li class="page-item page-np"><a href="#" style="color: black;">Prev</a></li>
+                                        <li class="page-item page-np active"><a href="#" style="color: #ff8200;">1</a></li>
+                                        <li class="page-item page-np"><a href="#" style="color: black;">2</a></li>
+                                        <li class="page-item page-np"><a href="#" style="color: #ff8200;">Next</a></li>
+                                    </ul> --}}
                                 </nav>
                             </div>
                         </div>
@@ -851,7 +825,7 @@
             $('.pricemin').val(values[0]);
             $('.pricemax').val(values[1]);
         });
-
+    
         var carbrandId1;
         var carmodelId1;
         var sizeDiameter;
@@ -958,7 +932,9 @@
         }
     </script>
     <!--End Sidebar Script-->
+
     @include('frontend.footer')
+
 </body>
 
 </html>

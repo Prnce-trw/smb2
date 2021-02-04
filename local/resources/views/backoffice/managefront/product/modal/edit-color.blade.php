@@ -24,7 +24,7 @@
                             <span class="mytooltip tooltip-effect-5">
                                 <span class="tooltip-item">Color Images</span>
                                 <span class="tooltip-content clearfix">
-                                    <span class="tooltip-text">Multiple.</span>
+                                    <span class="tooltip-text">Multiple. (Height: 270px, width: 270px)</span>
                                 </span>
                             </span>
                             <input type="file" name="img[]" id="addimg" class="form-control" style="display: none;" multiple>

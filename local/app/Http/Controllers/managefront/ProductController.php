@@ -58,17 +58,13 @@ class ProductController extends Controller
             if ($request['product_type'] == 1) { // Wheels
                 $product = new product();
                 $product->product_name	         = $request['name'];
-
-                // $product = new product();
-                // $product->product_name	         = $request['product_name'];
-                // $product->product_material	     = $request['product_material'];
-                // $product->product_series	     = $request['product_series'];
                 $product->product_detail	     = $request['detail'];
                 $product->product_property	     = $request['property'];
                 $product->product_warranty	     = $request['warranty'];
                 $product->product_type_id	     = $request['product_type'];
                 $product->product_brand_id	     = $request['brand_id'];
-                // $product->product_price	         = $request['price'];
+                $product->product_price_min	     = $request['price_min'];
+                $product->product_price_max	     = $request['price_max'];
 
                 // if ($request['price_discount'] != null) {
                 //     $product->product_price_discount = $request['price_discount'];
