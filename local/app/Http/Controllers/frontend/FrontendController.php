@@ -316,7 +316,7 @@ class FrontendController extends Controller
         $producttype = producttype::all();
         $carbrand = carbrand::all();
         $brand = brand::all();
-        $size = size::groupBy('size_diameter')->get();
+        $size_diameter = size::groupBy('size_diameter')->get();
         $sizetire = size::groupBy('size_width')->get();
         $product = product::where('product_name', 'LIKE', "%{$request->product_name}%")->paginate(12);
         $html_product = '';
@@ -385,7 +385,7 @@ class FrontendController extends Controller
             'brand' => $brand,
             'producttype' => $producttype,
             'carbrand' => $carbrand,
-            'size' => $size,
+            'size_diameter' => $size_diameter,
             'sizetire' => $sizetire,
             'product' => $product,
         );
