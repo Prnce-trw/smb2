@@ -1241,8 +1241,8 @@
                                                 @endforeach 
                                             </p>
                                             <div class="sub-item">
-                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">3,000</span> บาท</p>
-                                                <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p>
+                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">{{$item->product_price}}</span> บาท</p>
+                                                {{-- <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p> --}}
                                             </div>
                                         </div>
                                     </div>
