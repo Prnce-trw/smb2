@@ -407,7 +407,7 @@
         <div class="container py-5">
             <div class="row mb-5">
                 <div class="col-lg-12">
-                    <div><img class="w-100" src="{{asset('smb-frontend/images/index-slide/1.jpg')}}"></div>
+                    <div><img class="w-100" src="{{asset('smb-frontend/images/product_new.jpg')}}"></div>
                 </div>
                 <div class="col-lg-12">
                     <div class="card-body">
@@ -468,7 +468,7 @@
             </div>
             <div class="row mb-5">
                 <div class="col-lg-12">
-                    <div><img class="w-100" src="{{asset('smb-frontend/images/index-slide/1.jpg')}}" height="300px"></div>
+                    <div><img class="w-100" src="{{asset('smb-frontend/images/product_bestsaler.jpg')}}"></div>
                 </div>
                 <div class="col-lg-12">
                     <div class="card-body">
@@ -530,7 +530,7 @@
             </div>
             <div class="row mb-5">
                 <div class="col-lg-12">
-                    <div><img class="w-100" src="{{asset('smb-frontend/images/index-slide/1.jpg')}}"></div>
+                    <div><img class="w-100" src="{{asset('smb-frontend/images/product_sale.jpg')}}"></div>
                 </div>
                 <div class="col-lg-12">
                     <div class="card-body">
