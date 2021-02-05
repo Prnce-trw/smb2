@@ -42,7 +42,7 @@
                         <th style="text-align: center;">No.</th>
                         <th style="text-align: center;">Image</th>
                         <th style="text-align: center;">Product Name</th>
-                        <th style="text-align: center;">Brand</th>
+                        {{-- <th style="text-align: center;">Brand</th> --}}
                         <th style="text-align: center;">Show</th>
                         <th style="text-align: center;">Management</th>
                     </tr>
@@ -53,7 +53,7 @@
                         <td class="text-center text-middle">{{$key+1}}</td>
                         <td class="text-center"><img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" width="100px" alt="prod img" class="img-fluid"></td>
                         <td class="text-middle">{{$item->product_name}}</td>
-                        <td class="text-middle">{{$item->getBrand->brand_name}}</td>
+                        {{-- <td class="text-middle">{{$item->getBrand->brand_name}}</td> --}}
                         <td class="text-center text-middle">{!!$item->getProductShow()!!}</td>
                         <td class="text-center text-middle"><button type="button" class="btn btn-outline-warning" onclick="modaledit({{$item->product_id}})"><i class="fa fa-edit"></i>Edit</button></td>
                     </tr>
@@ -84,7 +84,7 @@
                         <th style="text-align: center;">No.</th>
                         <th style="text-align: center;">Image</th>
                         <th style="text-align: center;">Product Name</th>
-                        <th style="text-align: center;">Brand</th>
+                        {{-- <th style="text-align: center;">Brand</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -93,7 +93,7 @@
                         <td class="text-center text-middle">{{$key+1}}</td>
                         <td class="text-center"><img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" width="100px" alt="prod img" class="img-fluid"></td>
                         <td class="text-middle">{{$item->product_name}}</td>
-                        <td class="text-center text-middle">{{$item->getBrand->brand_name}}</td>
+                        {{-- <td class="text-center text-middle">{{$item->getBrand->brand_name}}</td> --}}
                     </tr>
                     @endforeach
                 </tbody>
@@ -121,7 +121,7 @@
                         <th style="text-align: center;">No.</th>
                         <th style="text-align: center;">Image</th>
                         <th style="text-align: center;">Product Name</th>
-                        <th style="text-align: center;">Brand</th>
+                        {{-- <th style="text-align: center;">Brand</th> --}}
                     </tr>
                 </thead>
                 <tbody>
@@ -131,7 +131,7 @@
                             <td class="text-center text-middle">{{$key+1}}</td>
                             <td class="text-center"><img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" width="100px" alt="prod img" class="img-fluid"></td>
                             <td class="text-middle">{{$item->product_name}}</td>
-                            <td class="text-center text-middle">{{$item->getBrand->brand_name}}</td>
+                            {{-- <td class="text-center text-middle">{{$item->getBrand->brand_name}}</td> --}}
                         </tr>
                         @endforeach
                     </tbody>

@@ -1233,7 +1233,9 @@
                                 <div class="about-us">
                                     <div class="col-left">
                                         <div class="product-text">
+                                            @if (!empty($item->getBrand->brand_img))
                                             <img src="{{asset('local/storage/app/brand/'.$item->getBrand->brand_img.'')}}">
+                                            @endif
                                             <p class="series-mobel">{{$item->product_name}}</p>
                                             <p class="size-mobel">
                                                 @foreach ($item->getProductSizes as $item_size)
