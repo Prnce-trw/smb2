@@ -63,8 +63,8 @@ class ProductController extends Controller
                 $product->product_warranty	     = $request['warranty'];
                 $product->product_type_id	     = $request['product_type'];
                 $product->product_brand_id	     = $request['brand_id'];
-                $product->product_price_min	     = $request['price_min'];
-                $product->product_price_max	     = $request['price_max'];
+                // $product->product_price_min	     = $request['price_min'];
+                // $product->product_price_max	     = $request['price_max'];
 
                 // if ($request['price_discount'] != null) {
                 //     $product->product_price_discount = $request['price_discount'];
@@ -196,17 +196,6 @@ class ProductController extends Controller
 
                 $product->save();
 
-                if ($request['diameter'] != null || $request['width'] != null || $request['overall'] != null) {
-                    foreach ($request['diameter'] as $key => $value) {
-                        $size = new size();
-                        $size->size_diameter      = $value;
-                        $size->size_width         = $request['width'][$key];
-                        $size->size_overall       = $request['overall'][$key];
-                        $size->size_fkey          = $product->product_id;
-                        $size->save();
-                    }
-                }
-
                 if ($request->file('img') !== null) {
                     $img = $request->file('img');
                     foreach($img as $key => $item) {
@@ -218,6 +207,19 @@ class ProductController extends Controller
                         $productimgset->save();
                     }
                 }
+
+                if ($request['diameter'] != null || $request['width'] != null || $request['overall'] != null) {
+                    foreach ($request['diameter'] as $key => $value) {
+                        $size = new size();
+                        $size->size_diameter      = $value;
+                        $size->size_width         = $request['width'][$key];
+                        $size->size_overall       = $request['overall'][$key];
+                        $size->size_fkey          = $product->product_id;
+                        $size->save();
+                    }
+                }
+
+                
             }
 
             DB::commit();
@@ -309,12 +311,21 @@ class ProductController extends Controller
                 // dd($request->all(), $id);
                 $product = product::where('product_id', $id)->first();
                 $product->product_name	         = $request['name'];
-                // $product->product_material	     = $request['product_material'];
-                // $product->product_series	     = $request['product_series'];
                 $product->product_detail	     = $request['detail'];
                 $product->product_property	     = $request['property'];
                 $product->product_warranty	     = $request['warranty'];
-                // $product->product_price	         = $request['price'];
+                if ($request->file('productimgcov') !== null)
+                {
+                    $imgcov = $request->file('productimgcov');
+                    foreach($imgcov as $key => $item) {
+                        if ($product->product_imgcov != null) {
+                            unlink('local/storage/app/product/'.$product->product_imgcov);
+                        }
+                        $name = rand().time().'.'.$item->getClientOriginalExtension();
+                        $item->storeAs('product',  $name);
+                        $product->product_imgcov = $name;
+                    }
+                }
                 $product->save();
                 if ($request['color_name'] != null) {
                     $color = new color();
@@ -977,5 +988,23 @@ class ProductController extends Controller
             DB::rollback();
             return back()->with('error','Something Wrong. Product Can Not Updated!');
         }
+    }
+
+    public function delete_color($id)
+    {
+        $size = size::where('size_color_id', $id)->get();
+        $productimgset = productimgset::where('product_imgset_product_id', $id)->get();
+        if ($size != null) {
+            foreach ($size as $key => $value) {
+                $value->delete();
+            }
+        }
+        if ($productimgset != null) {
+            foreach ($productimgset as $key => $value) {
+                $value = Storage::delete('productgallery/'.$value->product_imgset_name);
+            }
+        }
+        $color = color::destroy($id);
+        return back()->withSuccess('Color Has Been Deleted!');
     }
 }

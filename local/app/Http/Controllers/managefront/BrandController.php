@@ -108,7 +108,9 @@ class BrandController extends Controller
             $imgbrand = $request->file('img');
             foreach($imgbrand as $key => $item) {
                 $dataimg = brand::where('brand_id',$id)->first();
-                unlink('local/storage/app/brand/'.$dataimg->brand_img);
+                if ($dataimg->brand_img != null) {
+                    unlink('local/storage/app/brand/'.$dataimg->brand_img);
+                }
                 $name = rand().time().'.'.$item->getClientOriginalExtension();
                 $item->storeAs('brand',  $name);
                 $dataimg->brand_img = $name;

@@ -39,7 +39,7 @@
                                 <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"></i> {{date('d/m/Y', strtotime($item->news_date))}}</small></p>
                                 <h4 class="card-title">{{$item->news_title}}</h4>
                                 <p class="card-text">{{ Str::limit($item->news_content, 150) }}</p>
-                                <a id="text-white" href="{{url('news_detail', $item->news_id)}}" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">Readmore</a>
+                                <a id="text-white" href="{{url('news_detail', $item->news_id)}}" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านเพิ่มเติม</a>
                             </div>
                         </div>
                         @endforeach

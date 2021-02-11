@@ -5,8 +5,8 @@
     <title>Products - SMB</title>
     @include('frontend.header')
     <style>
-        .sticky-offset {
-            top: 56px;
+         .product-name .about-us a{
+            color: #252525;
         }
 
         #body-row {
@@ -261,6 +261,7 @@
 
         .img_product {
             height: 270px;
+            width: 270px;
             overflow: hidden;
         }
 
@@ -406,12 +407,12 @@
         <div class="row" id="">
             <div class="col-lg-3 col-md-12 pd50" style="padding-left: 50px">
                 <div class="about-us">
-                    <form action="{{url('searchbyname')}}" method="POST" id="searchbyname_product">
+                    <form action="{{url('searchbyname')}}" method="POST" id="selecBy_name" onsubmit="return selecBy_name()">
                         @csrf
                         <div class="input-group border">
                             <input type="text" aria-describedby="button-addon3" name="product_name" class="form-control-4 bg-none pt-3" placeholder="ค้นหาตามชื่อสินค้า">
                             <div class="input-group-append border-0">
-                                <button id="button-addon3" type="submit" class="btn btn-link text-secondary" form="searchbyname_product"><i class="fa fa-search"></i></button>
+                                <button id="button-addon3" type="submit" class="btn btn-link text-secondary" form="selecBy_name" id="inputIDcard"><i class="fa fa-search"></i></button>
                             </div>  
                         </div>
                     </form>
@@ -756,7 +757,7 @@
                         @foreach ($product as $item)
                         <div class="col-xl-3 col-md-6">
                             <div class="img_product text-center">
-                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product">
+                                <img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" alt="Avatar" class="image_product" width="270" height="270">
                             </div>
                             <div class="text_product">
                                 <div class="product-name">
@@ -767,16 +768,16 @@
                                         </a>
                                     </div>
                                     <div class="product-price">
-                                        @if ($item->product_price_discount != null)
-                                        <del>{{$item->product_price}}</del>
-                                        @endif
-                                        <a id="orange19"> 
-                                            @if ($item->product_price_discount == null)
-                                            {{$item->product_price}}
+                                        <a id="orange19">฿ {{number_format($item->getColors->getSizes->min('size_price'),0)}}</a> - 
+                                        <a id="orange19">฿ {{number_format($item->getColors->getSizes->max('size_price'),0)}}</a>
+                                        {{-- @if (!empty($item->getColors->getSizes))
+                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
                                             @else
-                                            {{$item->product_price_discount}}
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
                                             @endif
-                                        </a>
+                                        @endif --}}
                                     </div>
                                 </div>
                             </div>
@@ -806,6 +807,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
     <!-- jQuery before Propeller.js -->
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
 
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
@@ -956,6 +959,20 @@
                     dropdownContent.style.display = "block";
                 }
             });
+        }
+
+        function selecBy_name () {
+            var productname = document.forms["selecBy_name"]["product_name"].value;
+            if (productname == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
         }
     </script>
     <!--End Sidebar Script-->

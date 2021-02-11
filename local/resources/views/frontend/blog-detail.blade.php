@@ -124,7 +124,7 @@
             </a>
         </div>
         <div class="container mb-5">
-            <a id="text-white" href="{{url('blog')}}"><button type="button" class="btn btn-black rounded-0" style="padding: 10px 1.75rem!important;color: #fff!important">กลับหน้าข่าวสาร</button></a>
+            <a id="text-white" href="{{url('blog')}}"><button type="button" class="btn btn-black rounded-0" style="padding: 10px 1.75rem!important;color: #fff!important">ย้อนกลับ</button></a>
         </div>
         <div class="container-fluid mt-5" style="background-color: #ebebeb">
             <div class="container pt-5 pb-5 pr-0 pl-0">

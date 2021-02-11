@@ -58,7 +58,7 @@
         }
         var reader = new FileReader();
         $(reader).on("load", function() {
-            $preview.append($("<img>", {src:this.result, height:150}));
+            $preview.append($("<img>", {src:this.result, height:150, width:300}));
         });
         reader.readAsDataURL(file);
         }

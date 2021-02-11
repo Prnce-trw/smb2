@@ -87,9 +87,10 @@ Route::middleware(['auth'])->group(function () {
     Route::get('addporducttocart', 'backoffice\CartController@addporducttocart');
     Route::get('editcolor/{id}', 'managefront\ProductController@editcolor');
     Route::post('updatecolor/{id}', 'managefront\ProductController@updatecolor');
+    Route::post('delete_color/{id}', 'managefront\ProductController@delete_color');
 
     Route::post('branch_sort', 'managefront\ContactController@branch_sort');
-
+    
     Route::get('filtercar_award', 'managefront\AwardController@filtercar_award');
     Route::get('filterproduct_brand', 'managefront\AwardController@filterproduct_brand');
 });

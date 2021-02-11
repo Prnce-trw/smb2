@@ -107,10 +107,10 @@
                                         <h6 class="card-title_a"></h6>
                                         <div class="row">
                                             <div class="col-lg-6 col-xs-12">
-                                                <a id="orange16" style="font-size: 16px;">{{$item->getAwardImgs->count()}} Photo</a>
+                                                <a id="orange16" style="font-size: 16px;">{{$item->getAwardImgs->count()}} รูป</a>
                                             </div>
                                             <div class="col-lg-6 col-xs-12">
-                                                <a href="#" id="orange" data-toggle="modal" data-target="#B-1" alt="B-1" class="pull-right" style="font-size: 14px;">VIEW MORE</a>
+                                                <a href="#" id="orange" data-toggle="modal" data-target="#B-1" alt="B-1" class="pull-right" style="font-size: 14px;">ดูเพิ่มเติม</a>
                                                 <!-- The modal -->
                                                 <div class="modal fade" id="B-1" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">

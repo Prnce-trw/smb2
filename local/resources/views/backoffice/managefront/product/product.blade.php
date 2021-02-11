@@ -34,9 +34,9 @@
 
 <div class="card">
     <div class="card-header">
-        <h4 class="sub-title">Product Series Setting</h4>
+        <h4 class="sub-title">Product Model Setting</h4>
         <button type="button" class="btn btn-success addproduct" data-toggle="modal" data-target="#modal-addproduct"
-            value="{{$brand->brand_id}}" data-product_type_id="{{$brand->getProductType->p_type_id}}"><i class="fa fa-plus"></i> Add Product Series</button>
+            value="{{$brand->brand_id}}" data-product_type_id="{{$brand->getProductType->p_type_id}}"><i class="fa fa-plus"></i> Add Product Model</button>
     </div>
     <div class="card-block">
         <div class="col-sm-12">

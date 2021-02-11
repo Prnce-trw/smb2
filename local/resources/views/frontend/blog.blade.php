@@ -93,7 +93,7 @@
 <body>
     @include('frontend.navbar')
     <div class="banner-page head-about-us">
-        <div class="centered headPage-text">หน้าหลัก / BLOG</div>
+        <div class="centered headPage-text">หน้าหลัก / บล็อค</div>
     </div>
     <div class="container mt-5 my-5">
         <div class="card-deck mb-5">
@@ -104,7 +104,7 @@
                     <div class="card-body" id="cardT">
                         <h4 class="card-title">{{$item->blog_title}}</h4>
                         <p class="card-text">{{ Str::limit($item->blog_content, 100) }}</p>
-                        <a href="{{url('blog_detail', $item->blog_id)}}" id="text-black"><button type="button" class="btn btn-black btn-block rounded-0" style="color: #fff;">อ่านเพิ่ม</button></a>
+                        <a href="{{url('blog_detail', $item->blog_id)}}" id="text-black"><button type="button" class="btn btn-black btn-block rounded-0" style="color: #fff;">อ่านเพิ่มเติม</button></a>
                     </div>
                 </div>
             </div>

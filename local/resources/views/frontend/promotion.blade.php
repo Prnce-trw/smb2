@@ -43,7 +43,7 @@
                                             <img class="img-fluid" src="{{asset('smb-frontend/images/line.png')}}" alt=""><a href="{{$contact->contact_line}}" style="color: #000"> @smbwheel (อย่าลืมใส่ @)</a>
                                         </div>
                                     </div>
-                                    <a id="text-white" href="{{url('promotion_detail',$firstPromotion->promotion_id)}}"class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านต่อ</a>
+                                    <a id="text-white" href="{{url('promotion_detail',$firstPromotion->promotion_id)}}"class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านเพิ่มเติม</a>
                                 </div>
                             </div>
                         </div>
@@ -62,7 +62,7 @@
                         <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted-black" style="font-weight: 400;font-size: 14px;"><i class="far fa-calendar-alt"></i> {{date('d/m/Y', strtotime($item->promotion_date_start))}}</small></p>
                         <h4 class="card-title">{{$item->promotion_header}}</h4>
                         <p class="card-text">{!! Str::limit($item->promotion_content, 150) !!}</p>
-                        <a id="text-white" href="{{url('promotion_detail', $item->promotion_id)}}"><button type="button" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านต่อ</button></a>
+                        <a id="text-white" href="{{url('promotion_detail', $item->promotion_id)}}"><button type="button" class="btn btn-black rounded-0" style="padding: 5px 0.75rem;">อ่านเพิ่มเติม</button></a>
                     </div>
                 </div>
                 @endforeach

@@ -652,7 +652,7 @@
     <script src="{{asset('files/bower_components/datatables.net-responsive/js/dataTables.responsive.min.js')}}"></script>
     <script src="{{asset('files/bower_components/datatables.net-responsive-bs4/js/responsive.bootstrap4.min.js')}}"></script>
     <!-- sweet alert js -->
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <!-- Select 2 js -->
     <script  src="{{asset('files/bower_components/select2/js/select2.full.min.js')}}"></script>
     <!-- Multiselect js -->

@@ -206,7 +206,7 @@
                                 <label for="selectDay">
                                     <h6 id="text-white">ชื่อสินค้า<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <form action="{{url('searchbyname')}}" method="POST" id="selecBy_name">
+                                <form action="{{url('searchbyname')}}" method="POST" id="selecBy_name" onsubmit="return selecBy_name()">
                                     @csrf
                                     <input type="text" name="product_name" class="form-control" id="inputIDcard" placeholder="ค้นหา">
                                 </form>
@@ -230,7 +230,7 @@
                         <b id="orange17">การค้นหาแม็กซ์</b>
                         <div class="form-row">
                             <div class="form-group col-lg-4">
-                                <form action="{{url('search_wheelBySize')}}" method="POST" id="searchbysize_wheels">
+                                <form action="{{url('search_wheelBySize')}}" method="POST" id="searchbysize_wheels" onsubmit="return searchbysize_wheels()">
                                     @csrf
                                 <label for="selectSize">
                                     <h6 id="text-white">ขนาด<a style="color: #ff8200">*</a></h6>
@@ -267,7 +267,7 @@
                         <b id="orange17">ค้นหาตามรุ่นรถยนต์</b>
                         <div class="form-row">
                             <div class="form-group col-lg-3">
-                                <form action="{{url('search_wheelByCar')}}" method="POST" id="searchbycar_wheels">
+                                <form action="{{url('search_wheelByCar')}}" method="POST" id="searchbycar_wheels" onsubmit="return searchbycar_wheels()">
                                     @csrf
                                 <label for="carbrand">
                                     <h6 id="text-white">ยี่ห้อรถยนต์<a style="color: #ff8200">*</a></h6>
@@ -315,7 +315,7 @@
                         <b id="orange17">การค้นหายาง</b>
                         <div class="form-row">
                             <div class="form-group col-lg-3">
-                                <form action="{{url('search_tireBySize')}}" method="POST" id="searchtiresize">
+                                <form action="{{url('search_tireBySize')}}" method="POST" id="searchtiresize" onsubmit="return searchtiresize()">
                                     @csrf
                                 <label for="TireWidth">
                                     <h6 id="text-white">ความกว้าง<a style="color: #ff8200">*</a></h6>
@@ -359,7 +359,7 @@
                         <b id="orange17">ค้นหาตามรุ่นรถยนต์</b>
                         <div class="form-row">
                             <div class="form-group col-lg-3">
-                                <form action="{{url('search_tireByCar')}}" method="post" id="searchtirebycar">
+                                <form action="{{url('search_tireByCar')}}" method="post" id="searchtirebycar" onsubmit="return searchtirebycar()">
                                 @csrf
                                 <label for="tire_carbrand">
                                     <h6 id="text-white">ยี่ห้อรถยนต์<a style="color: #ff8200">*</a></h6>
@@ -677,7 +677,7 @@
     <a data-fancybox="popupxs" href="{{asset('local/storage/app/promotion/'.$ads->ads_image.'')}}" class="popupxs"></a>
     @endif
     <!--End-->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/owl.carousel.min.js')}}"></script>
     <script type="text/javascript">
         $(document).ready(function() {
@@ -860,6 +860,83 @@
             });
         }
 
+        function selecBy_name () {
+            var productname = document.forms["selecBy_name"]["product_name"].value;
+            if (productname == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbysize_wheels () {
+            var wheelsSize = document.forms["searchbysize_wheels"]["wheelsSize"].value;
+            var wheelsPcd = document.forms["searchbysize_wheels"]["wheelsPcd"].value;
+            if (wheelsSize == "เลือก" || wheelsPcd == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbycar_wheels () {
+            var wheelsCarbrand = document.forms["searchbycar_wheels"]["wheelsCarbrand"].value;
+            var wheelsCarmodel = document.forms["searchbycar_wheels"]["wheelsCarmodel"].value;
+            var wheelsCaryear = document.forms["searchbycar_wheels"]["wheelsCaryear"].value;
+            if (wheelsCarbrand == "เลือก" || wheelsCarmodel == "เลือก" || wheelsCaryear == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtiresize () {
+            var TireWidth = document.forms["searchtiresize"]["TireWidth"].value;
+            var TireOverall = document.forms["searchtiresize"]["TireOverall"].value;
+            var tireDiameter = document.forms["searchtiresize"]["tireDiameter"].value;
+            if (TireWidth == "เลือก" || TireOverall == "เลือก" || tireDiameter == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtirebycar () {
+            var tire_carbrand = document.forms["searchtirebycar"]["tire_carbrand"].value;
+            var tire_carmodel = document.forms["searchtirebycar"]["tire_carmodel"].value;
+            var tire_caryear = document.forms["searchtirebycar"]["tire_caryear"].value;
+            if (tire_carbrand == "เลือก" || tire_carmodel == "เลือก" || tire_caryear == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+            
     </script>
     @include('frontend.footer')
 </body>

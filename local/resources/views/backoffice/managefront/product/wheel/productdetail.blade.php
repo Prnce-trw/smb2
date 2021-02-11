@@ -43,13 +43,16 @@
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label">Image Cover</label>
                 <div class="col-sm-4">
-                    <img src="{{asset('local/storage/app/product/'.$product->product_imgcov.'')}}" width="270">
+                    <span id="previewcov">
+                        <img src="{{asset('local/storage/app/product/'.$product->product_imgcov.'')}}" width="270">
+                    </span>
                 </div>
             </div>
             <div class="form-group row">
                 <label class="col-sm-2 col-form-label"></label>
                 <div class="col-sm-4">
-                    <button type="button" class="btn btn-warning">Edit Cover</button>
+                    <input type="file" name="productimgcov[]" class="imgcov" id="editimgcov" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
+                    <button type="button" class="btn btn-warning" onclick="document.getElementById('editimgcov').click();"><i class="fa fa-plus"></i> Edit Cover</button>
                 </div>
             </div>
             <div class="form-group row">
@@ -114,7 +117,7 @@
                                                 <button class="btn btn-default dropdown-toggle waves-effect waves-light " type="button" id="dropdown-5" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">More</button>
                                                 <div class="dropdown-menu" aria-labelledby="dropdown-5" data-dropdown-in="fadeIn" data-dropdown-out="fadeOut">
                                                     <a class="dropdown-item waves-light waves-effect" href="#" onclick="Editcolor({{$item->color_id}})">Edit</a>
-                                                    <a class="dropdown-item waves-light waves-effect" href="#">Delete</a>
+                                                    <a class="dropdown-item waves-light waves-effect" href="#" onclick="delcolor({{$item->color_id}})">Delete</a>
                                                 </div>
                                             </div>
                                         </div>
@@ -160,6 +163,11 @@
 </div>
 <div id="result-modaleditcolor"></div>
 
+<form action="" method="post" id="deletecolor">
+    
+    @csrf
+</form>
+
 @endsection
 @section('js')
 @include('flash-message')
@@ -187,10 +195,10 @@
                     '<div class="col-sm-10">'+
                         '<div class="row">'+
                             '<div class="col-sm-6">'+
-                                '<input type="file" name="imgcov[]" class="imgcov" id="addimgcov" accept="image/x-png,image/gif,image/jpeg" multiple>'+
+                                '<input type="file" name="imgcov[]" class="imgcolorcov btn btn-primary" id="imgcolorcov" accept="image/x-png,image/gif,image/jpeg" >'+
                             '</div>'+
                             '<div class="col-sm-6">'+
-                                '<div id="previewcov"></div>'+
+                                '<div id="previewcolorcov"></div>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
@@ -207,21 +215,24 @@
                     '<div class="col-sm-10">'+
                         '<div class="row">'+
                             '<div class="col-sm-6">'+
-                                '<input type="file" name="imgset[]" class="imgset" id="addimgset" accept="image/x-png,image/gif,image/jpeg" multiple>'+
-                            '</div>'+
-                            '<div class="col-sm-6">'+
-                                '<div id="previewcov"></div>'+
+                                '<input type="file" name="imgset[]" class="imgcolorset btn btn-primary" id="addimgset" accept="image/x-png,image/gif,image/jpeg" multiple>'+
                             '</div>'+
                         '</div>'+
                     '</div>'+
                 '</div>'+
                 '<div class="form-group row">'+
+                    '<label class="col-sm-2 col-form-label"></label>'+
+                    '<div class="col-sm-10">'+
+                        '<div id="previewcolorset"></div>'+
+                    '</div>'+
+                '</div>'+
+                '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">Size (Inch)</label>'+
                     '<div class="col-sm-2">'+
-                        '<input type="number" name="diameter[]" class="form-control" placeholder="Diameter...">'+
+                        '<input type="text" name="diameter[]" class="form-control" placeholder="Diameter...">'+
                     '</div>'+
                     '<div class="col-2">'+
-                        '<input type="number" name="width[]" class="form-control" placeholder="Width...">'+
+                        '<input type="text" name="width[]" class="form-control" placeholder="Width...">'+
                     '</div>'+
                     '<div class="col-sm-2">'+
                         '<select name="pcd[]" class="form-control">'+
@@ -287,10 +298,10 @@
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-2">'+
-                    '<input type="number" name="diameter[]" class="form-control" placeholder="Diameter...">'+
+                    '<input type="text" name="diameter[]" class="form-control" placeholder="Diameter...">'+
                 '</div>'+
                 '<div class="col-2">'+
-                    '<input type="number" name="width[]" class="form-control" placeholder="Width...">'+
+                    '<input type="text" name="width[]" class="form-control" placeholder="Width...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
                     '<select name="pcd[]" class="form-control">'+
@@ -343,7 +354,7 @@
         }
         var reader = new FileReader();
         $(reader).on("load", function() {
-            $preview.append($("<img>", {src:this.result, height:150}));
+            $preview.append($("<img>", {src:this.result, height:270, width:270}));
         });
         reader.readAsDataURL(file);
         }
@@ -360,5 +371,84 @@
             $("#modaleditcolor").modal('show');
         });
     }
+
+    function delcolor(id) {
+        var urlaction = '{{url('delete_color')}}' + '/' + id;
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+            title: 'Are yur sure?',
+            icon: 'warning',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Confirm',
+            cancelButtonText: 'Cancel',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.value) {
+                $("#deletecolor").attr('action', urlaction);
+                $("#deletecolor").submit();
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Color has been deleted',
+                    'success'
+                )
+            } else if (
+                /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) {
+                swalWithBootstrapButtons.fire(
+                    'Cancel',
+                    'Delete has been cancel',
+                    'error'
+                )
+            }
+        })
+    }
+
+    $(document).on('click','#imgcolorcov',function () {
+        // image cover preview
+        function previewImagesColorCover() {
+            var $preview = $('#previewcolorcov').empty();
+            if (this.files) $.each(this.files, readAndPreview);
+            function readAndPreview(i, file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+                return alert(file.name +" is not an image");
+            }
+            var reader = new FileReader();
+            $(reader).on("load", function() {
+                $preview.append($("<img>", {src:this.result, height:270, width:270}));
+            });
+            reader.readAsDataURL(file);
+            }
+        }
+        $('.imgcolorcov').on("change", previewImagesColorCover);
+    });
+
+    $(document).on('click','#addimgset',function () {
+        // image cover preview
+        function previewImagesColorCover() {
+            var $preview = $('#previewcolorset').empty();
+            if (this.files) $.each(this.files, readAndPreview);
+            function readAndPreview(i, file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+                return alert(file.name +" is not an image");
+            }
+            var reader = new FileReader();
+            $(reader).on("load", function() {
+                $preview.append($("<img>", {src:this.result, height:270, width:270}));
+            });
+            reader.readAsDataURL(file);
+            }
+        }
+        $('.imgcolorset').on("change", previewImagesColorCover);
+    });
+    
 </script>
 @endsection

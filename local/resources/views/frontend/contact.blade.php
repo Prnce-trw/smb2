@@ -18,7 +18,7 @@
         <div class="row">
             <div id="smb-contact" class="col-12 col-md-7 col-lg-7">
                 <div class="about-us">
-                    <h4 id="black" style="padding-left: 15px;">CONTACT US</h4>
+                    <h4 id="black" style="padding-left: 15px;">ติดต่อเรา</h4>
                 </div>
                 <div class="text_about_his" id="aboutU" style="padding-left: 15px;">
                     <h4 class="mt-lg-0 mt-sm-4" style="letter-spacing: 1px;padding-top: 20px;font-size: 20px;font-weight: 500;color: #ff8200;">SMB ทรัพย์สมบูรณ์ยางยนต์</h4>
@@ -54,7 +54,7 @@
             </div>
         </div>
     </div>
-    <div class="head-about-us-2 ">
+    {{-- <div class="head-about-us-2 ">
         <div id="smb-center-2" class="col-12 col-md-12 col-lg-12">
             <div class="row">
                 @foreach ($branch as $item)
@@ -68,55 +68,9 @@
                     </a>
                 </div>
                 @endforeach
-                {{-- <div class="col-lg-4 links">
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาสุขสวัสดิ์ 64</h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 089-9676168
-                    </p>
-                    <a href="https://goo.gl/maps/H8D1Xd5DLHSuALVU9" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขากาญจนาภิเษก</h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 082-4447772
-                    </p>
-                    <a href="https://goo.gl/maps/cxFwniu7M3wPRxs77" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาศรีนครินทร์</h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 085-1623030
-                    </p>
-                    <a href="https://goo.gl/maps/uitx4zv9v9CVY8zb9" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                </div>
-                <div class="col-lg-4 links">
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาบางนา</h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 086-7897770
-                    </p>
-                    <a href="bangna.php" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาประชาอุทิศ 6 </h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 086-3030250
-                    </p>
-                    <a href="https://goo.gl/maps/V8mkH9jncm1E1LRPA" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                    <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาประชาอุทิศ 13</h4>
-                    <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        Hotline: 086-3787129
-                    </p>
-                    <a href="https://goo.gl/maps/YtzHpoqiudpn8iYC7" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ดูแผนที่
-                    </a>
-                </div> --}}
             </div>
         </div>
-    </div>
+    </div> --}}
     @include('frontend.footer')
 </body>
 

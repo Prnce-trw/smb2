@@ -27,20 +27,23 @@
                                     <span class="tooltip-text">Multiple. (Height: 270px, width: 270px)</span>
                                 </span>
                             </span>
-                            <input type="file" name="img[]" id="addimg" class="form-control" style="display: none;" multiple>
+                            <input type="file" name="img[]" id="addimg" class="form-control addimgset" style="display: none;" multiple>
                             <button type="button" class="btn btn-primary form-control" onclick="document.getElementById('addimg').click();">Add Image</button>
                         </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 @foreach ($productimgset as $key => $item)
-                                <div class="col-sm-4 text-center" style="border: 1px solid gray;" id="imgset_{{$item->product_imgset_id}}">
-                                    <img src="{{asset('local/storage/app/productimgset/'.$item->product_imgset_name.'')}}" alt="" width="150px;">
-                                    <input type="file" name="imgset[{{$item->product_imgset_id}}]" class="btn btn-warning form-control" style="display: none;" id="editimg_{{$item->product_imgset_id}}">
-                                    <button type="button" class="btn btn-warning form-control" onclick="document.getElementById('editimg_{{$item->product_imgset_id}}').click();"><i class="fa fa-file-image-o"></i> Edit Product Image ({{$key+1}})</button>
+                                <div class="col-sm-6 text-center" style="border: 1px solid gray;" id="imgset_{{$item->product_imgset_id}}">
+                                    <span id="imgpre_{{$item->product_imgset_id}}">
+                                        <img src="{{asset('local/storage/app/productimgset/'.$item->product_imgset_name.'')}}" alt="" width="270" height="270">
+                                    </span>
+                                    <input type="file" name="imgset[{{$item->product_imgset_id}}]" class="btn btn-warning form-control imgset_{{$item->product_imgset_id}}" style="display: none;" id="editimg_{{$item->product_imgset_id}}">
+                                    <button type="button" class="btn btn-warning form-control imgpreview" onclick="document.getElementById('editimg_{{$item->product_imgset_id}}').click();" data-imgId="{{$item->product_imgset_id}}"><i class="fa fa-file-image-o"></i> Edit Product Image ({{$key+1}})</button>
                                     <button type="button" class="btn btn-danger btn-delete-imgset" value="{{$item->product_imgset_id}}"><i class="fa fa-trash-o"></i></button>
                                 </div>
                                 @endforeach
                                 <div id="resultDeleteImgset"></div>
+                                <span id="previewimgset"></span>
                             </div>
                         </div>
                     </div>
@@ -72,7 +75,7 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Price</label>
                             <div class="col-sm-2">
-                                <input type="number" class="form-control" name="color_price[{{$item->size_id}}]" placeholder="Price..." value="{{$item->size_price}}">
+                                <input type="text" class="form-control checkprice" id="checkprice_{{$item->size_id}}" name="color_price[{{$item->size_id}}]" placeholder="Price..." value="{{$item->size_price}}">
                             </div>
                             <div class="col-sm-2">
                                 <div class="border-checkbox-section">
@@ -85,11 +88,11 @@
                             </div>
                             @if ($item->size_promotion_status == 1)
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." value="{{$item->size_promotion_price}}">
+                                <input type="text" class="form-control checkproprice" data-sizeId="{{$item->size_id}}" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." value="{{$item->size_promotion_price}}">
                             </div>
                             @else 
                             <div class="col-sm-4">
-                                <input type="number" class="form-control" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." style="display: none;">
+                                <input type="text" class="form-control checkproprice" data-sizeId="{{$item->size_id}}" name="editcolor_price_promotion[{{$item->size_id}}]" id="pricepromotionedit_{{$item->size_id}}" placeholder="Promotion Price..." style="display: none;">
                             </div>
                             @endif
                         </div>
@@ -146,10 +149,10 @@
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-2">'+
-                    '<input type="number" name="adddiameter[]" class="form-control" placeholder="Diameter...">'+
+                    '<input type="text" name="adddiameter[]" class="form-control" placeholder="Diameter...">'+
                 '</div>'+
                 '<div class="col-2">'+
-                    '<input type="number" name="addwidth[]" class="form-control" placeholder="Width...">'+
+                    '<input type="text" name="addwidth[]" class="form-control" placeholder="Width...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
                     '<select name="addpcd[]" class="form-control">'+
@@ -169,7 +172,7 @@
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-2">'+
-                    '<input type="number" class="form-control" name="addcolr_price[]" placeholder="Price...">'+
+                    '<input type="text" class="form-control" name="addcolr_price[]" placeholder="Price...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
                         '<div class="border-checkbox-section">'+
@@ -180,14 +183,13 @@
                         '</div>'+
                     '</div>'+
                     '<div class="col-sm-4">'+
-                        '<input type="number" class="form-control" name="addcolor_price_promotion[]" id="addpricepromotion_'+sizenoedit+'" placeholder="Promotion Price..." style="display: none;">'+
+                        '<input type="text" class="form-control" name="addcolor_price_promotion[]" id="addpricepromotion_'+sizenoedit+'" placeholder="Promotion Price..." style="display: none;">'+
                     '</div>'+
             '</div>'+
         '</div>');
         sizenoedit++;
     }
     function delete_sizeedit(y) {
-        console.log(y);
         $("#appendsize_"+y).remove();
         sizenoedit--;
     }
@@ -200,4 +202,53 @@
             $("#addpricepromotion_"+addnumber).hide();
         }
     });
+
+    $(document).on('keyup', '.checkproprice', function () {
+        var sizeid = $(this).attr('data-sizeId');
+        var price_pro = $(this).val();
+        var getPrice = $('#checkprice_'+sizeid).val();
+        // console.log(price_pro, getPrice); 
+        if (parseFloat(getPrice) < parseFloat(price_pro)) {
+            $('#pricepromotionedit_'+sizeid).addClass("form-bg-danger");
+        } else {
+            $('#pricepromotionedit_'+sizeid).removeClass("form-bg-danger");
+        }
+    });
+
+    $(document).on('click','.imgpreview', function () {
+        var imgid = $(this).attr('data-imgId');
+        var $preview = $('#imgpre_'+imgid).empty();
+        function previewImagesSet() {
+            if (this.files) $.each(this.files, readAndPreview);
+            function readAndPreview(i, file) {
+                if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+                return alert(file.name +" is not an image");
+            }
+            var reader = new FileReader();
+            $(reader).on("load", function() {
+                $preview.append($("<img>", {src:this.result, height:270, width:270}));
+            });
+            reader.readAsDataURL(file);
+            }
+            
+        }
+        $('.imgset_'+imgid).on("change", previewImagesSet);
+    });
+
+    // image cover preview
+    function previewAddImagesSet() {
+        var $preview = $('#previewimgset').empty();
+        if (this.files) $.each(this.files, readAndPreview);
+        function readAndPreview(i, file) {
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+            return alert(file.name +" is not an image");
+        }
+        var reader = new FileReader();
+        $(reader).on("load", function() {
+            $preview.append($("<img>", {src:this.result, height:270, width:270}));
+        });
+        reader.readAsDataURL(file);
+        }
+    }
+    $('.addimgset').on("change", previewAddImagesSet);
 </script>

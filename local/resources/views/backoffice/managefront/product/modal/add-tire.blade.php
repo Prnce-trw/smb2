@@ -119,7 +119,7 @@
         }
         var reader = new FileReader();
         $(reader).on("load", function() {
-            $preview.append($("<img>", {src:this.result, height:150}));
+            $preview.append($("<img>", {src:this.result, height:270, width: 270}));
         });
         reader.readAsDataURL(file);
         }
@@ -136,29 +136,12 @@
         }
         var reader = new FileReader();
         $(reader).on("load", function() {
-            $preview.append($("<img>", {src:this.result, height:150}));
+            $preview.append($('<img>', {src:this.result, height:270, width: 600,}));
         });
         reader.readAsDataURL(file);
         }
     }
     $('.imgset').on("change", previewImagesSet);
-
-    // image gallery preview
-    function previewImagesGal() {
-        var $preview = $('#previewgal').empty();
-        if (this.files) $.each(this.files, readAndPreview);
-        function readAndPreview(i, file) {
-            if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
-            return alert(file.name +" is not an image");
-        }
-        var reader = new FileReader();
-        $(reader).on("load", function() {
-            $preview.append($("<img>", {src:this.result, height:150}));
-        });
-        reader.readAsDataURL(file);
-        }
-    }
-    $('.gallery').on("change", previewImagesGal);
 
     $(document).ready(function () {
         $("#discount").click(function(event){
