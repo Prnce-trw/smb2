@@ -455,7 +455,7 @@
             <div class="row row3" id="hide2">
                 <ul class="largenav3 pull-right">
                     <!-- <li class="upper-links"><a class="links" href="index.php" id="white">หน้าหลัก</a></li> -->
-                    <li class="upper-links dropdown" style="background-clip: #000"><a class="links" href="#">สินค้า</a>
+                    <li class="upper-links dropdown" style="background-clip: #000"><a class="links">สินค้า</a>
                         <ul class="dropdown-menu">
                             @foreach ($product_type as $item)
                             <li class="profile-li"><a class="profile-links" href="{{url('producttype', $item->p_type_id)}}">- {{$item->p_type_name}}</a></li>

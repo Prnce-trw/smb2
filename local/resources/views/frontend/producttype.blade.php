@@ -768,8 +768,21 @@
                                         </a>
                                     </div>
                                     <div class="product-price">
-                                        <a id="orange19">฿ {{number_format($item->getColors->getSizes->min('size_price'),0)}}</a> - 
-                                        <a id="orange19">฿ {{number_format($item->getColors->getSizes->max('size_price'),0)}}</a>
+                                        @if (!empty($item->getColors->getSizes))
+                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                            @php
+                                                $getprice_pro = App\Size::where('size_fkey', $item->getColors->getSizes[0]->size_fkey)
+                                                                ->where('size_promotion_price','!=',0)
+                                                                ->min('size_promotion_price');
+                                            @endphp
+                                            <a id="orange19">฿ {{ number_format($getprice_pro) }} </a> - 
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes->max('size_price'),0)}}</a>
+                                            @else
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes->min('size_price'),0)}}</a> - 
+                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes->max('size_price'),0)}}</a>
+                                            @endif
+                                        @endif
+                                        
                                         {{-- @if (!empty($item->getColors->getSizes))
                                             @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
                                             <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
