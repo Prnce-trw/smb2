@@ -30,8 +30,8 @@
                 </div>
             </div>
             <div class="card-deck">
-                <div id="resultsearch_news">
-                    <div class="row">
+                <div class="row">
+                    <div id="resultsearch_news">
                         @foreach ($news as $item)
                         <div class="card col-12 col-md-6">
                             <img class="card-img-top img-fluid" src="{{asset('local/storage/app/news/'.$item->news_imgcover.'')}}" alt="Card image cap" style="height: 270px;">

@@ -432,7 +432,7 @@
                 <div class="tab-content">
                     <div id="max" class="container tab-pane active" style="background-color: #ebebeb"><br>
                         <b>ค้นหาตามล้อแม็กซ์</b>
-                            <form action="{{url('search_wheelBySize')}}" method="POST" id="searchbysize_wheels">
+                            <form action="{{url('search_wheelBySize')}}" method="POST" id="searchbysize_wheels" onsubmit="return searchbysize_wheels()">
                                 @csrf
                             <div class="form-row">
                                 <div class="form-group col-md-6">
@@ -443,7 +443,7 @@
                                 </label>
                                 <select id="selectSize" name="wheelsSize" class="form-control-5 filterSize">
                                     <option selected disabled>เลือก</option>
-                                    @foreach ($sizetire as $item)
+                                    @foreach ($size as $item)
                                         <option value="{{$item->size_diameter}}">{{$item->size_diameter}}</option>
                                     @endforeach
                                 </select>
@@ -465,7 +465,7 @@
                             </div>
                             <hr>
                             <b>ค้นหาตามรุ่นรถยนต์</b>
-                            <form action="{{url('search_wheelByCar')}}" method="POST" enctype="multipart/form-data">
+                            <form action="{{url('search_wheelByCar')}}" method="POST" id="searchbycar_wheels" enctype="multipart/form-data" onsubmit="return searchbycar_wheels()">
                                 @csrf
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
@@ -500,14 +500,14 @@
                                 </div>
                                 <div class="form-row">
                                     <div class="form-group col-md-12">
-                                        <div class="buttom_register"><button type="submit" id="a">ค้นหา</div>
+                                        <div class="buttom_register"><button type="submit" id="a" form="searchbycar_wheels">ค้นหา</div>
                                     </div>
                                 </div>
                             </form>
                     </div>
                     <div id="wheel" class="container tab-pane fade" style="background-color: #ebebeb"><br>
                         <b>ค้นหาตามยาง</b>
-                        <form action="{{url('search_tireBySize')}}" method="POST" id="searchtiresize">
+                        <form action="{{url('search_tireBySize')}}" method="POST" id="searchtiresize" onsubmit="return searchtiresize()">
                             @csrf
                         <div class="form-row">
                             <div class="form-group col-md-4">
@@ -547,7 +547,7 @@
                         </div>
                         </form>
                         <b>ค้นหาตามรุ่นรถยนต์</b>
-                        <form action="{{url('search_tireByCar')}}" method="POST">
+                        <form action="{{url('search_tireByCar')}}" method="POST" id="searchtirebycar" onsubmit="return searchtirebycar()">
                             @csrf
                         <div class="form-row">
                             <div class="form-group col-md-12">
@@ -582,7 +582,7 @@
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <div class="buttom_register"><button type="submit" id="a">ค้นหา</button></div>
+                                <div class="buttom_register"><button type="submit" id="a" form="searchtirebycar">ค้นหา</button></div>
                             </div>
                         </div>
                         </form>
@@ -890,17 +890,16 @@
             tire_filterdatacar(carbrandId, carmodelId);
         });
 
+        // ล้อ
         $(document).on('change', '.filterSize', function () { 
-            sizeDiameter = $('#selectSize').val();
-            sizePcd = $('#selectPcd').val();
-            filterdatesize(sizeDiameter, sizePcd);
+            var WheelSize = $('#selectSize').val();
+            filterWheelSize(WheelSize);
         });
-
+        
         // ยาง
         $(document).on('change', '.filterSizeTire', function () { 
-            TireWidth = $('#TireWidth').val();
-            TireOverall = $('#TireOverall').val();
-            console.log(TireWidth, TireOverall);
+            var TireWidth = $('#TireWidth').val();
+            var TireOverall = $('#TireOverall').val();
             filterdatetire(TireWidth, TireOverall);
         });
 
@@ -946,13 +945,12 @@
             });
         }
 
-        function filterdatesize(sizeDiameter, sizePcd) { 
+        function filterWheelSize(WheelSize) {
             $.ajax({
-                url: '{{url('filterdatesize')}}',
+                url: '{{url('filterdatawheels')}}',
                 type: 'GET',
                 data: {
-                    sizeDiameter: sizeDiameter,
-                    sizePcd: sizePcd,
+                    WheelSize: WheelSize,
                 },
             }).done(function (data) {
                 $('#selectPcd').html(data.html_pcd)
@@ -977,6 +975,69 @@
         function selecBy_name () {
             var productname = document.forms["selecBy_name"]["product_name"].value;
             if (productname == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbysize_wheels () {
+            var wheelsSize = document.forms["searchbysize_wheels"]["wheelsSize"].value;
+            var wheelsPcd = document.forms["searchbysize_wheels"]["wheelsPcd"].value;
+            if (wheelsSize == "เลือก" || wheelsPcd == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbycar_wheels () {
+            var wheelsCarbrand = document.forms["searchbycar_wheels"]["wheelsCarbrand"].value;
+            var wheelsCarmodel = document.forms["searchbycar_wheels"]["wheelsCarmodel"].value;
+            var wheelsCaryear = document.forms["searchbycar_wheels"]["wheelsCaryear"].value;
+            if (wheelsCarbrand == "เลือก" || wheelsCarmodel == "เลือก" || wheelsCaryear == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtiresize () {
+            var TireWidth = document.forms["searchtiresize"]["TireWidth"].value;
+            var TireOverall = document.forms["searchtiresize"]["TireOverall"].value;
+            var tireDiameter = document.forms["searchtiresize"]["tireDiameter"].value;
+            if (TireWidth == "เลือก" || TireOverall == "เลือก" || tireDiameter == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtirebycar () {
+            var tire_carbrand = document.forms["searchtirebycar"]["tire_carbrand"].value;
+            var tire_carmodel = document.forms["searchtirebycar"]["tire_carmodel"].value;
+            var tire_caryear = document.forms["searchtirebycar"]["tire_caryear"].value;
+            if (tire_carbrand == "เลือก" || tire_carmodel == "เลือก" || tire_caryear == "เลือก") {
                 Swal.fire({
                     icon: 'error',
                     title: 'ขออภัย',

@@ -529,7 +529,7 @@ class FrontendController extends Controller
         );
         if ($id == 1) {
             return view('frontend.producttype', $data);
-        } elseif ($id == 2) {
+        } else  {
             return view('frontend.product-tyre', $data);
         }
 
@@ -625,7 +625,7 @@ class FrontendController extends Controller
                 $content = Str::limit($value->news_content, 150);
                 $pathlink = url('news_detail', $value->news_id);
                 $html_news .= '
-                <div class="card mb-4">
+                <div class="card col-12 col-md-6">
                     <img class="card-img-top img-fluid" src="'.$pathimg.'" alt="Card image cap">
                     <div class="card-body" id="cardT">
                         <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"></i> '.$date.'</small></p>
@@ -757,7 +757,7 @@ class FrontendController extends Controller
         $product = product::where('product_type_id', 2)->paginate(12);
         $producttype = producttype::all();
         $brand = brand::all();
-        $size_diameter = size::groupBy('size_diameter')->get();
+        $size = size::groupBy('size_diameter')->get();
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
@@ -888,7 +888,7 @@ class FrontendController extends Controller
             'brand' => $brand,
             'carbrand' => $carbrand,
             'pcd' => $pcd,
-            'size_diameter' => $size_diameter,
+            'size' => $size,
             'sizetire' => $sizetire,
         );
         return view('frontend.productresult-search-tyre', $data);

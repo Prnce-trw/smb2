@@ -588,12 +588,15 @@
         <div class="row" id="">
             <div class="col-lg-3 col-md-12 pd50" style="padding-left: 50px">
                 <div class="about-us">
-                    <div class="input-group border">
-                        <input type="search" aria-describedby="button-addon3" class="form-control-4 bg-none pt-3" placeholder="ค้นหาตามชื่อสินค้า">
-                        <div class="input-group-append border-0">
-                            <button id="button-addon3" type="button" class="btn btn-link text-secondary"><i class="fa fa-search"></i></button>
+                    <form action="{{url('searchbyname')}}" method="POST" id="selecBy_name" onsubmit="return selecBy_name()">
+                        @csrf
+                        <div class="input-group border">
+                            <input type="text" aria-describedby="button-addon3" name="product_name" class="form-control-4 bg-none pt-3" placeholder="ค้นหาตามชื่อสินค้า">
+                            <div class="input-group-append border-0">
+                                <button id="button-addon3" type="submit" class="btn btn-link text-secondary" form="selecBy_name" id="inputIDcard"><i class="fa fa-search"></i></button>
+                            </div>  
                         </div>
-                    </div>
+                    </form>
                 </div>
                 <!-- Nav tabs -->
                 <div class="tab-content">
@@ -611,355 +614,163 @@
                     <div id="max" class="container tab-pane active" style="background-color: #ebebeb"><br>
 
                         <b>ค้นหาตามล้อแม็กซ์</b>
+                        <form action="{{url('search_wheelBySize')}}" method="POST" id="searchbysize_wheels" onsubmit="return searchbysize_wheels()">
+                            @csrf
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="selectDay">
-                                    <h6>ขนาด<a style="color: #ff8200">*</a></h6>
-                                </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
-                                </select>
+                            <input type="hidden" name="wheels_pricemin" class="pricemin">
+                            <input type="hidden" name="wheels_pricemax" class="pricemax">
+                            <label for="selectSize">
+                                <h6>ขนาด<a style="color: #ff8200">*</a></h6>
+                            </label>
+                            <select id="selectSize" name="wheelsSize" class="form-control-5 filterSize">
+                                <option selected disabled>เลือก</option>
+                                @foreach ($size as $item)
+                                    <option value="{{$item->size_diameter}}">{{$item->size_diameter}}</option>
+                                @endforeach
+                            </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="selectMonth">
-                                    <h6>PCD<a style="color: #ff8200">*</a></h6>
-                                </label>
-                                <select id="selectMonth" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>January</option>
-                                    <option>February</option>
-                                    <option>March</option>
-                                    <option>April</option>
-                                    <option>May</option>
-                                    <option>June</option>
-                                    <option>July</option>
-                                    <option>August</option>
-                                    <option>September</option>
-                                    <option>October</option>
-                                    <option>November</option>
-                                    <option>December</option>
-                                </select>
+                            <label for="selectPcd">
+                                <h6>PCD<a style="color: #ff8200">*</a></h6>
+                            </label>
+                            <select id="selectPcd" name="wheelsPcd" class="form-control-5">
+                                <option selected disabled>เลือก</option>
+                            </select>
                             </div>
                         </div>
+                        </form>
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <div class="buttom_register"><button type="submit" id="a" form="searchbysize_wheels">ค้นหา</div>
+                            </div>
+                        </div>
+                        <hr>
 
                         <b>ค้นหาตามรุ่นรถยนต์</b>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <label for="selectDay">
-                                    <h6>ยี่ห้อรถยนต์<a style="color: #ff8200">*</a></h6>
-                                </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
-                                </select>
+                        <form action="{{url('search_wheelByCar')}}" method="POST" id="searchbycar_wheels" enctype="multipart/form-data" onsubmit="return searchbycar_wheels()">
+                            @csrf
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <label for="carbrand">
+                                        <h6>ยี่ห้อรถยนต์<a style="color: #ff8200">*</a></h6>
+                                    </label>
+                                    <select id="carbrand" name="wheelsCarbrand" class="form-control-5 filtercar">
+                                        <option selected disabled>เลือก</option>
+                                        @foreach ($carbrand as $datacar)
+                                        <option value="{{$datacar->car_brand_id}}">{{$datacar->car_brand_name}}</option>
+                                        @endforeach
+                                    </select>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="selectDay">
-                                    <h6>รุ่นรถ<a style="color: #ff8200">*</a></h6>
-                                </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
-                                </select>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="carmodel">
+                                        <h6>รุ่นรถ<a style="color: #ff8200">*</a></h6>
+                                    </label>
+                                    <select id="carmodel" name="wheelsCarmodel" class="form-control-5 filtercar">
+                                        <option selected disabled>เลือก</option>
+                                    </select>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="caryear">
+                                        <h6>ปีที่ผลิตรถยนต์<a style="color: #ff8200">*</a></h6>
+                                    </label>
+                                    <select id="caryear" name="wheelsCaryear" class="form-control-5">
+                                        <option selected disabled>เลือก</option>
+                                    </select>
+                                </div>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="selectMonth">
-                                    <h6>ปีที่ผลิตรถยนต์<a style="color: #ff8200">*</a></h6>
-                                </label>
-                                <select id="selectMonth" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>January</option>
-                                    <option>February</option>
-                                    <option>March</option>
-                                    <option>April</option>
-                                    <option>May</option>
-                                    <option>June</option>
-                                    <option>July</option>
-                                    <option>August</option>
-                                    <option>September</option>
-                                    <option>October</option>
-                                    <option>November</option>
-                                    <option>December</option>
-                                </select>
+                            <div class="form-row">
+                                <div class="form-group col-md-12">
+                                    <div class="buttom_register"><button type="submit" id="a" form="searchbycar_wheels">ค้นหา</div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="form-row">
-                            <div class="form-group col-md-12">
-                                <div class="buttom_register"><a id="a" href="#">ค้นหา</a></div>
-                            </div>
-                            <div class="form-group col-md-12 text-center">
-                                <a href="#" id="b">การค้นหาแบบละเอียด</a>
-                            </div>
-                        </div>
+                        </form>
                     </div>
                     <div id="wheel" class="container tab-pane fade" style="background-color: #ebebeb"><br>
                         <b>ค้นหาตามยาง</b>
+                        <form action="{{url('search_tireBySize')}}" method="POST" id="searchtiresize" onsubmit="return searchtiresize()">
+                            @csrf
                         <div class="form-row">
-                            <div class="form-group col-md-6">
-                                <label for="selectDay">
-                                    <h6>ขนาด<a style="color: #ff8200">*</a></h6>
+                            <div class="form-group col-md-4">
+                                <input type="hidden" name="tire_pricemin" class="pricemin">
+                                <input type="hidden" name="tire_pricemax" class="pricemax">
+                                <label for="TireWidth">
+                                    <h6>ความกว้าง<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
+                                <select id="TireWidth" name="TireWidth" class="form-control-5 filterSizeTire">
+                                    <option selected disabled>เลือก</option>
+                                    @foreach ($sizetire as $item)
+                                        <option value="{{$item->size_width}}">{{$item->size_width}}</option>
+                                    @endforeach
                                 </select>
                             </div>
-                            <div class="form-group col-md-6">
-                                <label for="selectMonth">
-                                    <h6>PCD<a style="color: #ff8200">*</a></h6>
+                            <div class="form-group col-md-4">
+                                <label for="TireOverall">
+                                    <h6>แก้มยาง<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <select id="selectMonth" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>January</option>
-                                    <option>February</option>
-                                    <option>March</option>
-                                    <option>April</option>
-                                    <option>May</option>
-                                    <option>June</option>
-                                    <option>July</option>
-                                    <option>August</option>
-                                    <option>September</option>
-                                    <option>October</option>
-                                    <option>November</option>
-                                    <option>December</option>
+                                <select id="TireOverall" name="TireOverall" class="form-control-5 filterSizeTire">
+                                    <option selected disabled>เลือก</option>
+                                </select>
+                            </div>
+                            <div class="form-group col-md-4">
+                                <label for="tireDiameter">
+                                    <h6>กระทะล้อ<a style="color: #ff8200">*</a></h6>
+                                </label>
+                                <select id="tireDiameter" name="tireDiameter" class="form-control-5">
+                                    <option selected disabled>เลือก</option>
                                 </select>
                             </div>
                         </div>
-
-                        <b>ค้นหาตามรุ่นรถยนต์</b>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <label for="selectDay">
+                                <div class="buttom_register"><button type="submit" form="searchtiresize" id="a">ค้นหา</div>
+                            </div>
+                        </div>
+                        </form>
+
+                        <hr>
+                        <b>ค้นหาตามรุ่นรถยนต์</b>
+                        <form action="{{url('search_tireByCar')}}" method="POST" id="searchtirebycar" onsubmit="return searchtirebycar()">
+                            @csrf
+                        <div class="form-row">
+                            <div class="form-group col-md-12">
+                                <label for="tire_carbrand">
                                     <h6>ยี่ห้อรถยนต์<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
+                                <select id="tire_carbrand" name="tire_carbrand" class="form-control-5 tire_filtercar">
+                                    <option selected disabled>เลือก</option>
+                                    @foreach ($carbrand as $datacar)
+                                    <option value="{{$datacar->car_brand_id}}">{{$datacar->car_brand_name}}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-6">
-                                <label for="selectDay">
+                                <label for="tire_carmodel">
                                     <h6>รุ่นรถ<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <select id="selectDay" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>1</option>
-                                    <option>2</option>
-                                    <option>3</option>
-                                    <option>4</option>
-                                    <option>5</option>
-                                    <option>6</option>
-                                    <option>7</option>
-                                    <option>8</option>
-                                    <option>9</option>
-                                    <option>10</option>
-                                    <option>11</option>
-                                    <option>12</option>
-                                    <option>13</option>
-                                    <option>14</option>
-                                    <option>15</option>
-                                    <option>16</option>
-                                    <option>17</option>
-                                    <option>18</option>
-                                    <option>19</option>
-                                    <option>20</option>
-                                    <option>21</option>
-                                    <option>22</option>
-                                    <option>23</option>
-                                    <option>24</option>
-                                    <option>25</option>
-                                    <option>26</option>
-                                    <option>27</option>
-                                    <option>28</option>
-                                    <option>29</option>
-                                    <option>30</option>
-                                    <option>31</option>
+                                <select id="tire_carmodel" name="tire_carmodel" class="form-control-5 tire_filtercar">
+                                    <option selected disabled>เลือก</option>
                                 </select>
                             </div>
                             <div class="form-group col-md-6">
-                                <label for="selectMonth">
+                                <label for="tire_caryear">
                                     <h6>ปีที่ผลิตรถยนต์<a style="color: #ff8200">*</a></h6>
                                 </label>
-                                <select id="selectMonth" class="form-control-5">
-                                    <option selected="">เลือก</option>
-                                    <option>January</option>
-                                    <option>February</option>
-                                    <option>March</option>
-                                    <option>April</option>
-                                    <option>May</option>
-                                    <option>June</option>
-                                    <option>July</option>
-                                    <option>August</option>
-                                    <option>September</option>
-                                    <option>October</option>
-                                    <option>November</option>
-                                    <option>December</option>
+                                <select id="tire_caryear" name="tire_caryear" class="form-control-5">
+                                    <option selected disabled>เลือก</option>
                                 </select>
                             </div>
                         </div>
                         <div class="form-row">
                             <div class="form-group col-md-12">
-                                <div class="buttom_register"><a id="a" href="#">ค้นหา</a></div>
-                            </div>
-                            <div class="form-group col-md-12 text-center">
-                                <a href="#" id="b">การค้นหาแบบละเอียด</a>
+                                <div class="buttom_register"><button type="submit" id="a" form="searchtirebycar">ค้นหา</button></div>
                             </div>
                         </div>
+                        </form>
                     </div>
                 </div>
                 <!-- Tab panes -->
@@ -1112,6 +923,8 @@
         </div>
     </div>
 
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
+
     <!-- jQuery CDN - Slim version (=without AJAX) -->
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
     <!-- Popper.JS -->
@@ -1167,8 +980,6 @@
             }
         });
 
-    </script>
-    <script>
         /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
         var dropdown = document.getElementsByClassName("dropdown-btn");
         var i;
@@ -1185,8 +996,6 @@
             });
         }
 
-    </script>
-    <script>
         //Reduce quantity by 1 if clicked
         $(document).on("click", ".product-quantity-subtract", function(e) {
             var value = $("#product-quantity-input").val();
@@ -1227,6 +1036,186 @@
             setTimeout(function() {
                 $(".toast").remove();
             }, 3500);
+        }
+
+        var carbrandId1;
+        var carmodelId1;
+        var sizeDiameter;
+        var sizePcd;
+        var TireWidth;
+        var TireOverall;
+
+        $(document).on('change', '.filtercar', function() {
+            carbrandId = $('#carbrand').val();
+            carmodelId = $('#carmodel').val();
+            // alert(carmodelId + carmodelId);
+            filterdatacar(carbrandId, carmodelId);
+        });
+
+        $(document).on('change', '.tire_filtercar', function() {
+            carbrandId = $('#tire_carbrand').val();
+            carmodelId = $('#tire_carmodel').val();
+            // alert(carmodelId + carmodelId);
+            tire_filterdatacar(carbrandId, carmodelId);
+        });
+
+        // ล้อ
+        $(document).on('change', '.filterSize', function () { 
+            var WheelSize = $('#selectSize').val();
+            filterWheelSize(WheelSize);
+        });
+        
+        // ยาง
+        $(document).on('change', '.filterSizeTire', function () { 
+            var TireWidth = $('#TireWidth').val();
+            var TireOverall = $('#TireOverall').val();
+            filterdatetire(TireWidth, TireOverall);
+        });
+
+        function filterdatetire(TireWidth, TireOverall) {
+            $.ajax({
+                url: '{{url('filtertire')}}',
+                type: 'GET',
+                data: {
+                    TireWidth: TireWidth,
+                    TireOverall: TireOverall,
+                },
+            }).done(function (data) {
+                $('#TireOverall').html(data.html_Overall)
+                $('#tireDiameter').html(data.html_Diameter)
+            });
+        }
+
+        function tire_filterdatacar(carbrandId, carmodelId) {
+            $.ajax({
+                url: '{{url('filterdatacar')}}',
+                type: 'GET',
+                data: {
+                    carbrandId: carbrandId,
+                    carmodelId: carmodelId,
+                },
+            }).done(function (data) {
+                $('#tire_carmodel').html(data.html_carmodel)
+                $('#tire_caryear').html(data.html_caryear);
+            });
+        }
+
+        function filterdatacar(carbrandId, carmodelId) {
+            $.ajax({
+                url: '{{url('filterdatacar')}}',
+                type: 'GET',
+                data: {
+                    carbrandId: carbrandId,
+                    carmodelId: carmodelId,
+                },
+            }).done(function (data) {
+                $('#carmodel').html(data.html_carmodel)
+                $('#caryear').html(data.html_caryear);
+            });
+        }
+
+        function filterWheelSize(WheelSize) {
+            $.ajax({
+                url: '{{url('filterdatawheels')}}',
+                type: 'GET',
+                data: {
+                    WheelSize: WheelSize,
+                },
+            }).done(function (data) {
+                $('#selectPcd').html(data.html_pcd)
+            });
+        }
+        /* Loop through all dropdown buttons to toggle between hiding and showing its dropdown content - This allows the user to have multiple dropdowns without any conflict */
+        var dropdown = document.getElementsByClassName("dropdown-btn");
+        var i;
+
+        for (i = 0; i < dropdown.length; i++) {
+            dropdown[i].addEventListener("click", function() {
+                this.classList.toggle("active");
+                var dropdownContent = this.nextElementSibling;
+                if (dropdownContent.style.display === "block") {
+                    dropdownContent.style.display = "none";
+                } else {
+                    dropdownContent.style.display = "block";
+                }
+            });
+        }
+
+        function selecBy_name () {
+            var productname = document.forms["selecBy_name"]["product_name"].value;
+            if (productname == "") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbysize_wheels () {
+            var wheelsSize = document.forms["searchbysize_wheels"]["wheelsSize"].value;
+            var wheelsPcd = document.forms["searchbysize_wheels"]["wheelsPcd"].value;
+            if (wheelsSize == "เลือก" || wheelsPcd == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchbycar_wheels () {
+            var wheelsCarbrand = document.forms["searchbycar_wheels"]["wheelsCarbrand"].value;
+            var wheelsCarmodel = document.forms["searchbycar_wheels"]["wheelsCarmodel"].value;
+            var wheelsCaryear = document.forms["searchbycar_wheels"]["wheelsCaryear"].value;
+            if (wheelsCarbrand == "เลือก" || wheelsCarmodel == "เลือก" || wheelsCaryear == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtiresize () {
+            var TireWidth = document.forms["searchtiresize"]["TireWidth"].value;
+            var TireOverall = document.forms["searchtiresize"]["TireOverall"].value;
+            var tireDiameter = document.forms["searchtiresize"]["tireDiameter"].value;
+            if (TireWidth == "เลือก" || TireOverall == "เลือก" || tireDiameter == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        function searchtirebycar () {
+            var tire_carbrand = document.forms["searchtirebycar"]["tire_carbrand"].value;
+            var tire_carmodel = document.forms["searchtirebycar"]["tire_carmodel"].value;
+            var tire_caryear = document.forms["searchtirebycar"]["tire_caryear"].value;
+            if (tire_carbrand == "เลือก" || tire_carmodel == "เลือก" || tire_caryear == "เลือก") {
+                Swal.fire({
+                    icon: 'error',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่ท่านต้องการค้นหา'
+                })
+                return false;
+            } else {
+                return true;
+            }
         }
 
     </script>
