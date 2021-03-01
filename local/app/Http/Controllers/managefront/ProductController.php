@@ -176,10 +176,10 @@ class ProductController extends Controller
                 $product->product_name	         = $request['product_name'];
                 $product->product_type_id	     = $request['product_type'];
                 $product->product_brand_id	     = $request['brand_id'];
-                $product->product_price	         = $request['price'];
+                // $product->product_price	         = $request['price'];
 
-                // if ($request['price_discount'] != null) {
-                //     $product->product_price_discount = $request['price_discount'];
+                // if ($request['color_price_promotion'] != null) {
+                //     $product->product_price_discount = $request['color_price_promotion'];
                 // }
 
                 if ($request->file('imgcov') !== null)
@@ -193,7 +193,6 @@ class ProductController extends Controller
                 } else {
                     $product->product_imgcov  = 'nopic.png';
                 }
-
                 $product->save();
 
                 if ($request->file('img') !== null) {
@@ -209,21 +208,21 @@ class ProductController extends Controller
                 }
 
                 if ($request['diameter'] != null || $request['width'] != null || $request['overall'] != null) {
-                    foreach ($request['diameter'] as $key => $value) {
-                        $size = new size();
-                        $size->size_diameter      = $value;
-                        $size->size_width         = $request['width'][$key];
-                        $size->size_overall       = $request['overall'][$key];
-                        $size->size_fkey          = $product->product_id;
-                        $size->save();
+                    $size = new size();
+                    $size->size_diameter      = $request['diameter'];
+                    $size->size_width         = $request['width'];
+                    $size->size_overall       = $request['overall'];
+                    $size->size_price         = $request['price'];
+                    if ($request['color_price_status'] == 1) {
+                        $size->size_promotion_status        = $request['color_price_status'];
+                        $size->size_promotion_price         = $request['color_price_promotion'];
                     }
+                    $size->size_fkey          = $product->product_id;
+                    $size->save();
                 }
-
-                
             }
 
             DB::commit();
-            // return back()->withSuccess('New Product Has Been Saved!');
             if ($request['product_type'] == 1) {
                 return redirect('backoffice/addProductDetail/'.$product->product_id.'')->withSuccess('New Product Has Been Saved!');
             } else {
@@ -554,46 +553,28 @@ class ProductController extends Controller
                 //     }
                 // }
             } elseif ($request['product_type'] == 2) {
-                
+                // dd($request->all());
                 $product = product::where('product_id', $id)->first();
                 $product->product_name	         = $request['product_name'];
-                $product->product_detail	     = $request['detail'];
-                $product->product_property	     = $request['property'];
-                $product->product_warranty	     = $request['warranty'];
-                $product->product_price	         = $request['price'];
                 $product->save();
 
                 // แก้ไข size
                 if ($request->product_size_id != null) {
-                    foreach ($request->product_size_id as $key => $value) {
-                        $getSize = size::where('size_id', $value)->first();
-                        $getSize->size_width        = $request['product_width'][$key];
-                        $getSize->size_overall      = $request['product_overall'][$key];
-                        $getSize->size_diameter     = $request['product_diameter'][$key];
-                        $getSize->save();
+                    $getSize = size::where('size_id', $request->product_size_id)->first();
+                    $getSize->size_width        = $request['product_width'];
+                    $getSize->size_overall      = $request['product_overall'];
+                    $getSize->size_diameter     = $request['product_diameter'];
+                    $getSize->size_price        = $request['price'];
+                    if ($request['color_price_status'] == 1) {
+                        $getSize->size_promotion_status     = $request['color_price_status'];
+                        $getSize->size_promotion_price      = $request['color_price_promotion'];
+                    } else {
+                        $getSize->size_promotion_status     = 0;
+                        $getSize->size_promotion_price      = null;
                     }
+                    
+                    $getSize->save();
                 }
-
-                // เพิ่ม size ใหม่
-                if ($request->product_new_width != null || $request->product_new_overall != null || $request->product_new_diameter != null) {
-                    $data_width = $request->product_new_width;
-                    foreach ($data_width as $key => $value) {
-                        $getDiameter = size::where('size_id', $key)->first();
-                        $getDiameter->size_width        = $value;
-                        $getDiameter->size_overall      = $request['product_new_overall'][$key];
-                        $getDiameter->size_diameter     = $request['product_new_diameter'][$key];
-                        $getDiameter->size_price        = $request['price'][$key];
-                        $getDiameter->save();
-                    }
-                }
-
-                // delete size
-                if ($request->deletesize != null) {
-                    foreach ($request->deletesize as $key => $value) {
-                        $getSize = size::where('size_id', $value)->delete();
-                    }
-                }
-
 
                 if ($request->file('newimg') !== null) {
                     $img = $request->file('newimg');
@@ -607,23 +588,13 @@ class ProductController extends Controller
                     }
                 }
 
-                if ($request->file('newimggallery') !== null) {
-                    $img = $request->file('newimggallery');
-                    foreach($img as $key => $item) {
-                        $name = rand().time().'.'.$item->getClientOriginalExtension();
-                        $item->storeAs('productgallery',  $name);
-                        $productgallery = new productgallery();
-                        $productgallery->product_gallery_name        = $name;
-                        $productgallery->product_gallery_product_id  = $product->product_id;
-                        $productgallery->save();
-                    }
-                }
-
                 if ($request->file('imgcov') !== null) {
                     $imgcov = $request->file('imgcov');
                     foreach($imgcov as $key => $item) {
                         $dataimg = product::where('product_id', $id)->first();
-                        unlink('local/storage/app/product/'.$dataimg->product_imgcov);
+                        if ($dataimg->product_imgcov != null) {
+                            unlink('local/storage/app/product/'.$dataimg->product_imgcov);
+                        }
                         $name = rand().time().'.'.$item->getClientOriginalExtension();
                         $item->storeAs('product',  $name);
                         $dataimg->product_imgcov = $name;
@@ -635,7 +606,9 @@ class ProductController extends Controller
                     $imgset = $request->file('imgset');
                     foreach($imgset as $key => $item) {
                         $dataimgset = productimgset::where('product_imgset_id', $key)->first();
-                        unlink('local/storage/app/productgallery/'.$dataimgset->product_imgset_name);
+                        if ($dataimgset->product_imgset_name != null) {
+                            unlink('local/storage/app/productgallery/'.$dataimgset->product_imgset_name);
+                        }
                         $name = rand().time().'.'.$item->getClientOriginalExtension();
                         $item->storeAs('productgallery',  $name);
                         $dataimgset->product_imgset_name = $name;
@@ -658,25 +631,13 @@ class ProductController extends Controller
                 if ($request->deleteimgset != null) {
                     foreach ($request->deleteimgset as $key => $value) {
                         $getProductImgset = productimgset::where('product_imgset_id', $value)->first();
-                        if ($getProductImgset->product_imgset_name != "nopic.png") {
+                        if ($getProductImgset->product_imgset_name != null) {
                             $image_path = Storage::delete('productgallery/'.$getProductImgset->product_imgset_name);
                         }
                         $getProductImgset = productimgset::destroy($value);
                     }
                 }
-
-                // delete imggal
-                if ($request->deleteimggal != null) {
-                    foreach ($request->deleteimggal as $key => $value) {
-                        $getProductImggal = productgallery::where('product_gallery_id', $value)->first();
-                        if ($getProductImggal->product_gallery_name != "nopic.png") {
-                            $image_path = Storage::delete('productgallery/'.$getProductImggal->product_gallery_name);
-                        }
-                        $getProductImggal = productgallery::destroy($value);
-                    }
-                }
             }
-
             DB::commit();
             return back()->with('success','Product Has Been Updated!');
         } catch (\Exception $e) {

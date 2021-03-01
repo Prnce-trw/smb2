@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\banner;
 use App\product;
 use App\activitylog;
+use App\size;
 use Storage;
 use Auth;
 use URL;
@@ -143,10 +144,13 @@ class HomeController extends Controller
 
     public function homeproduct()
     {
-        $productNew = product::orderBy('product_id','DESC')->limit(8)->get();
-        $productBestSeller = product::where('product_bestseller', 1)->orderBy('product_id','DESC')->limit(8)->get();
-        $countBestSeller = product::where('product_bestseller', 1)->count();
-        $productDiscount = product::where('product_price_discount', '!=', null)->orderBy('product_id','DESC')->limit(8)->get();
+        $productNew = product::orderBy('product_id','DESC')->where('product_type_id', 1)->limit(8)->get();
+        $productBestSeller = product::where('product_bestseller', 1)->where('product_type_id', 1)->orderBy('product_id','DESC')->limit(8)->get();
+        $countBestSeller = product::where('product_bestseller', 1)->where('product_type_id', 1)->count();
+        $productDiscount = product::where('product_type_id', 1)->wherehas('getProductSizes', function ($q)
+        {
+            $q->where('size_promotion_status', 1);
+        })->orderBy('product_id','DESC')->limit(8)->get();
         $allProduct = product::all();
         $data = array(
             'productNew' => $productNew,
@@ -171,7 +175,7 @@ class HomeController extends Controller
 
     public function addBestSeller()
     {
-        $product = product::all();
+        $product = product::where('product_type_id', 1)->get();
         $data = array('product' => $product, );
         return view('backoffice.managefront.home.modal.modal-addbestseller', $data);
     }

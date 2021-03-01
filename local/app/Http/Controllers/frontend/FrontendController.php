@@ -31,6 +31,7 @@ use App\activitylog;
 use App\address;
 use App\award;
 use App\award_img;
+use App\productimgset;
 
 class FrontendController extends Controller
 {
@@ -44,7 +45,10 @@ class FrontendController extends Controller
         $banner = banner::where('banner_id', 1)->first();
         $newproduct = product::take(5)->where('product_show_status', 1)->where('product_type_id', 1)->orderBy('product_id', 'asc')->get();
         $bestseller = product::where('product_bestseller', 1)->where('product_type_id', 1)->get();
-        $productdiscount = product::take(5)->where('product_price_discount', '!=', null)->where('product_type_id', 1)->orderBy('product_id', 'asc')->get();
+        $productdiscount = product::where('product_type_id', 1)->wherehas('getProductSizes', function ($q)
+        {
+            $q->where('size_promotion_status', 1);
+        })->orderBy('product_id','DESC')->limit(5)->get();
         $carbrand = carbrand::all();
         $sizetire = size::groupBy('size_width')->get();
         $data = array(
@@ -211,6 +215,7 @@ class FrontendController extends Controller
         })->limit(5)->get();
 
         $data = array(
+            'id' => $id,
             'size' => $size,
             'size_head' => $size_head,
             'product' => $product,
@@ -519,6 +524,7 @@ class FrontendController extends Controller
         $pcd = pcd::groupBy('pcd_name')->get();
         $carbrand = carbrand::all();
         $data = array(
+            'id' => $id,
             'product' => $product,
             'producttype' => $producttype,
             'brand' => $brand,
@@ -626,7 +632,7 @@ class FrontendController extends Controller
                 $pathlink = url('news_detail', $value->news_id);
                 $html_news .= '
                 <div class="card col-12 col-md-6">
-                    <img class="card-img-top img-fluid" src="'.$pathimg.'" alt="Card image cap">
+                    <img class="card-img-top img-fluid" src="'.$pathimg.'" alt="Card image cap" style="height: 270px;">
                     <div class="card-body" id="cardT">
                         <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"></i> '.$date.'</small></p>
                         <h4 class="card-title">'.$value->news_title.'</h4>
@@ -646,65 +652,125 @@ class FrontendController extends Controller
         $watched_product = \Session::get('watched_product_id');
         $productTotal = Cart::getTotalQuantity();
         $productPriceTotal = Cart::getTotal();
-        // dd($getProductCart);
+        // dd($getProductCart[4]->attributes->product_type);
 
         $html = '';
         foreach ($getProductCart as $key => $value) {
-            // dd($value->attributes->size);
-            $size = size::where('size_id', $value->id)->first();
-            $product = product::where('product_id', $size->size_fkey)->first();
-            $pathimg = asset("local/storage/app/product/".$product->product_imgcov."");
-            $html .= '
-            <div id="deleteCart_'.$value->id.'" class="card col-12 col-md-12 col-lg-12 col-xl-12 bg_boxcart border shadow-sm  mb-5 bg-white rounded" style="padding: 0px">
-                <div class="card">
-                    <div class="card-header container-fluid" id="newsHeading">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <button type="button" class="close btn-delcart" aria-label="Close" id="btnclose" onclick="delProCart('.$value->id.')" value="'.$value->id.'">
-                                    <span aria-hidden="true">X</span>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="container mb-3">
-                        <div class="row cart_cartshop">
-                            <div class="col-lg-3 col-sm-12">
-                                <img src="'.$pathimg.'" width="100%">
-                            </div>
-                            <div class="col-lg-5 col-sm-12">
-                                <div class="card-body" id="cardT">
-                                    <h4 class="card-title">'.$value->name.' ('.$size->size_diameter.' x '.$size->size_width.') </h4>
-                                    <p class="card-text">'.Str::limit($product->product_detail, 200).'</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-sm-12">
-                                <div class="product-quantity">
-                                    <div class="product-quantity-subtract">
-                                        <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                            <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
-                                        </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
-                                    </div>
-                                    <div>
-                                        <input type="text" id="product-quantity-input-checkout" placeholder="'.$value->quantity.'" value="'.$value->quantity.'">
-                                    </div>
-                                    <div class="product-quantity-add">
-                                        <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
-                                            <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
-                                        </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-sm-12">
-                                <div class="card-body" id="cardT">
-                                    <h4 class="card-title text-center">'.number_format($value->price * $value->quantity).'</h4>
-                                    <p class="card-text text-center">'.number_format($value->price).' / วง</p>
+            // dd($value->attributes->product_type);
+            if ($value->attributes->product_type == 1) {
+                $size = size::where('size_id', $value->id)->first();
+                $product = product::where('product_id', $size->size_fkey)->first();
+                $color = color::where('color_id', $size->size_color_id)->first();
+                $img_cover = productimgset::where('product_imgset_product_id', $size->size_color_id)->first();
+                // dd($img_cover);
+                $pathimg = asset("local/storage/app/productimgset/".$img_cover->product_imgset_name."");
+                $html .= '
+                <div id="deleteCart_'.$value->id.'" class="card col-12 col-md-12 col-lg-12 col-xl-12 bg_boxcart border shadow-sm  mb-5 bg-white rounded" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header container-fluid" id="newsHeading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="close btn-delcart" aria-label="Close" id="btnclose" onclick="delProCart('.$value->id.')" value="'.$value->id.'">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
                                 </div>
                             </div>
                         </div>
+                        <div class="container mb-3">
+                            <div class="row cart_cartshop">
+                                <div class="col-lg-3 col-sm-12">
+                                    <img src="'.$pathimg.'" width="100%">
+                                </div>
+                                <div class="col-lg-5 col-sm-12">
+                                    <div class="card-body" id="cardT">
+                                        <h4 class="card-title">'.$value->name.' ('.$size->size_diameter.' x '.$size->size_width.') </h4>
+                                        <p class="card-text">'.Str::limit($product->product_detail, 200).'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="product-quantity">
+                                        <div class="product-quantity-subtract">
+                                            <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                            </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                        </div>
+                                        <div>
+                                            <input type="text" id="product-quantity-input-checkout" placeholder="'.$value->quantity.'" value="'.$value->quantity.'">
+                                        </div>
+                                        <div class="product-quantity-add">
+                                            <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                            </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="card-body" id="cardT">
+                                        <h4 class="card-title text-center">'.number_format($value->price * $value->quantity).'</h4>
+                                        <p class="card-text text-center">'.number_format($value->price).' / วง</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
-            </div>';
+                </div>';
+            } else {
+                $product = product::where('product_id', $value->id)->first();
+                $size = size::where('size_fkey', $value->id)->first();
+                $pathimg = asset("local/storage/app/product/".$product->product_imgcov."");
+                $html .= '
+                <div id="deleteCart_'.$value->id.'" class="card col-12 col-md-12 col-lg-12 col-xl-12 bg_boxcart border shadow-sm  mb-5 bg-white rounded" style="padding: 0px">
+                    <div class="card">
+                        <div class="card-header container-fluid" id="newsHeading">
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <button type="button" class="close btn-delcart" aria-label="Close" id="btnclose" onclick="delProCart('.$value->id.')" value="'.$value->id.'">
+                                        <span aria-hidden="true">X</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container mb-3">
+                            <div class="row cart_cartshop">
+                                <div class="col-lg-3 col-sm-12">
+                                    <img src="'.$pathimg.'" width="100%">
+                                </div>
+                                <div class="col-lg-5 col-sm-12">
+                                    <div class="card-body" id="cardT">
+                                        <h4 class="card-title">'.$value->name.' ('.$size->size_width.'/'.$size->size_overall.'ZR'.$size->size_diameter.') </h4>
+                                        <p class="card-text">'.Str::limit($product->product_detail, 200).'</p>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="product-quantity">
+                                        <div class="product-quantity-subtract">
+                                            <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                            </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
+                                        </div>
+                                        <div>
+                                            <input type="text" id="product-quantity-input-checkout" placeholder="'.$value->quantity.'" value="'.$value->quantity.'">
+                                        </div>
+                                        <div class="product-quantity-add">
+                                            <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
+                                                <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
+                                            </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-2 col-sm-12">
+                                    <div class="card-body" id="cardT">
+                                        <h4 class="card-title text-center">'.number_format($value->price * $value->quantity).'</h4>
+                                        <p class="card-text text-center">'.number_format($value->price).' / วง</p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>';
+            }
         }
+            
         $data = array(
             'html' => $html,
             'getProductCart' => $getProductCart,
@@ -982,10 +1048,13 @@ class FrontendController extends Controller
     public function AddtoCart(Request $request)
     {
         Cart::add(array(
-            'id' => $request->sizeid,
-            'name' => $request->ProductName,
-            'price' => $request->ProductPrice,
+            'id' => $request->size_id,
+            'name' => $request->price_name,
+            'price' => $request->price,
             'quantity' => $request->amountProduct,
+            'attributes' => array(
+                'product_type' => $request->Product_type,
+            )
         ));
         $cartCollection = Cart::getContent();
     }
@@ -1080,9 +1149,9 @@ class FrontendController extends Controller
         }
         if ($size[0]->size_promotion_status == 1) {
             $html_price = '<div class="through">ราคาปกติวงละ<span>'.$size[0]->size_price.'</span>บาท</div>';
-            $html_price_promotion = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">'.$size[0]->size_promotion_price.'</span>บาท</div>';
+            $html_price_promotion = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;" id="price">'.$size[0]->size_promotion_price.'</span>บาท</div>';
         } else {
-            $html_price = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">'.$size[0]->size_price.'</span>บาท</div>';
+            $html_price = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;" id="price">'.$size[0]->size_price.'</span>บาท</div>';
             $html_price_promotion = '';
         }
         $data = array(
@@ -1126,12 +1195,12 @@ class FrontendController extends Controller
         $htmlPromotionPrice = '';
         if ($size->size_promotion_status == 1) {
             $htmlPrice = '<div class="through">ราคาปกติวงละ<span>'.$size->size_price.'</span>บาท</div>';
-            $htmlPromotionPrice = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">'.$size->size_promotion_price.'</span>บาท</div>';
+            $htmlPromotionPrice = '<div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;" id="price">'.$size->size_promotion_price.'</span>บาท</div>';
         } else {
-            $htmlPrice = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">'.$size->size_price.'</span>บาท</div>';
+            $htmlPrice = '<div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;" id="price">'.$size->size_price.'</span>บาท</div>';
             $htmlPromotionPrice = '';
         }
-        $data = array('htmlPrice' => $htmlPrice, 'htmlPromotionPrice' => $htmlPromotionPrice);
+        $data = array('htmlPrice' => $htmlPrice, 'htmlPromotionPrice' => $htmlPromotionPrice, 'size' => $size);
         return $data;
     }
 

@@ -1453,7 +1453,7 @@ a[aria-expanded="true"] {
 }
 
 .pd-tyre .about-us .col-right .popup-detail {
-    width: 130px;
+    /* width: 130px; */
     display: block;
     border: 1px solid #000;
 }

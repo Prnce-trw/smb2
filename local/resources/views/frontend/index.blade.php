@@ -426,28 +426,26 @@
                                                         <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">{{$item->product_name}}</h6>
                                                     </div>
                                                     Size: 
-                                                    @foreach ($item->getProductSizes as $value_size)
-                                                    {{$value_size->size_diameter}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_size)
+                                                    {{$value_size->size_diameter}},
                                                     @endforeach<br>
                                                     PCD: 
-                                                    @foreach ($item->getProductPcds as $value_pcd)
-                                                    {{$value_pcd->pcd_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_pcd)
+                                                    {{$value_pcd->size_pcd}},
                                                     @endforeach<br>
                                                     ET: 
-                                                    @foreach ($item->getProductEts as $value_et)
-                                                    {{$value_et->et_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_et)
+                                                    {{$value_et->size_et}},
                                                     @endforeach
-                                                    <div class="product-price">
-                                                        @if ($item->product_price_discount != null)
-                                                        <del>{{$item->product_price}}</del>
-                                                        @endif
-                                                        <a id="orange19"> 
-                                                            @if ($item->product_price_discount == null)
-                                                            {{$item->product_price}}
+                                                    <div class="product-price" style="height:20px;">
+                                                        @if (!empty($item->getColors->getSizes))
+                                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
                                                             @else
-                                                            {{$item->product_price_discount}}
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
                                                             @endif
-                                                        </a>
+                                                        @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
                                                         <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>
@@ -487,29 +485,26 @@
                                                         <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">{{$item->product_name}}</h6>
                                                     </div>
                                                     Size: 
-                                                    @foreach ($item->getProductSizes as $value_size)
-                                                    {{$value_size->size_diameter}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_size)
+                                                    {{$value_size->size_diameter}},
                                                     @endforeach<br>
                                                     PCD: 
-                                                    @foreach ($item->getProductPcds as $value_pcd)
-                                                    {{$value_pcd->pcd_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_pcd)
+                                                    {{$value_pcd->size_pcd}},
                                                     @endforeach<br>
                                                     ET: 
-                                                    @foreach ($item->getProductEts as $value_et)
-                                                    {{$value_et->et_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_et)
+                                                    {{$value_et->size_et}},
                                                     @endforeach
-                                                    <div class="product-price">
-                                                        @if ($item->product_price_discount != null)
-                                                        <del>{{$item->product_price}}</del>
-                                                        @endif
-                                                        
-                                                        <a id="orange19"> 
-                                                            @if ($item->product_price_discount == null)
-                                                            {{$item->product_price}}
+                                                    <div class="product-price" style="height:20px;">
+                                                        @if (!empty($item->getColors->getSizes))
+                                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
                                                             @else
-                                                            {{$item->product_price_discount}}
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
                                                             @endif
-                                                        </a>
+                                                        @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
                                                         <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>
@@ -549,29 +544,26 @@
                                                         <h6 id="black-lr" class="color-orange-1-padding" style="padding-left: 5px;margin-bottom: 0px!important">{{$item->product_name}}</h6>
                                                     </div>
                                                     Size: 
-                                                    @foreach ($item->getProductSizes as $value_size)
-                                                    {{$value_size->size_diameter}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_size)
+                                                    {{$value_size->size_diameter}},
                                                     @endforeach<br>
                                                     PCD: 
-                                                    @foreach ($item->getProductPcds as $value_pcd)
-                                                    {{$value_pcd->pcd_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_pcd)
+                                                    {{$value_pcd->size_pcd}},
                                                     @endforeach<br>
                                                     ET: 
-                                                    @foreach ($item->getProductEts as $value_et)
-                                                    {{$value_et->et_name}}
+                                                    @foreach ($item->getProductSizes_groupBy as $value_et)
+                                                    {{$value_et->size_et}},
                                                     @endforeach
-                                                    <div class="product-price">
-                                                        @if ($item->product_price_discount != null)
-                                                        <del>{{$item->product_price}}</del>
-                                                        @endif
-                                                        
-                                                        <a id="orange19"> 
-                                                            @if ($item->product_price_discount == null)
-                                                            {{$item->product_price}}
+                                                    <div class="product-price" style="height:20px;">
+                                                        @if (!empty($item->getColors->getSizes))
+                                                            @if ($item->getColors->getSizes[0]->size_promotion_status == 1)
+                                                            <del>฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</del>
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_promotion_price,0)}}</a>
                                                             @else
-                                                            {{$item->product_price_discount}}
+                                                            <a id="orange19">฿ {{number_format($item->getColors->getSizes[0]->size_price,0)}}</a>
                                                             @endif
-                                                        </a>
+                                                        @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
                                                         <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>

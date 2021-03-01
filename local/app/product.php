@@ -14,6 +14,11 @@ class product extends Model
         return $this->belongsTo(brand::class, 'product_brand_id');
     }
 
+    public function getProductSizes_groupBy()
+    {
+        return $this->hasMany(size::class, 'size_fkey', 'product_id')->groupBy('size_diameter');
+    }
+
     public function getProductSizes()
     {
         return $this->hasMany(size::class, 'size_fkey', 'product_id');

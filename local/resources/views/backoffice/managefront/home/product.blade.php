@@ -9,7 +9,7 @@
                 <i class="fa fa-cubes"></i>
             </div>
             <div class="d-inline-block">
-                <h5>Home / Product</h5>
+                <h5>Home / Product Present</h5>
                 <span>For Staff Only</span>
             </div>
         </div>
@@ -20,7 +20,7 @@
                     </li>
                     <li class="breadcrumb-item"><a href="">Home</a>
                     </li>
-                    <li class="breadcrumb-item"><a href="{{url('backoffice/homeproduct')}}">Product</a>
+                    <li class="breadcrumb-item"><a href="{{url('backoffice/homeproduct')}}">Product Present</a>
                     </li>
                 </ul>
             </div>

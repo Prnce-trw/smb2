@@ -1922,46 +1922,6 @@
         });
     });
 
-</script>
-<!--
-<script>
-    var colorSelect = 00;
-    jQuery(".colorPick").each(function(index) {
-        jQuery(this).on("click", function() {
-            var colorId = jQuery(this).attr('id');
-            var colorIdNumber = colorId.substr(colorId.length - 2);
-            var colorContentImg = jQuery("#color" + colorIdNumber + " img").clone();
-            var colorContentName = jQuery("#color" + colorIdNumber + " span").clone();
-            jQuery("#selectedColor").html(colorContentImg);
-            jQuery("#colorName").html(colorContentName);
-            colorSelect = colorIdNumber;
-        });
-        jQuery(this).on("mouseenter", function() {
-            var colorId = jQuery(this).attr('id');
-            var colorIdNumber = colorId.substr(colorId.length - 2);
-            var colorContentImg = jQuery("#color" + colorIdNumber + " img").clone();
-            var colorContentName = jQuery("#color" + colorIdNumber + " span").clone();
-            jQuery("#selectedColor").html(colorContentImg);
-            jQuery("#colorName").html(colorContentName);
-        });
-        jQuery(this).on("mouseleave", function() {
-            var colorId = jQuery(this).attr('id');
-            var colorIdNumber = colorSelect;
-            var colorContentImg = jQuery("#color" + colorIdNumber + " img").clone();
-            var colorContentName = jQuery("#color" + colorIdNumber + " span").clone();
-            jQuery("#selectedColor").html(colorContentImg);
-            jQuery("#colorName").html(colorContentName);
-        });
-    });
-
-    function startDesignLink(colorLink) {
-        jQuery(".disenar-ahora").attr("href", colorLink);
-    }
-
-</script>
--->
-
-<script>
     $(document).ready(function() {
         $('.colorWrapper a').click(function(event) {
             var visaid = $(event.currentTarget).attr('href');
@@ -2016,49 +1976,6 @@
                     </div>
                 </section>
                 @endforeach
-
-                {{-- <section id="color03" class="simplegallery">
-                    <div class="society-set select-display-slide">
-                        <li class="active" rel="1">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0847.jpg" class="img-fluid"></a>
-                        </li>
-                        <li rel="2">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0848.jpg" class="img-fluid"></a>
-                        </li>
-                        <li rel="3">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0849.jpg" class="img-fluid"></a>
-                        </li>
-                        <li rel="4">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0850.jpg" class="img-fluid"></a>
-                        </li>
-                        <li rel="5">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0851.jpg" class="img-fluid"></a>
-                        </li>
-                        <li rel="6">
-                            <a href="javascript:void(0)"><img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0852.jpg" class="img-fluid"></a>
-                        </li>
-                    </div>
-                    <div class="society-content">
-                        <div class="display-slide" rel="1" style="display:block;">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0847.jpg" class="img-fluid">
-                        </div>
-                        <div class="display-slide" rel="2">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0848.jpg" class="img-fluid">
-                        </div>
-                        <div class="display-slide" rel="3">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0849.jpg" class="img-fluid">
-                        </div>
-                        <div class="display-slide" rel="4">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0850.jpg" class="img-fluid">
-                        </div>
-                        <div class="display-slide" rel="5">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0851.jpg" class="img-fluid">
-                        </div>
-                        <div class="display-slide" rel="6">
-                            <img src="images/Cosmis_XT_seires_XT-206R/CosmisKevlar/%E0%B8%A0%E0%B8%B2%E0%B8%9E%E0%B8%88%E0%B8%B1%E0%B8%94%E0%B9%81%E0%B8%AA%E0%B8%87%E0%B8%A5%E0%B9%89%E0%B8%AD%E0%B9%81%E0%B8%A1%E0%B9%87%E0%B8%81_%E0%B9%91%E0%B9%99%E0%B9%90%E0%B9%95%E0%B9%92%E0%B9%98_0852.jpg" class="img-fluid">
-                        </div>
-                    </div>
-                </section> --}}
 
                 <div class="pd-color">
                     <br>
@@ -2135,11 +2052,13 @@
                         <!--ราคาพิเศษ-->
                         <div class="product-price" style="margin-top:15px;">
                             @if (!empty($size))
+                                <input type="hidden" name="size_id" id="size_id" value="{{$size[0]->size_id}}">
+                                <input type="hidden" name="product_type" id="product_type" value="{{$id}}">
                                 @if ($size[0]->size_promotion_status == 1)
                                 <span id="result_price"><div class="through">ราคาปกติวงละ<span>{{$size[0]->size_price}}</span>บาท</div></span>
-                                <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_promotion_price}}</span>บาท</div></span>
+                                <span id="result_price_promotion"><div class="special-price">ราคาพิเศษวงละ<span style="background: #ed1e25; color:#fff;" id="price">{{$size[0]->size_promotion_price}}</span>บาท</div></span>
                                 @else
-                                <span id="result_price_promotion"><div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;">{{$size[0]->size_price}}</span>บาท</div></span>
+                                <span id="result_price_promotion"><div class="special-price">ราคาปกติวงละ<span style="background: #ed1e25; color:#fff;" id="price">{{$size[0]->size_price}}</span>บาท</div></span>
                                 @endif
                             @endif
                         </div>
@@ -2165,7 +2084,7 @@
                     </div>
                     @if (auth('customer')->user() != null)
                     <div class="col-lg-3 col-md-3">
-                        <button type="button" class="btn btn-black rounded-0" onclick="addtoCart()" style="color: #fff;" id="lk"> ใส่ตะกร้าสินค้า</button>
+                        <button type="button" class="btn btn-black rounded-0" onclick="AddToCart()" style="color: #fff;" id="lk"> ใส่ตะกร้าสินค้า</button>
                     </div>
                     @endif
                 </div>
@@ -2359,20 +2278,33 @@
             CalcPrice(value);
         });
 
-        function AddToCart(e) {
-            e.preventDefault();
-            var qty = $("#product-quantity-input").val();
-            if (qty === '0') {
-                return;
+        function AddToCart() {
+            var price = $('#price').text();
+            var Product_type = $('#product_type').val();
+            var price_name = $('#orange17').text();
+            var size_id = $('#size_id').val();
+            var amountProduct = $('#product-quantity-input').val();
+            if (amountProduct == 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ขออภัย',
+                    text: 'กรุณาเลือกจำนวนสินค้า',
+                })
+            } else {
+                $.ajax({
+                    url: '{{url('AddtoCart')}}',
+                    type: 'GET',
+                    data: {
+                        price: price,
+                        Product_type: Product_type,
+                        price_name: price_name,
+                        size_id: size_id,
+                        amountProduct: amountProduct,
+                    },
+                }).done(function (data) {
+                    window.location.href = '{{url('cart')}}';
+                });
             }
-            var toast = '<div class="toast toast-success">Added ' + qty + ' to cart.</div>';
-            $("body").append(toast);
-            setTimeout(function() {
-                $(".toast").addClass("toast-transition");
-            }, 100);
-            setTimeout(function() {
-                $(".toast").remove();
-            }, 3500);
         }
 
         $(document).ready(function() {
@@ -2573,6 +2505,7 @@
                     product_id: product_id,
                 },
                 }).done(function (data) {
+                    $('#size_id').val(data.size[0].size_id);
                     $('#result_filtersize').html(data.html);
                     $('#result_price').html(data.html_price);
                     $('#result_price_promotion').html(data.html_price_promotion);
@@ -2599,6 +2532,7 @@
                 type: 'GET',
                 data: {sizeID: sizeID},
             }).done(function (data) {
+                $('#size_id').val(data.size.size_id);
                 $('#result_price').html(data.htmlPrice);
                 $('#result_price_promotion').html(data.htmlPromotionPrice);
             });

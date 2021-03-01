@@ -349,7 +349,7 @@
                                                 <li class="">
                                                     <a href="{{url('backoffice/homeproduct')}}">
                                                         <span class="pcoded-micon"><i class="icon-chart"></i></span>
-                                                        <span class="pcoded-mtext">Product</span>
+                                                        <span class="pcoded-mtext">Product Present</span>
                                                         <span class="pcoded-mcaret"></span>
                                                     </a>
                                                 </li>

@@ -904,49 +904,6 @@
                         <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
                     </div>
                 </div>
-
-                <div class="tab-content mt-3 mb-3">
-                    <div id="home" class="tab-pane active" style="background-color: #ff8200">
-                        <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
-                            <div class="panel panel-default">
-                                <div class="panel-heading" role="tab" id="heading5">
-                                    <h4 class="panel-title">
-                                    </h4>
-                                </div>
-                            </div>
-                            <div class="panel panel-default">
-                                <div id="collapse5" class="panel-collapse collapse show" role="tabpanel" aria-labelledby="heading5">
-                                </div>
-                            </div>
-                            <div class="panel panel-default" style="background-color: #ff8200">
-                                <div class="panel-heading" role="tab" id="heading5">
-                                    <h4 class="panel-title">
-                                        <a class="" role="button" data-toggle="collapse" data-parent="#accordion" href="#collapse5" aria-expanded="true" aria-controls="collapse5">
-                                            ประเภทรถ
-                                        </a>
-                                    </h4>
-                                </div>
-                                <div id="collapse5" class="panel-collapse collapse" role="tabpanel" aria-labelledby="heading5">
-                                    <div class="panel-body pt-3 pr-2 pl-2" style="background-color: #fff">
-                                        <div class="textreviews">
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- แม็กซ์</a>
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- ยาง</a>
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- โช๊ค</a>
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- ผ้าเบรค</a>
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- สินค้าอื่นๆ</a>
-                                            <a class="dropdown-item" href="#" style="color: #000;border-bottom: 1px solid #ebebeb">- สินค้ามือสอง</a>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="menu1" class="container tab-pane fade" style="background-color: #ebebeb"><br>
-                        <h3>Menu 1</h3>
-                        <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                    </div>
-                </div>
-
             </div>
             <div class="col-lg-9 col-md-12">
                 <div class="col-xs-4">
@@ -1044,21 +1001,29 @@
                                             @if (!empty($item->getBrand->brand_img))
                                             <img src="{{asset('local/storage/app/brand/'.$item->getBrand->brand_img.'')}}">
                                             @endif
-                                            <p class="series-mobel">{{$item->product_name}}</p>
+                                            <p class="series-mobel" id="product_name">{{$item->product_name}}</p>
                                             <p class="size-mobel">
                                                 @foreach ($item->getProductSizes as $item_size)
                                                     {{$item_size->size_width}}/{{$item_size->size_overall}}ZR{{$item_size->size_diameter}}
                                                 @endforeach 
                                             </p>
                                             <div class="sub-item">
-                                                <p><span>ราคาปกติ</span>เส้นละ <span class="font-large">{{$item->product_price}}</span> บาท</p>
-                                                {{-- <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">2,990</span> บาท</p> --}}
+                                                @foreach ($item->getProductSizes as $itemPrice)
+                                                    @if ($itemPrice->size_promotion_status == 1)
+                                                    <p><span>ราคาปกติ</span>เส้นละ <span class="font-large" id="price">{{number_format($itemPrice->size_price)}}</span> บาท</p>
+                                                    <p class="price-special"><span class="color_pm" style="margin-left: 35px;">พิเศษ</span><br>ราคาเส้นละ <span class="bg-pm font-large">{{number_format($itemPrice->size_promotion_price)}}</span> บาท</p>
+                                                    @else
+                                                    <p><span>ราคาปกติ</span>เส้นละ <span class="font-large" id="price">{{number_format($itemPrice->size_price)}}</span> บาท</p>
+                                                    @endif
+                                                @endforeach
                                             </div>
                                         </div>
                                     </div>
                                     <div class="col-right">
                                         @foreach ($item->getProductImgSets as $itemmodal) 
-                                        <a class="popup-detail" data-toggle="modal" data-target="#exampleModal"><img src="{{asset('local/storage/app/productgallery/'.$itemmodal->product_imgset_name.'')}}" class="image_product"></a>
+                                        <a class="popup-detail" data-toggle="modal" data-target="#exampleModal" style="border: none;">
+                                            <img src="{{asset('local/storage/app/productgallery/'.$itemmodal->product_imgset_name.'')}}" class="image_product" style="width: 70px !important; height: 70px !important;">
+                                        </a>
                                         <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
                                             <div class="modal-dialog" role="document">
@@ -1070,18 +1035,19 @@
                                         @endforeach
                                     </div>
                                     <div class="sub-bottom">
+                                        @if (auth('customer')->user() != null)
                                         <ul>
                                             <li>
                                                 <div class="product-quantity" id="pq">
-                                                    <div class="product-quantity-subtract">
+                                                    <div class="product-quantity-subtract" data-productId="{{$item->product_id}}">
                                                         <svg class="svg-inline--fa fa-minus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="minus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
                                                             <path fill="currentColor" d="M416 208H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h384c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
                                                         </svg><!-- <i class="fa fa-minus" aria-hidden="true"></i> -->
                                                     </div>
                                                     <div>
-                                                        <input type="text" id="product-quantity-input" placeholder="0" value="0">
+                                                        <input type="text" class="result_amount_{{$item->product_id}}" id="product-quantity-input" data-productId="{{$item->product_id}}" placeholder="0" value="0">
                                                     </div>
-                                                    <div class="product-quantity-add">
+                                                    <div class="product-quantity-add" data-productId="{{$item->product_id}}">
                                                         <svg class="svg-inline--fa fa-plus fa-w-14" aria-hidden="true" focusable="false" data-prefix="fa" data-icon="plus" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512" data-fa-i2svg="">
                                                             <path fill="currentColor" d="M416 208H272V64c0-17.67-14.33-32-32-32h-32c-17.67 0-32 14.33-32 32v144H32c-17.67 0-32 14.33-32 32v32c0 17.67 14.33 32 32 32h144v144c0 17.67 14.33 32 32 32h32c17.67 0 32-14.33 32-32V304h144c17.67 0 32-14.33 32-32v-32c0-17.67-14.33-32-32-32z"></path>
                                                         </svg><!-- <i class="fa fa-plus" aria-hidden="true"></i> -->
@@ -1089,20 +1055,18 @@
                                                 </div>
                                             </li>
                                             <li>
-                                                <a href="cart.php" class="btn btn-black rounded-0" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</a>
+                                                <input type="hidden" name="product_type" id="product_type" value="{{$id}}">
+                                                <input type="hidden" name="product_id" id="product_id" value="{{$item->product_id}}">
+                                                <button class="btn btn-black rounded-0" onclick="AddToCart({{$item->product_id}})" style="color: #fff;" id="lk">ใส่ตะกร้าสินค้า</button>
                                             </li>
                                         </ul>
+                                        @endif
                                     </div>
                                 </div>
                             </div>
                         </div>
                         @endforeach
-                        
                     </div>
-                    
-                    
-                    
-
                     <!--
                     <div class="row">
                         <div class="row">
@@ -1151,7 +1115,7 @@
         var pmdSliderValueRange = document.getElementById('pmd-slider-value-range');
 
         noUiSlider.create(pmdSliderValueRange, {
-            start: [0, 10000], // Handle start position
+            start: [0, 100000], // Handle start position
             connect: true, // Display a colored bar between the handles
             tooltips: [wNumb({
                 decimals: 0
@@ -1165,7 +1129,7 @@
             }),
             range: { // Slider can select '0' to '100'
                 'min': 0,
-                'max': 10000
+                'max': 100000
             }
         });
 
@@ -1199,25 +1163,27 @@
 
         //Reduce quantity by 1 if clicked
         $(document).on("click", ".product-quantity-subtract", function(e) {
-            var value = $("#product-quantity-input").val();
-            //console.log(value);
+            var productId = $(this).attr('data-productId');
+            var value = $(".result_amount_"+productId).val();
             var newValue = parseInt(value) - 1;
             if (newValue < 0) newValue = 0;
-            $("#product-quantity-input").val(newValue);
+            $(".result_amount_"+productId).val(newValue);
             CalcPrice(newValue);
         });
 
         //Increase quantity by 1 if clicked
         $(document).on("click", ".product-quantity-add", function(e) {
-            var value = $("#product-quantity-input").val();
+            var productId = $(this).attr('data-productId');
+            var value = $(".result_amount_"+productId).val();
             //console.log(value);
             var newValue = parseInt(value) + 1;
-            $("#product-quantity-input").val(newValue);
+            $(".result_amount_"+productId).val(newValue);
             CalcPrice(newValue);
         });
 
         $(document).on("blur", "#product-quantity-input", function(e) {
-            var value = $("#product-quantity-input").val();
+            var productId = $(this).attr('data-productId');
+            var value = $(".result_amount_"+productId).val();
             //console.log(value);
             CalcPrice(value);
         });
@@ -1399,6 +1365,34 @@
                 return false;
             } else {
                 return true;
+            }
+        }
+
+        function AddToCart(id) {
+            var price = $('#price').text();
+            var Product_type = $('#product_type').val();
+            var price_name = $('#product_name').text();
+            var amountProduct = $('.result_amount_' + id).val();
+            if (amountProduct == 0) {
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'ขออภัย',
+                    text: 'กรุณาเลือกจำนวนสินค้า',
+                })
+            } else {
+                $.ajax({
+                    url: '{{url('AddtoCart')}}',
+                    type: 'GET',
+                    data: {
+                        price: price,
+                        Product_type: Product_type,
+                        price_name: price_name,
+                        size_id: id,
+                        amountProduct: amountProduct,
+                    },
+                }).done(function (data) {
+                    window.location.href = '{{url('cart')}}';
+                });
             }
         }
     </script>

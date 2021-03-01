@@ -259,16 +259,21 @@
                                                 </h6>
                                             </div>
                                         </div>
-                                        <div class="row" style="padding-bottom: 10px;padding-top: 15px">
+                                        <div class="row" style="padding-bottom: 10px;padding-top: 15px;">
                                             <div class="col-12">
                                                 <h6>เลือกการจัดส่ง</h6>
                                                 <select id="selectDay" class="form-control-5">
                                                     <option selected disabled>เลือก</option>
-                                                    <option>จัดส่งฟรี</option>
-                                                    <option>EMS</option>
-                                                    <option>Kerry</option>
-                                                    <option>Ninjavan</option>
+                                                    <option value="ติดตั้งหน้าร้าน">ติดตั้งหน้าร้าน</option>
+                                                    <option value="EMS">EMS</option>
+                                                    <option value="Kerry">Kerry</option>
                                                 </select>
+                                            </div>
+                                        </div>
+                                        <div class="row" style="padding-bottom: 10px;padding-top: 15px; ">
+                                            <div class="col-12">
+                                                <h6>เลือกวันที่</h6>
+                                                <input type="date" name="date" class="form-control" placeholder="เลือกวันที่...">
                                             </div>
                                         </div>
                                         @if ($productTotal != 0)
@@ -354,7 +359,6 @@
     </div>
     @include('frontend.footer')
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
-
     <script>
         //Reduce quantity by 1 if clicked
         $(document).on("click", ".product-quantity-subtract", function(e) {
@@ -413,6 +417,13 @@
                 });
             }
             $('#deleteCart_'+id).fadeOut();
+        });
+
+        $(document).on('change', '#selectDay', function () {
+            var delivery = $(this).val();
+            if (delivery = 'ติดตั้งหน้าร้าน') {
+                
+            }
         });
     </script>
 

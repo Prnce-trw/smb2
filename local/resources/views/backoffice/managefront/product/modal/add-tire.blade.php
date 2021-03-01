@@ -47,13 +47,13 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-4">
-                                    <input type="text" name="width[]" class="form-control" placeholder="Width...">
+                                    <input type="text" name="width" class="form-control" placeholder="Width...">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" name="overall[]" class="form-control" placeholder="Overall...">
+                                    <input type="text" name="overall" class="form-control" placeholder="Overall...">
                                 </div>
                                 <div class="col-sm-4">
-                                    <input type="text" name="diameter[]" class="form-control" placeholder="Diameter...">
+                                    <input type="text" name="diameter" class="form-control" placeholder="Diameter...">
                                 </div>
                             </div>
                             {{-- <div id="appendsize"></div>
@@ -65,14 +65,19 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" name="price" class="form-control" placeholder="Price...">
+                                    <input type="number" name="price" class="form-control" id="checkprice" placeholder="Price...">
                                 </div>
-                                {{-- <div class="col-6 input-group">
-                                    <span>
-                                        <button type="button" id="discount" name="discount" value="1" class="btn btn-default"><i class="fa fa-certificate"></i></button>
-                                    </span>
-                                    <input type="number" name="price_discount" class="form-control removiediscount" placeholder="Price (Discount)..." disabled="disabled">
-                                </div> --}}
+                                <div class="col-sm-2">
+                                    <div class="border-checkbox-section">
+                                        <div class="border-checkbox-group border-checkbox-group-primary">
+                                            <input class="border-checkbox promotion_check" name="color_price_status" type="checkbox" data-number="1" id="promotion_check" value="1">
+                                            <label class="border-checkbox-label" for="promotion_check">Promotion</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-4">
+                                    <input type="number" class="form-control checkproprice" name="color_price_promotion" id="pricepromotion" placeholder="Promotion Price..." style="display: none;">
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -181,4 +186,23 @@
         $("#resuleappendsize_"+x).remove();
         count_size--;
     }
+
+    $(document).on('click','.promotion_check',function () {
+        if ($(this).is(":checked")) {
+            $("#pricepromotion").show();
+        } else {
+            $("#pricepromotion").hide();
+        }
+    });
+
+
+    $(document).on('keyup', '.checkproprice', function () {
+        var price_pro = $(this).val();
+        var getPrice = $('#checkprice').val();
+        if (parseFloat(getPrice) < parseFloat(price_pro)) {
+            $('#pricepromotion').addClass("form-bg-danger");
+        } else {
+            $('#pricepromotion').removeClass("form-bg-danger");
+        }
+    });
 </script>
