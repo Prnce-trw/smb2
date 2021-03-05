@@ -161,7 +161,9 @@ class ContactController extends Controller
             if ($request->file('editimgcov') !== null) {
                 $imgcov = $request->file('editimgcov');
                 foreach ($imgcov as $key => $value) {
-                    unlink('local/storage/app/contact/'.$contact->contact_img);
+                    if ($contact->contact_img != null) {
+                        unlink('local/storage/app/contact/'.$contact->contact_img);
+                    }
                     $name = rand().time().'.'.$value->getClientOriginalExtension();
                     $value->storeAs('contact',  $name);
                     $contact->contact_img = $name;
@@ -172,7 +174,9 @@ class ContactController extends Controller
             if ($request->file('editmap') !== null) {
                 $imgmap = $request->file('editmap');
                 foreach ($imgmap as $key => $value) {
-                    unlink('local/storage/app/contact/'.$contact->contact_imgmap);
+                    if ($contact->contact_imgmap != null) {
+                        unlink('local/storage/app/contact/'.$contact->contact_imgmap);
+                    }
                     $name = rand().time().'.'.$value->getClientOriginalExtension();
                     $value->storeAs('contact',  $name);
                     $contact->contact_imgmap = $name;
@@ -198,7 +202,9 @@ class ContactController extends Controller
                 $imgbanner = $request->file('editbanner');
                 foreach($imgbanner as $key => $item) {
                     $dataimgbanner = contactbanner::where('cb_id', $key)->first();
-                    unlink('local/storage/app/contact/'.$dataimgbanner->cb_name);
+                    if ($dataimgbanner->cb_name != null) {
+                        unlink('local/storage/app/contact/'.$dataimgbanner->cb_name);
+                    }
                     $name = rand().time().'.'.$item->getClientOriginalExtension();
                     $item->storeAs('contact',  $name);
                     $dataimgbanner->cb_name = $name;
