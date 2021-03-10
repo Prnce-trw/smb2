@@ -145,7 +145,7 @@ class ContactController extends Controller
         DB::beginTransaction();
         try {
             $contact = contact::where('contact_id', $id)->first();
-            // dd($request->all() ,$contact->contact_img);
+            // dd($request->all());
             $contact->contact_title	         = $request['title'];
             $contact->contact_detail	     = $request['detail'];
             $contact->contact_tell  	     = $request['tel'];
@@ -157,7 +157,6 @@ class ContactController extends Controller
             $contact->contact_line	         = $request['line'];
             $contact->contact_linkmap	     = $request['linkgooglemap'];
             $contact->contact_address	     = $request['address'];
-            $contact->contact_tell	         = $request['tell'];
             if ($request->file('editimgcov') !== null) {
                 $imgcov = $request->file('editimgcov');
                 foreach ($imgcov as $key => $value) {
@@ -174,7 +173,7 @@ class ContactController extends Controller
             if ($request->file('editmap') !== null) {
                 $imgmap = $request->file('editmap');
                 foreach ($imgmap as $key => $value) {
-                    if ($contact->contact_imgmap != null) {
+                    if ($contact->contact_imgmap != 'nopic.png') {
                         unlink('local/storage/app/contact/'.$contact->contact_imgmap);
                     }
                     $name = rand().time().'.'.$value->getClientOriginalExtension();

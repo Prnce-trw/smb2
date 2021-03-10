@@ -10,19 +10,20 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('updatecolor', $color->color_id)}}" method="POST" enctype="multipart/form-data" id="editcolor_wheels{{$color->color_id}}">
+            <form action="{{url('updatecolor', $color->color_id)}}" method="POST" enctype="multipart/form-data" id="editcolor_wheels" onsubmit="return editcolor_wheels()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Color Name</label>
+                        <label class="col-sm-2 col-form-label">Color Name <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" name="name" class="form-control" placeholder="Color Name..." value="{{$color->color_name}}">
                         </div>
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Color Images</span>
+                            Color Images
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Multiple. (Height: 270px, width: 270px)</span>
                                 </span>
@@ -52,10 +53,10 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Size (Inch)</label>
                             <div class="col-sm-2">
-                                <input type="number" name="diameter[{{$item->size_id}}]" class="form-control" placeholder="Diameter..." value="{{$item->size_diameter}}">
+                                <input type="text" name="diameter[{{$item->size_id}}]" class="form-control" placeholder="Diameter..." value="{{$item->size_diameter}}">
                             </div>
                             <div class="col-sm-2">
-                                <input type="number" name="width[{{$item->size_id}}]" class="form-control" placeholder="Width..." value="{{$item->size_width}}">
+                                <input type="text" name="width[{{$item->size_id}}]" class="form-control" placeholder="Width..." value="{{$item->size_width}}">
                             </div>
                             <div class="col-sm-2">
                                 <select name="pcd[{{$item->size_id}}]" class="form-control">
@@ -66,7 +67,7 @@
                                 </select>
                             </div>
                             <div class="col-sm-2">
-                                <input type="number" name="et[{{$item->size_id}}]" class="form-control" placeholder="ET..." value="{{$item->size_et}}">
+                                <input type="text" name="et[{{$item->size_id}}]" class="form-control" placeholder="ET..." value="{{$item->size_et}}">
                             </div>
                             <div class="col-sm-2">
                                 <button type="button" class="btn btn-danger btn-deletesize" id="" value="{{$item->size_id}}"><i class="icofont icofont-bin"></i></button>
@@ -110,7 +111,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="editcolor_wheels{{$color->color_id}}">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" id="form_editcolor_wheels" form="editcolor_wheels">Save
                     changes</button>
             </div>
         </div>
@@ -166,13 +167,13 @@
                     '<input type="text" name="addet[]" class="form-control" placeholder="ET...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
-                    '<button type="button" class="btn btn-danger" onclick="delete_sizeedit('+sizenoedit+')" >Delete Size</button>'+
+                    '<button type="button" class="btn btn-danger delete_sizeedit"  data-sizenoedit="'+sizenoedit+'">Delete Size</button>'+
                 '</div>'+
             '</div>'+
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-2">'+
-                    '<input type="text" class="form-control" name="addcolr_price[]" placeholder="Price...">'+
+                    '<input type="text" class="form-control" name="addcolr_price[]" id="editcheckprice_'+sizenoedit+'" placeholder="Price...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
                         '<div class="border-checkbox-section">'+
@@ -183,16 +184,27 @@
                         '</div>'+
                     '</div>'+
                     '<div class="col-sm-4">'+
-                        '<input type="text" class="form-control" name="addcolor_price_promotion[]" id="addpricepromotion_'+sizenoedit+'" placeholder="Promotion Price..." style="display: none;">'+
+                        '<input type="text" class="form-control addcheckproprice" name="addcolor_price_promotion[]" data-appendId="'+sizenoedit+'" id="addpricepromotion_'+sizenoedit+'" placeholder="Promotion Price..." style="display: none;">'+
                     '</div>'+
             '</div>'+
         '</div>');
         sizenoedit++;
     }
-    function delete_sizeedit(y) {
-        $("#appendsize_"+y).remove();
-        sizenoedit--;
-    }
+
+    $(document).on('click', '.delete_sizeedit', function () {
+        var delete_number = $(this).attr('data-sizenoedit');
+        var pricePromotion = $('#addpricepromotion_'+delete_number).val();
+        if (pricePromotion != '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณาลบราคาโปรโมชั่นออกก่อน'
+            })
+        } else {
+            $("#appendsize_"+delete_number).remove();
+            sizenoedit--;
+        }
+    });
 
     $(document).on('click','.addpromotion_check',function () {
         var addnumber = $(this).attr('data-addnumber');
@@ -203,15 +215,49 @@
         }
     });
 
+    $(document).on('keyup', '.addcheckproprice', function () {
+        var sizeid = $(this).attr('data-appendId');
+        var price_pro = $(this).val();
+        var getPrice = $('#editcheckprice_'+sizeid).val();
+        // console.log(price_pro, getPrice); 
+        if (getPrice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกราคาปกติก่อน'
+            });
+            $(this).val('');
+        } else {
+            if (parseFloat(getPrice) < parseFloat(price_pro)) {
+                $('#addpricepromotion_'+sizeid).addClass("form-bg-danger");
+                $('#form_editcolor_wheels').prop('disabled', true);
+            } else {
+                $('#addpricepromotion_'+sizeid).removeClass("form-bg-danger");
+                $('#form_editcolor_wheels').prop('disabled', false);
+            }
+        }
+    });
+
     $(document).on('keyup', '.checkproprice', function () {
         var sizeid = $(this).attr('data-sizeId');
         var price_pro = $(this).val();
         var getPrice = $('#checkprice_'+sizeid).val();
         // console.log(price_pro, getPrice); 
-        if (parseFloat(getPrice) < parseFloat(price_pro)) {
-            $('#pricepromotionedit_'+sizeid).addClass("form-bg-danger");
+        if (getPrice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกราคาปกติก่อน'
+            });
+            $(this).val('');
         } else {
-            $('#pricepromotionedit_'+sizeid).removeClass("form-bg-danger");
+            if (parseFloat(getPrice) < parseFloat(price_pro)) {
+                $('#addpricepromotion_'+sizeid).addClass("form-bg-danger");
+                $('#form_editcolor_wheels').prop('disabled', true);
+            } else {
+                $('#addpricepromotion_'+sizeid).removeClass("form-bg-danger");
+                $('#form_editcolor_wheels').prop('disabled', false);
+            }
         }
     });
 
@@ -251,4 +297,19 @@
         }
     }
     $('.addimgset').on("change", previewAddImagesSet);
+
+    function editcolor_wheels () {
+        var name = document.forms["editcolor_wheels"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>

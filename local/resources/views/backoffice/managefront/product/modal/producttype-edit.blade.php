@@ -10,11 +10,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('backoffice/updateproducttype',$producttype->p_type_id) }}" method="POST" enctype="multipart/form-data" id="producttype">
+            <form action="{{ url('backoffice/updateproducttype',$producttype->p_type_id) }}" method="POST" enctype="multipart/form-data" id="editproducttype" onsubmit="return editproducttype()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Product Name</label>
+                        <label class="col-sm-2 col-form-label">Product Name<span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="name" placeholder="Product Name..." value="{{$producttype->p_type_name}}">
                         </div>
@@ -23,9 +23,26 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="producttype">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" form="editproducttype">Save
                     changes</button>
             </div>
         </div>
     </div>
 </div>
+
+<script>
+    function editproducttype () {
+        var name = document.forms["editproducttype"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
+</script>

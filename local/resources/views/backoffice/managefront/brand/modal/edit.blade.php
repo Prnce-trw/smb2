@@ -10,12 +10,12 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/brand',$brand->brand_id)}}" method="POST" enctype="multipart/form-data" id="editbrand">
+            <form action="{{url('backoffice/brand',$brand->brand_id)}}" method="POST" enctype="multipart/form-data" id="editbrand" onsubmit="return editbrand()">
                 @csrf
                 {{method_field('PUT')}}
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Brand Name</label>
+                        <label class="col-sm-2 col-form-label">Brand Name<span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="name" placeholder="Brand Name..." value="{{$brand->brand_name}}">
                         </div>
@@ -64,4 +64,19 @@
         }
     }
     $('.Editfile-input').on("change", EditpreviewImages);
+
+    function editbrand () {
+        var name = document.forms["editbrand"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>

@@ -53,6 +53,11 @@
     <script  src="{{asset('js/custom.js')}}"></script>
     <!-- DATE PICKER -->
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.6.4/css/bootstrap-datepicker.css" rel="stylesheet"/>
+    <style>
+        .swal2-container {
+        z-index: 99999999999 !important;
+    }
+    </style>
     @yield('css')
 </head>
 

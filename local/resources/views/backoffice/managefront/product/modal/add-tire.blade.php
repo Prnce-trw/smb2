@@ -10,13 +10,14 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_tire" name="addproduct_tire">
+            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_tire" onsubmit="return addproduct_tire()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Image Cover</span>
+                            Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One. (Height: 270px, width: 270px)</span>
                                 </span>
@@ -37,7 +38,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Product Name</label>
+                        <label class="col-sm-2 col-form-label">Product Name<span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" name="product_name" class="form-control" placeholder="Product Name...">
                         </div>
@@ -83,8 +84,9 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Images Detail</span>
+                            Images Detail
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One.</span>
                                 </span>
@@ -106,7 +108,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="addproduct_tire">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" id="btn_addproduct_tire" form="addproduct_tire">Save
                     changes</button>
             </div>
         </div>
@@ -199,10 +201,36 @@
     $(document).on('keyup', '.checkproprice', function () {
         var price_pro = $(this).val();
         var getPrice = $('#checkprice').val();
-        if (parseFloat(getPrice) < parseFloat(price_pro)) {
-            $('#pricepromotion').addClass("form-bg-danger");
+        if (getPrice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกราคาปกติก่อน'
+            });
+            $(this).val('');
         } else {
-            $('#pricepromotion').removeClass("form-bg-danger");
+            if (parseFloat(getPrice) < parseFloat(price_pro)) {
+                $('#pricepromotion').addClass("form-bg-danger");
+                $('#btn_addproduct_tire').prop('disabled', true);
+            } else {
+                $('#pricepromotion').removeClass("form-bg-danger");
+                $('#btn_addproduct_tire').prop('disabled', false);
+            }
         }
     });
+
+    function addproduct_tire () {
+        var name = document.forms["addproduct_tire"]["product_name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>

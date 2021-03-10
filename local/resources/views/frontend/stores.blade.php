@@ -194,7 +194,7 @@
             <div class="col-md-12">
                 <div class="content  wrapper-content store-content">
                     <div class="total-info">
-                        <div class="total"><span>{{$count_branch}}</span> <span class="unit">Stores</span></div>
+                        <div class="total"><span>{{$count_branch}}</span> <span class="unit">สาขา</span></div>
                     </div>
                     <div class="wrapper-description-page">
                         <div class="row">

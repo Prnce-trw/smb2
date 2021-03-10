@@ -1,6 +1,7 @@
 @if ($message = Session::get('success'))
 <script type="text/javascript">
     swal.fire({
+        icon: 'success',
         title:'Success!',
         text:"{{Session::get('success')}}",
         timer:3000,
@@ -13,6 +14,7 @@
 @if ($message = Session::get('error'))
 <script type="text/javascript">
     swal.fire({
+        icon: 'error',
         title:'Oops!',
         text:"{{Session::get('error')}}",
         timer:3000,

@@ -46,7 +46,7 @@
                             <div id="smb-contact">
                                 <div class="text_about_his" id="aboutU" style="padding-left: 20px">
                                     <h4 class="mt-lg-0 mt-sm-4" style="font-weight: 400;letter-spacing: 1px;font-size: 22px;font-weight: 500;">สมัครสมาชิก</h4>
-                                    <form method="POST" action="{{url('userregister')}}">
+                                    <form method="POST" action="{{url('userregister')}}" id="register">
                                         @csrf
                                         <div class="form-group">
                                             <label for="Name&Lastname">ชื่อและนามสกุล :</label>
@@ -74,10 +74,10 @@
                                         </div>
                                         <div class="form-group">
                                             <label for="ConfirmPassword">ยืนยันรหัสผ่าน :</label>
-                                            <input type="password" class="form-control" id="ConfirmPassword" placeholder="ยืนยันรหัสผ่าน...">
+                                            <input type="password" name="Confirmpassword" class="form-control" id="ConfirmPassword" placeholder="ยืนยันรหัสผ่าน...">
                                         </div>
                                         <div class="form-group">
-                                            <button type="submit" id="text-white" class="btn btn-orange btn-lg btn-block">สมัครสมาชิก</button>
+                                            <button type="submit" id="text-white" class="btn btn-orange btn-lg btn-block" form="register">สมัครสมาชิก</button>
                                         </div>
                                     </form>
                                 </div>

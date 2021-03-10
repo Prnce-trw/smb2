@@ -203,12 +203,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label"><span class="mytooltip tooltip-effect-5">
-                            <span class="tooltip-item">Image Cover</span>
-                            <span class="tooltip-content clearfix">
-                                <span class="tooltip-text">Choose One.</span>
+                        <label class="col-sm-2 col-form-label">
+                            Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
+                                <span class="tooltip-content clearfix">
+                                    <span class="tooltip-text">Choose One.</span>
+                                </span>
                             </span>
-                        </span></label>
+                        </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -253,12 +256,14 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                            <span class="tooltip-item">Banner Gallery</span>*
-                            <span class="tooltip-content clearfix">
-                                <span class="tooltip-text">Multiple.</span>
+                            Banner Gallery
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
+                                <span class="tooltip-content clearfix">
+                                    <span class="tooltip-text">Multiple.</span>
+                                </span>
                             </span>
-                        </span></label>
+                        </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-6">
@@ -274,8 +279,9 @@
                     <hr>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Map</span>
+                            Map
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One.</span>
                                 </span>

@@ -77,11 +77,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/storeproducttype')}}" method="POST" enctype="multipart/form-data" id="banner">
+            <form action="{{url('backoffice/storeproducttype')}}" method="POST" enctype="multipart/form-data" id="addproducttype" onsubmit="return addproducttype()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Product Name</label>
+                        <label class="col-sm-2 col-form-label">Product Name<span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="name" placeholder="Product Name...">
                         </div>
@@ -90,7 +90,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="banner">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" form="addproducttype">Save
                     changes</button>
             </div>
         </div>
@@ -109,8 +109,7 @@
 @include('flash-message')
 <script> 
     $("#example1").DataTable();
-</script> 
-<script>
+
     function modaleditproducttype(id)
     {
         $.ajax({
@@ -124,9 +123,7 @@
             $("#editmodal").modal('show');
         });
     }
-</script>
 
-<script>
     function delproducttype(id) {
         var urlaction =  '{{url('backoffice/product')}}'+'/'+id;
         const swalWithBootstrapButtons = Swal.mixin({
@@ -137,39 +134,54 @@
             buttonsStyling: false
         })
         swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            // alert(result.value);
+            if (result.value) {
+                //   alert("ผ่าน");
+                //   alert("#deleteclass_"+id );
+                $( "#deleteproducttype" ).attr('action',urlaction);
+                $( "#deleteproducttype" ).submit();
+                // $(this).closest('form').submit();
+                
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            } else if (
+            /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) 
+            {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Undelete Data.',
+                    'error'
+                )
+            }
+        })
+    }
+
+    function addproducttype () {
+        var name = document.forms["addproducttype"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
                 type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: true
-            }).then((result) => {
-                // alert(result.value);
-                if (result.value) {
-                    //   alert("ผ่าน");
-                    //   alert("#deleteclass_"+id );
-                    $( "#deleteproducttype" ).attr('action',urlaction);
-                    $( "#deleteproducttype" ).submit();
-                    // $(this).closest('form').submit();
-                    
-                    swalWithBootstrapButtons.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                } else if (
-                /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) 
-                {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Undelete Data.',
-                        'error'
-                    )
-                }
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
             })
+            return false;
+        } else {
+            return true;
         }
+    }
 </script>
 @endsection

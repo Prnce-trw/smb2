@@ -78,6 +78,7 @@ Route::middleware(['auth'])->group(function () {
         // award
         Route::resource('/award', 'managefront\AwardController');
         Route::get('/awardbanner', 'managefront\ProductController@awardbanner');
+        Route::post('/delimage/{id}', 'managefront\AwardController@delimage');
         // blog
         Route::resource('/blog', 'managefront\BlogController');
         });
@@ -96,7 +97,7 @@ Route::middleware(['auth'])->group(function () {
 });
 
 // Frontend
-Route::get('/', 'frontend\FrontendController@home');
+Route::get('/', 'frontend\FrontendController@home')->name('index');
 Route::get('/product', 'frontend\FrontendController@product');
 Route::get('/news', 'frontend\FrontendController@news');
 Route::get('/news_detail/{id}', 'frontend\FrontendController@news_detail');

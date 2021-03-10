@@ -88,7 +88,15 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Image</label>
+                        <label class="col-sm-2 col-form-label">
+                            Image
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
+                                <span class="tooltip-content clearfix">
+                                    <span class="tooltip-text">Choose One.</span>
+                                </span>
+                            </span>
+                        </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-6">

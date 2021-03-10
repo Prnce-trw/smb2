@@ -448,7 +448,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
-                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>
+                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ดูเพิ่มเติม</button></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -507,7 +507,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
-                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>
+                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ดูเพิ่มเติม</button></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -566,7 +566,7 @@
                                                         @endif
                                                     </div>
                                                     <div class="product-price2 text-center">
-                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ADD PRODUCTS</button></a>
+                                                        <a href="{{url('product_detail', $item->product_id)}}"><button type="button" class="btn btn-black-unavialable rounded-0 owl-product1" style="color: #fff;"><img src="{{asset('smb-frontend/images/cart_small.png')}}" style="width: 10%"> ดูเพิ่มเติม</button></a>
                                                     </div>
                                                 </div>
                                             </div>
@@ -618,7 +618,7 @@
                                 <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"> {{date('d/m/Y', strtotime($item->news_date))}}</small></p>
                                 <h4 class="card-title">{{$item->news_title}}</h4>
                                 <p class="card-text">{{ Str::limit($item->news_content, 150) }}</p>
-                                <a class="btn btn-black rounded-0" style="padding: 5px 0.75rem;" id="text-white" href="{{url('news_detail', $item->news_id)}}">Readmore</a>
+                                <a class="btn btn-black rounded-0" style="padding: 5px 0.75rem;" id="text-white" href="{{url('news_detail', $item->news_id)}}">อ่านเพิ่มเติม</a>
                             </div>
                         </div>
                         @endforeach
@@ -646,7 +646,7 @@
                                     <p class="card-text" style="margin-bottom: 0px;margin-top: 10px"><small class="text-muted" style="font-weight: 400;font-size: 14px;"> {{date('d/m/Y', strtotime($blog->blog_date))}}</small></p>
                                     <h4 class="card-title">{{$blog->blog_title}}</h4>
                                     <p class="card-text">{{ Str::limit($blog->news_content, 150) }}</p>
-                                    <a class="btn btn-black rounded-0" style="padding: 5px 0.75rem;" id="text-white" href="{{url('blog_detail', $blog->blog_id)}}">Readmore</a>
+                                    <a class="btn btn-black rounded-0" style="padding: 5px 0.75rem;" id="text-white" href="{{url('blog_detail', $blog->blog_id)}}">อ่านเพิ่มเติม</a>
                                 </div>
                             </div>
                         </div>
@@ -671,6 +671,18 @@
     <!--End-->
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10"></script>
     <script src="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/owl.carousel.min.js')}}"></script>
+    @if ($message = Session::get('login_success'))
+    <script type="text/javascript">
+        swal.fire({
+            icon: 'success',
+            title:'ยินดีต้อนรับ',
+            text:"{{Session::get('success')}}",
+            timer:3000,
+            type:'success'
+        }).then((value) => {
+        }).catch(swal.noop);
+    </script>
+    @endif
     <script type="text/javascript">
         $(document).ready(function() {
             $('.owl-one').owlCarousel({

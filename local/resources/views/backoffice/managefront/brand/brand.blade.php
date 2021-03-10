@@ -22,7 +22,7 @@
                     <li class="breadcrumb-item"><a href="">Product</a>
                     </li>
                     <li class="breadcrumb-item"><a href="{{url('backoffice/indexproducttype')}}">Add Product Type
-                            {{$producttype->p_type_name}}</a>
+                        {{$producttype->p_type_name}}</a>
                     </li>
                     <li class="breadcrumb-item"><a href="">Brand</a>
                     </li>
@@ -100,15 +100,15 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/brand')}}" method="POST" enctype="multipart/form-data" id="brand">
+            <form action="{{url('backoffice/brand')}}" method="POST" enctype="multipart/form-data" id="brand" onsubmit="return brand()">
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="fkey_producttype" value="{{$producttype->p_type_id}}">
                     <!-- fkey ของ product type -->
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Brand Name</label>
+                        <label class="col-sm-2 col-form-label">Brand Name<span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="name" placeholder="Brand Name..." required>
+                            <input type="text" class="form-control" name="name" placeholder="Brand Name...">
                         </div>
                     </div>
                     <div class="form-group row">
@@ -191,9 +191,7 @@
         }
     }
     $('.file-input').on("change", previewImages);
-</script>
 
-<script>
     function delbrand(id) {
         var urlaction =  '{{url('backoffice/brand')}}'+'/'+id;
         const swalWithBootstrapButtons = Swal.mixin({
@@ -237,6 +235,21 @@
                 )
             }
         })
+    }
+
+    function brand () {
+        var name = document.forms["brand"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
     }
 </script>
 @endsection

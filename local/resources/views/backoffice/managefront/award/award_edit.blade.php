@@ -77,6 +77,14 @@
     </div>
     <div class="card-block">
         <div class="row">
+            <input type="file" name="img[]" class="file-input" id="addgallery" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
+            <button type="button" class="btn btn-success" onclick="document.getElementById('addgallery').click();"><i class="fa fa-plus"></i> Add Gallery</button>
+        </div>
+        <div class="row">
+            <div id="preview"></div>
+        </div>
+        <br>
+        <div class="row">
             @foreach ($award->getAwardImgs as $key => $item)
             <div class="col-lg-4 col-sm-6">
                 <div class="thumbnail">
@@ -86,11 +94,13 @@
                         </a>
                     </div>
                 </div>
-                <div class="form-group row">
-                    <label class="col-sm-4 col-form-label"></label>
-                    <div class="col-sm-8">
+                <div class="form-group row text-center">
+                    <div class="col-sm-6">
                         <input type="file" name="edit_img[{{$item->award_img_id}}]" class="imgcov" id="img" style="display: none;" accept="image/x-png,image/gif,image/jpeg">
                         <button type="button" class="btn btn-warning" onclick="document.getElementById('img').click();">Edit Image</button>
+                    </div>
+                    <div class="col-sm-6">
+                        <button type="button" class="btn btn-danger" onclick="delimage({{$item->award_img_id}})"><i class="icofont icofont-trash"></i></button>
                     </div>
                 </div>
                 <div class="form-group row">
@@ -175,6 +185,10 @@
 </div>
 </form>
 
+<form action="" method="post" id="deleteimage">
+    
+    @csrf
+</form>
 @endsection
 @section('js')
 @include('flash-message')
@@ -248,6 +262,69 @@
                     '</div>'+
                 '</div>');
         }
+    }
+
+    // image preview
+    function previewImages() {
+        var $preview = $('#preview').empty();
+        if (this.files) $.each(this.files, readAndPreview);
+        function readAndPreview(i, file) {
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+            return alert(file.name +" is not an image");
+        }
+        var reader = new FileReader();
+        $(reader).on("load", function() {
+            $preview.append($("<img>", {src:this.result, height:150}));
+        });
+        reader.readAsDataURL(file);
+        }
+    }
+    $('.file-input').on("change", previewImages);
+
+    function delimage(id) {
+        var urlaction =  '{{url('backoffice/delimage')}}'+'/'+id;
+        const swalWithBootstrapButtons = Swal.mixin({
+            customClass: {
+                confirmButton: 'btn btn-primary',
+                cancelButton: 'btn btn-danger'
+            },
+            buttonsStyling: false
+        })
+        swalWithBootstrapButtons.fire({
+                icon: 'warning',
+                title: 'Are you sure?',
+                text: "You won't be able to revert this!",
+                type: 'warning',
+                showCancelButton: true,
+                confirmButtonText: 'Yes',
+                cancelButtonText: 'No',
+                reverseButtons: true
+        }).then((result) => {
+            // alert(result.value);
+            if (result.value) {
+                //   alert("ผ่าน");
+                //   alert("#deleteclass_"+id );
+                $( "#deleteimage" ).attr('action',urlaction);
+                $( "#deleteimage" ).submit();
+                // $(this).closest('form').submit();
+                
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            } else if (
+            /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) 
+            {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Undelete Data.',
+                    'error'
+                )
+            }
+        })
     }
 </script>
 @endsection

@@ -10,15 +10,16 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel" name="addproduct_wheel" onsubmit="return validate()"> 
+            <form action="{{ url('backoffice/product') }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel" onsubmit="return addproduct_wheel()"> 
                 @csrf
                 <div class="modal-body">
                     <input type="hidden" name="brand_id" value="{{$brand->brand_id}}"> <!-- brand id -->
                     <input type="hidden" name="product_type" value="{{$brand->brand_product_type}}"> <!-- product type id -->
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Image Cover</span>
+                            Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One. (Height: 270px, width: 270px)</span>
                                 </span>
@@ -37,7 +38,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Model Name</label>
+                        <label class="col-sm-2 col-form-label">Model Name <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" name="name" class="form-control" placeholder="Model Name...">
                         </div>
@@ -97,4 +98,19 @@
         }
     }
     $('.imgcov').on("change", previewImagesCover);
+
+    function addproduct_wheel () {
+        var name = document.forms["addproduct_wheel"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
 </script>

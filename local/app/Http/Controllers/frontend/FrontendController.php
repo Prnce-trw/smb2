@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\frontend;
 
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use DB;
@@ -587,36 +588,45 @@ class FrontendController extends Controller
 
     public function userregister(Request $request)
     {
+        // dd($request->all());
         DB::beginTransaction();
         try {
             $check = User::where('email', $request['email'])->first();
             if ($check != null) {
-                return redirect('signin')->with('warning', 'เกิดข้อผิดพลาก! เนื่องจากอีเมลนี้ได้ถูกสมัครมาก่อนแล้ว');
+                return redirect('signin')->with('warning', 'เกิดข้อผิดพลาด! เนื่องจากอีเมลนี้ได้ถูกสมัครมาก่อนแล้ว');
             } else {
-                $user = new User();
-                $user->name 	        = $request['name'];
-                $user->user_lname 	    = $request['lname'];
-                $user->user_status 	    = 2;
-                $user->user_phone 	    = $request['phone'];
-                $user->email 	        = $request['email'];
-                $user->user_img 	    = 'nopic.png';
-                $user->password 	    = Hash::make($request->password);
-                $user->save();
-
-                // Activity Log
-                $log = new activitylog();
-                $log->log_user_id       = $user->user_id;
-                $log->log_description   = "New Customer Account";
-                $log->log_url           = URL::full();
-                $log->log_sitemap_id    = 6;
-                $log->save();
-
-                DB::commit();
-                return view('frontend.index');
+                if ($request['password'] != $request['Confirmpassword']) {
+                    return redirect('signin')->with('warning', 'รหัสผ่านไม่ตรงกัน กรุณาตรวจสอบใหม่อีกครั้ง');
+                } else {
+                    $user = new User();
+                    $user->name 	        = $request['name'];
+                    $user->user_lname 	    = $request['lname'];
+                    $user->user_status 	    = 2;
+                    $user->user_phone 	    = $request['phone'];
+                    $user->email 	        = $request['email'];
+                    $user->user_img 	    = 'nopic.png';
+                    $user->password 	    = Hash::make($request->password);
+                    $user->save();
+    
+                    // Activity Log
+                    $log = new activitylog();
+                    $log->log_user_id       = $user->user_id;
+                    $log->log_description   = "New Customer Account";
+                    $log->log_url           = URL::full();
+                    $log->log_sitemap_id    = 6;
+                    $log->save();
+    
+                    DB::commit();
+                    // return view('frontend.index');
+                    if (Auth::guard('customer')->attempt(['email' => $request->email , 'password' => $request->password, 'user_status' => '2'] )) {
+                        // return redirect(url('/'));
+                        return Redirect::route('index')->with('login_success', 'คุณ'+$request->name+' '+$request->lname);
+                    }
+                }
             }
         } catch (\Throwable $th) {
             DB::rollback();
-            return view('frontend.index')->with('error', 'เกิดข้อผิดพลาก! ไม่สามารถสมัครสมาชิกได้');
+            return Redirect::route('index')->with('error', 'เกิดข้อผิดพลาก! ไม่สามารถสมัครสมาชิกได้');
         }
     }
 
@@ -967,6 +977,7 @@ class FrontendController extends Controller
         $brand = brand::all();
         $size = size::groupBy('size_diameter')->get();
         $sizetire = size::groupBy('size_width')->get();
+        $size_diameter = size::groupBy('size_diameter')->get();
         $html_product = '';
         if ($request->tire_carmodel != null) {
             $carModel = carmodel::where('car_model_id', $request->tire_carmodel)->where('car_model_brand_id', $request->tire_carbrand)->first();
@@ -1041,6 +1052,7 @@ class FrontendController extends Controller
             'carbrand' => $carbrand,
             'size' => $size,
             'sizetire' => $sizetire,
+            'size_diameter' => $size_diameter,
         );
         return view('frontend.productresult-search', $data);
     }
@@ -1118,19 +1130,8 @@ class FrontendController extends Controller
 
     public function searchaward(Request $request)
     {
-
-        $getAward = award::query();
-
-        if (Input::has('carbrand'))
-        {
-           $getAward->where('award_cardbrand','like',Input::get('carbrand'));
-        }
-        if (Input::has('productbrand'))
-        {
-           $getAward->where('award_productbrand','like',Input::get('productbrand'));
-        }
-        $award = $getAward->orderBy('award_id', 'DESC')->get();
-        dd($request->all(), $award);
+        dd($request->all());
+        $car = carbrand::orderBy('car_brand_id');
     }
 
     public function filter_size(Request $request, $id)

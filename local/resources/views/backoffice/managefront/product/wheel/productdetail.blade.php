@@ -1,6 +1,10 @@
 @extends('backoffice.layouts.master')
 @section('css')
-
+<style>
+    .swal2-container {
+        z-index: 99999999999 !important;
+    }
+</style>
 @endsection
 @section('content')
 <div class="card page-header p-0">
@@ -36,7 +40,7 @@
         <h4 class="sub-title">Product Detail</h4>
     </div>
     <div class="card-block">
-        <form action="{{ url('backoffice/product', $product->product_id) }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel">
+        <form action="{{ url('backoffice/product', $product->product_id) }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel" onsubmit="return addproduct_wheel()">
             @csrf
             @method('PUT')
             <input type="hidden" value="{{$product->product_type_id}}" name="product_type">
@@ -56,7 +60,7 @@
                 </div>
             </div>
             <div class="form-group row">
-                <label class="col-sm-2 col-form-label">Model Name</label>
+                <label class="col-sm-2 col-form-label">Model Name <span style="color: #FF5370;">*</span></label>
                 <div class="col-sm-4">
                     <input type="text" name="name" class="form-control" placeholder="Model Name..." value="{{$product->product_name}}" required>
                 </div>
@@ -88,7 +92,7 @@
     <div class="card-footer">
         <div class="form-group row">
             <div class="col-sm-12 text-right">
-                <button type="submit" class="btn btn-success" form="addproduct_wheel">Submit</button>
+                <button type="submit" class="btn btn-success" id="btn_form_addproduct_wheel" form="addproduct_wheel">Submit</button>
             </div>
         </div>
     </div>
@@ -178,15 +182,16 @@
             '<div id="color_'+no+'">'+
                 '<hr>'+
                 '<div class="form-group row">'+
-                    '<label class="col-sm-2 col-form-label">Color Name</label>'+
+                    '<label class="col-sm-2 col-form-label">Color Name <span style="color: #FF5370;">*</span></label>'+
                     '<div class="col-sm-4">'+
-                        '<input type="text" class="form-control" name="color_name" placeholder="Color Name...">'+
+                        '<input type="text" class="form-control" name="color_name" id="color_name" placeholder="Color Name...">'+
                     '</div>'+
                 '</div>'+
                 '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">'+
-                        '<span class="mytooltip tooltip-effect-5">'+
-                            '<span class="tooltip-item">Image Cover</span>'+
+                        'Image Cover '+
+                        '<span class="mytooltip tooltip-effect-5 bg-danger">'+
+                            '<span class="tooltip-item">?</span>'+
                             '<span class="tooltip-content clearfix">'+
                                 '<span class="tooltip-text">Choose One. (Height: 270px, width: 270px)</span>'+
                             '</span>'+
@@ -205,8 +210,9 @@
                 '</div>'+
                 '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">'+
-                        '<span class="mytooltip tooltip-effect-5">'+
-                            '<span class="tooltip-item">Image Set</span>'+
+                        'Image Set '+
+                        '<span class="mytooltip tooltip-effect-5 bg-danger">'+
+                            '<span class="tooltip-item">?</span>'+
                             '<span class="tooltip-content clearfix">'+
                                 '<span class="tooltip-text">Multiple. (Height: 270px, width: 270px)</span>'+
                             '</span>'+
@@ -252,7 +258,7 @@
                 '<div class="form-group row">'+
                     '<label class="col-sm-2 col-form-label">Price</label>'+
                     '<div class="col-sm-4">'+
-                        '<input type="number" class="form-control" name="color_price[]" placeholder="Price...">'+
+                        '<input type="number" class="form-control" id="checkprice_'+no+'" name="color_price[]" placeholder="Price...">'+
                     '</div>'+
                     '<div class="col-sm-2">'+
                         '<div class="border-checkbox-section">'+
@@ -263,7 +269,7 @@
                         '</div>'+
                     '</div>'+
                     '<div class="col-sm-2">'+
-                        '<input type="number" class="form-control" name="color_price_promotion[]" id="pricepromotion_'+no+'" placeholder="Promotion Price..." style="display: none;">'+
+                        '<input type="number" class="form-control checkproprice" name="color_price_promotion[]" id="pricepromotion_'+no+'" data-appendId="'+no+'" placeholder="Promotion Price..." style="display: none;">'+
                     '</div>'+
                 '</div>'+
                 '<div id="resultAppendSize_'+no+'"></div>'+
@@ -315,13 +321,13 @@
                     '<input type="text" name="et[]" class="form-control" placeholder="ET...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
-                    '<button type="button" class="btn btn-danger" onclick="delete_size('+sizeno+''+appendsizeno+')" data-sizeno="">Delete Size</button>'+
+                    '<button type="button" class="btn btn-danger delete_size" data-deletenumber="'+sizeno+''+appendsizeno+'" data-sizeno="'+sizeno+'">Delete Size</button>'+
                 '</div>'+
             '</div>'+
             '<div class="form-group row">'+
                 '<label class="col-sm-2 col-form-label"></label>'+
                 '<div class="col-sm-4">'+
-                    '<input type="number" class="form-control" name="color_price[]" placeholder="Price...">'+
+                    '<input type="number" class="form-control" id="checkprice_'+sizeno+'" name="color_price[]" placeholder="Price...">'+
                 '</div>'+
                 '<div class="col-sm-2">'+
                     '<div class="border-checkbox-section">'+
@@ -332,17 +338,27 @@
                     '</div>'+
                 '</div>'+
                 '<div class="col-sm-2">'+
-                    '<input type="number" class="form-control" name="color_price_promotion[]" id="pricepromotion_'+sizeno+'" placeholder="Promotion Price..." style="display: none;">'+
+                    '<input type="number" class="form-control checkproprice" name="color_price_promotion[]" id="pricepromotion_'+sizeno+'" data-appendId="'+sizeno+'" placeholder="Promotion Price..." style="display: none;">'+
                 '</div>'+
             '</div>'+
         '</div>');
         sizeno++;
     }
-    function delete_size(y) {
-        console.log(y);
-        $("#appendsize_"+y).remove();
-        sizeno--;
-    }
+    $(document).on('click', '.delete_size', function () {
+        var delete_number = $(this).attr('data-deletenumber');
+        var del_data_sizeId = $(this).attr('data-sizeno');
+        var pricePromotion = $('#pricepromotion_'+del_data_sizeId).val();
+        if (pricePromotion != '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณาลบราคาโปรโมชั่นออกก่อน'
+            })
+        } else {
+            $("#appendsize_"+delete_number).remove();
+            sizeno--;
+        }
+    })
 
     // image cover preview
     function previewImagesCover() {
@@ -449,6 +465,54 @@
         }
         $('.imgcolorset').on("change", previewImagesColorCover);
     });
-    
+
+    $(document).on('keyup', '.checkproprice', function () {
+        var price_pro = $(this).val();
+        var appendId = $(this).attr('data-appendId');
+        var getPrice = $('#checkprice_'+appendId).val();
+        // alert(parseFloat(getPrice) < parseFloat(price_pro));
+        if (getPrice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกราคาปกติก่อน'
+            });
+            $(this).val('');
+        } else {
+            if (parseFloat(getPrice) < parseFloat(price_pro)) {
+                $('#pricepromotion_'+appendId).addClass("form-bg-danger");
+                $('#btn_form_addproduct_wheel').prop('disabled', true);
+            } else {
+                $('#pricepromotion_'+appendId).removeClass("form-bg-danger");
+                $('#btn_form_addproduct_wheel').prop('disabled', false);
+            }
+        }
+    });
+
+    function addproduct_wheel () {
+        var name = document.forms["addproduct_wheel"]["name"].value;
+        if (name == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            var color_name = $('#color_name').val();
+            if (color_name == '') {
+                Swal.fire({
+                    icon: 'warning',
+                    type: 'warning',
+                    title: 'ขออภัย',
+                    text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+                })
+                return false;
+            } else {
+                return true;
+            }
+        }
+    }
 </script>
 @endsection

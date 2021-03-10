@@ -17,8 +17,9 @@
                 <div class="modal-body">
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Image Cover</span>
+                            Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One. (Height: 270px, width: 270px)</span>
                                 </span>
@@ -39,7 +40,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Product Name</label>
+                        <label class="col-sm-2 col-form-label">Product Name <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="product_name" placeholder="Product Name..." value="{{$product->product_name}}">
                         </div>
@@ -110,7 +111,7 @@
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-6">
-                                    <input type="number" name="price" class="form-control" placeholder="Price..." value="{{$item->size_price}}">
+                                    <input type="number" name="price" class="form-control" id="checkprice_edit" placeholder="Price..." value="{{$item->size_price}}">
                                 </div>
                                 <div class="col-sm-2">
                                     <div class="border-checkbox-section">
@@ -133,8 +134,9 @@
                     @endforeach
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Product Images</span>
+                            Images Detail
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Choose One.</span>
                                 </span>
@@ -162,7 +164,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="addproduct_wheel">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" id="btn_editproduct_tire" form="addproduct_wheel">Save
                     changes</button>
             </div>
         </div>
@@ -237,10 +239,21 @@
     $(document).on('keyup', '.checkproprice_edit', function () {
         var price_pro = $(this).val();
         var getPrice = $('#checkprice_edit').val();
-        if (parseFloat(getPrice) < parseFloat(price_pro)) {
-            $('#pricepromotion_edit').addClass("form-bg-danger");
+        if (getPrice == '') {
+            Swal.fire({
+                icon: 'error',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกราคาปกติก่อน'
+            });
+            $(this).val('');
         } else {
-            $('#pricepromotion_edit').removeClass("form-bg-danger");
+            if (parseFloat(getPrice) < parseFloat(price_pro)) {
+                $('#pricepromotion_edit').addClass("form-bg-danger");
+                $('#btn_editproduct_tire').prop('disabled', true);
+            } else {
+                $('#pricepromotion_edit').removeClass("form-bg-danger");
+                $('#btn_editproduct_tire').prop('disabled', false);
+            }
         }
     });
 </script>

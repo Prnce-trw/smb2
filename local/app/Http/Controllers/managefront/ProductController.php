@@ -655,7 +655,7 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $producttype = producttype::destroy($id);
-        return redirect('backoffice/product');
+        return back()->withSuccess('Product Type has been Deleted!');
     }
 
     public function productbanner()

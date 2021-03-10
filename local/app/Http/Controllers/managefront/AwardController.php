@@ -12,6 +12,7 @@ use App\carmodel;
 use App\brand;
 use App\product;
 use DB;
+use Storage;
 
 class AwardController extends Controller
 {
@@ -132,6 +133,18 @@ class AwardController extends Controller
                 $getImgData = award_img::where('award_img_id', $request['cover'])->update(["award_cover" => 1,]);
             }
 
+            if ($request->file('img') !== null) {
+                $img = $request->file('img');
+                foreach($img as $key => $item) {
+                    $name = rand().time().'.'.$item->getClientOriginalExtension();
+                    $item->storeAs('award',  $name);
+                    $award_img = new award_img();
+                    $award_img->award_img_name              = $name;
+                    $award_img->award_img_f                 = $id;
+                    $award_img->save();
+                }
+            }
+
             if (isset($request->edit_img))
             {
                 $imgads = $request->edit_img;
@@ -209,5 +222,20 @@ class AwardController extends Controller
         }
         $data = array('html_product' => $html_product, );
         return $data;
+    }
+
+    public function delimage($id)
+    {
+        DB::beginTransaction();
+        try {
+            $award_img = award_img::where('award_img_f', $id)->first();
+            $image_path = Storage::delete('award/'.$award_img->award_img_name);
+            $award_img = award_img::destroy($id);
+            DB::commit();
+            return back()->with('success','Award Has Been Deleted!');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return back()->with('error','Something Wrong. Award Can Not Deleted!');
+        }
     }
 }
