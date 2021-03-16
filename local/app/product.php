@@ -11,8 +11,13 @@ class product extends Model
 
     public function getBrand()
     {
-        return $this->belongsTo(brand::class, 'product_brand_id');
+        return $this->hasOne(brand::class, 'brand_id', 'product_brand_id');
     }
+
+    // public function getBrand()
+    // {
+    //     return $this->belongsTo(brand::class, 'product_brand_id');
+    // }
 
     public function getProductSizes_groupBy()
     {
