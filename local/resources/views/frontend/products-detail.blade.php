@@ -1942,7 +1942,7 @@
     @include('frontend.navbar')
     <div class="banner-page head-about-us-5 ">
         <div class="centered headPage-text">
-            <a id="orange18" style="padding-left: 15px">หน้าหลัก / สินค้า {{ $product->getBrand->brand_name != null ? "1" : "2" }} /</a><a id="orange17"> {{$product->product_name}}</a>
+            <a id="orange18" style="padding-left: 15px">หน้าหลัก / สินค้า {{ $product->getBrand->brand_name }} /</a><a id="orange17"> {{$product->product_name}}</a>
         </div>
     </div>
     <div class="container mt-5 mb-5" id="textproductI">

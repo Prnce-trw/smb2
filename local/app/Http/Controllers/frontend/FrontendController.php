@@ -207,7 +207,9 @@ class FrontendController extends Controller
             }
             \Session::push('watched_product_id',$id);
         }
-        $product = product::findOrFail($id);
+        $product = product::where('product_id',$id)
+        // ->leftJoin('tb_brand','tb_brand.profile_employee_id','tb_employee.employee_id')
+        ->first();
         $color = color::where('color_product_id', $id)->get();
         $size = $color[0]->getSizes[0]->where('size_diameter', $color[0]->getSizes[0]->size_diameter)->where('size_color_id', $color[0]->color_id)->get();
         $size_head = size::where('size_diameter', $color[0]->getSizes[0]->size_diameter)->groupBy('size_diameter')->get();
