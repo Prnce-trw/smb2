@@ -88,11 +88,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/promotion')}}" method="POST" enctype="multipart/form-data" id="addpromotion">
+            <form action="{{url('backoffice/promotion')}}" method="POST" enctype="multipart/form-data" id="addpromotion" onsubmit="return addpromotion()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Header</label>
+                        <label class="col-sm-2 col-form-label">Header <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="header" placeholder="Header...">
                         </div>
@@ -106,7 +106,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
                             <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Duration Time</span>
+                                <span class="tooltip-item">Duration Time <span style="color: #FF5370;">*</span></span>
                                 <span class="tooltip-content clearfix">
                                     <span class="tooltip-text">Promotion Will Start and End At.</span>
                                 </span>
@@ -216,8 +216,7 @@
             ]
         });
     })
-</script>
-<script>
+
     function modaleditpromotion(id)
     {
         $.ajax({
@@ -311,6 +310,24 @@
                     )
                 }
             })
+    }
+
+    function addpromotion () {
+        var header = document.forms["addpromotion"]["header"].value;
+        var datestart = document.forms["addpromotion"]["datestart"].value;
+        var dateend = document.forms["addpromotion"]["dateend"].value;
+        if (header == "", datestart == "", dateend == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
         }
+    }
+
 </script>
 @endsection

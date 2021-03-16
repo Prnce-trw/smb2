@@ -42,25 +42,27 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        $news = new news();
-        $news->news_title	         = $request['title'];
-        $news->news_content	         = $request['content'];
-        $news->news_date	         = $request['date'];
-        if ($request->file('imgcover') !== null)
-        {
-            $img = $request->file('imgcover');
-            foreach($img as $key => $item) {
-                $name = rand().time().'.'.$item->getClientOriginalExtension();
-                $item->storeAs('news',  $name);
-                $news->news_imgcover  = $name;
+        DB::beginTransaction();
+        try {
+            $news = new news();
+            $news->news_title	         = $request['title'];
+            $news->news_content	         = $request['content'];
+            $news->news_date	         = $request['date'];
+            if ($request->file('imgcover') !== null)
+            {
+                $img = $request->file('imgcover');
+                foreach($img as $key => $item) {
+                    $name = rand().time().'.'.$item->getClientOriginalExtension();
+                    $item->storeAs('news',  $name);
+                    $news->news_imgcover  = $name;
+                }
             }
-        }
-        $news->save();
-        
-        if ($news->save()) {
-            return redirect('backoffice/news')->withSuccess('News and Event Has Been Updated!');
-        } else {
-            return redirect('backoffice/news')->withError('Something Wrong. News and Event Can Not Updated!');
+            $news->save();
+            DB::commit();
+            return redirect('backoffice/news')->withSuccess('News and Event Has Been Saved!');
+        } catch (\Throwable $th) {
+            return redirect('backoffice/news')->withError('Something Wrong. News and Event Can Not Saved!');
+            DB::rollback();
         }
     }
 
@@ -95,26 +97,29 @@ class NewsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $news = news::where('news_id', $id)->first();
-        $news->news_title	 = $request['title'];
-        $news->news_content	 = $request['content'];
-        $news->news_date	 = $request['date'];
-        $news->save();
-        if ($request->file('editimgcover') !== null)
-        {
-            $newscover = $request->file('editimgcover');
-            foreach($newscover as $key => $item) {
-                $dataimg = news::where('news_id',$id)->first();
-                unlink('local/storage/app/news/'.$dataimg->news_imgcover);
-                $name = rand().time().'.'.$item->getClientOriginalExtension();
-                $item->storeAs('news',  $name);
-                $dataimg->news_imgcover = $name;
-                $dataimg->save();
+        DB::beginTransaction();
+        try {
+            $news = news::where('news_id', $id)->first();
+            $news->news_title	 = $request['title'];
+            $news->news_content	 = $request['content'];
+            $news->news_date	 = $request['date'];
+            $news->save();
+            if ($request->file('editimgcover') !== null)
+            {
+                $newscover = $request->file('editimgcover');
+                foreach($newscover as $key => $item) {
+                    $dataimg = news::where('news_id',$id)->first();
+                    unlink('local/storage/app/news/'.$dataimg->news_imgcover);
+                    $name = rand().time().'.'.$item->getClientOriginalExtension();
+                    $item->storeAs('news',  $name);
+                    $dataimg->news_imgcover = $name;
+                    $dataimg->save();
+                }
             }
-        }
-        if ($news->save() || $dataimg->save()) {
+            DB::commit();
             return redirect('backoffice/news')->withSuccess('News and Event Has Been Updated!');
-        } else {
+        } catch (\Throwable $th) {
+            DB::rollback();
             return redirect('backoffice/news')->withError('Something Wrong. News and Event Can Not Updated!');
         }
     }
@@ -127,15 +132,21 @@ class NewsController extends Controller
      */
     public function destroy($id)
     {
-        $news = news::find($id);
-        $image_path = Storage::delete('news/'.$news->news_imgcover);
-        $news = news::destroy($id);
-        return redirect('backoffice/news');
+        DB::beginTransaction();
+        try {
+            $news = news::find($id);
+            $image_path = Storage::delete('news/'.$news->news_imgcover);
+            $news = news::destroy($id);
+            DB::commit();
+            return redirect('backoffice/news')->withSuccess('News and Event Has Been Deleted!');
+        } catch (\Throwable $th) {
+            DB::rollback();
+            return redirect('backoffice/news')->withError('Something Wrong. News and Event Can Not Deleted!');
+        }
     }
 
     public function editnews(Request $request)
     {
-        
         $news = news::where('news_id', $request->id)->first();
         $data = array(
             'news' => $news, 

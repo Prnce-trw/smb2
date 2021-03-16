@@ -88,11 +88,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/news')}}" method="POST" enctype="multipart/form-data" id="banner">
+            <form action="{{url('backoffice/news')}}" method="POST" enctype="multipart/form-data" id="news" onsubmit="return news()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Title</label>
+                        <label class="col-sm-2 col-form-label">Title <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="text" class="form-control" name="title" placeholder="Title...">
                         </div>
@@ -104,7 +104,7 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Date</label>
+                        <label class="col-sm-2 col-form-label">Date <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-10">
                             <input type="date" class="form-control" name="date" placeholder="Date...">
                         </div>
@@ -127,7 +127,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="banner">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" form="news">Save
                     changes</button>
             </div>
         </div>
@@ -215,9 +215,7 @@
         }
     }
     $('.file-addcov').on("change", previewAddImageCover);
-</script>
 
-<script>
     function modaledit(id)
     {
         $.ajax({
@@ -230,6 +228,22 @@
             $('#result-modal').html(data);
             $("#editmodal").modal('show');
         });
+    }
+
+    function news () {
+        var name = document.forms["news"]["title"].value;
+        var date = document.forms["news"]["date"].value;
+        if (name == "", date == "") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
     }
 </script>
 @endsection
