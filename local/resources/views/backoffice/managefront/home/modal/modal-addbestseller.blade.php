@@ -32,7 +32,7 @@
                                             <td class="text-center text-middle">{{$key+1}}</td>
                                             <td class="text-center"><img src="{{asset('local/storage/app/product/'.$item->product_imgcov.'')}}" width="100px" alt="Product Image"></td>
                                             <td class="text-middle">{{$item->product_name}}</td>
-                                            <td class="text-center text-middle">{{ $product->getBrand != null ? $product->getBrand->brand_name : "" }}</td>
+                                            <td class="text-center text-middle">{{ $item->getBrand != null ? $item->getBrand->brand_name : "" }}</td>
                                             <td class="text-center text-middle">
                                                 <div class="border-checkbox-section">
                                                     <div class="border-checkbox-group border-checkbox-group-primary">
