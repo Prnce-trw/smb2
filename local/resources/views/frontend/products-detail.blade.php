@@ -1956,7 +1956,6 @@
                     @endif
                 </div>
                 <div class="product-text">
-                    <img src="{{asset('local/storage/app/brand/'.$product->getBrand->brand_img.'')}}" width="200px">
                 </div>
                 @foreach ($color as $no => $item)
                 <section id="color{{$no}}" class="simplegallery">
