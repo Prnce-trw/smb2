@@ -2128,7 +2128,7 @@
                     <div class="card-body">
                         <img src="{{asset('smb-frontend/images/products-detail/list.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> รายละเอียดสินค้า</a>
                         <br>
-                        <h4 class="my-3">{{ $product->getBrand->brand_name != null ? "1" : "2" }} {{$product->product_name}}</h4>
+                        <h4 class="my-3">{{ $product->getBrand != null ? "1" : "2" }} {{$product->product_name}}</h4>
                         <b> {{$product->product_detail}}</b>
                     </div>
                 </div>

@@ -207,6 +207,7 @@ class FrontendController extends Controller
             }
             \Session::push('watched_product_id',$id);
         }
+        
         $product = product::where('product_id',$id)
         // ->leftJoin('tb_brand','tb_brand.profile_employee_id','tb_employee.employee_id')
         ->first();
@@ -216,7 +217,7 @@ class FrontendController extends Controller
         $gallery = award_img::where('award_img_f', $id)->whereHas('getAwardProductBrand', function($query) use($id) {
             $query->where('award_product_id', '=', $id);
         })->limit(5)->get();
-        dd($product->getBrand->brand_name);
+        // dd($product->getBrand->brand_name);
         $data = array(
             'id' => $id,
             'size' => $size,
