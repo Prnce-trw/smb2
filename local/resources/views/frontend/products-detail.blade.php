@@ -1942,7 +1942,7 @@
     @include('frontend.navbar')
     <div class="banner-page head-about-us-5 ">
         <div class="centered headPage-text">
-            <a id="orange18" style="padding-left: 15px">หน้าหลัก / สินค้า {{ $product->getBrand }} /</a><a id="orange17"> {{$product->product_name}}</a>
+            <a id="orange18" style="padding-left: 15px">หน้าหลัก / สินค้า {{ $product->getBrand != null ? $product->getBrand->brand_name : "" }} /</a><a id="orange17"> {{$product->product_name}}</a>
         </div>
     </div>
     <div class="container mt-5 mb-5" id="textproductI">
@@ -1956,6 +1956,9 @@
                     @endif
                 </div>
                 <div class="product-text">
+                    @if ($product->getBrand != null)
+                    <img src="{{asset('local/storage/app/brand/'.$product->getBrand->brand_img.'')}}" width="200px">    
+                    @endif
                 </div>
                 @foreach ($color as $no => $item)
                 <section id="color{{$no}}" class="simplegallery">
@@ -2127,13 +2130,22 @@
                     <div class="card-body">
                         <img src="{{asset('smb-frontend/images/products-detail/list.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> รายละเอียดสินค้า</a>
                         <br>
-                        <h4 class="my-3">{{ $product->getBrand != null ? "1" : "2" }} {{$product->product_name}}</h4>
+                        <h4 class="my-3">{{$product->getBrand != null ? $product->getBrand->brand_name : ""}} {{$product->product_name}}</h4>
                         <b> {{$product->product_detail}}</b>
                     </div>
                 </div>
             </div>
 
-           
+            {{-- <div id="pane-B" class="card tab-pane fade mt-3" role="tabpanel" aria-labelledby="tab-B">
+                <div id="collapse-B" class="collapse" data-parent="#content" role="tabpanel" aria-labelledby="heading-B">
+                    <div class="card-body">
+                        <img src="{{asset('smb-frontend/images/products-detail/list.jpg')}}"><a style="font-size: 18px;font-weight: 500;"> คุณสมบัติ</a>
+                        <br>
+                        <h4 class="my-3">{{$product->getBrand->brand_name}} {{$product->product_name}}</h4>
+                        <b> {{$product->product_detail}}</b>
+                    </div>
+                </div>
+            </div> --}}
 
             <div id="pane-C" class="card tab-pane fade show active mt-3" role="tabpanel" aria-labelledby="tab-C">
                 <div id="collapse-C" class="collapse show" role="tabpanel" data-parent="#content" aria-labelledby="heading-C">
