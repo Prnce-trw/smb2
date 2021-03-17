@@ -97,9 +97,24 @@
                 <div class="modal-body">
                     <input type="hidden" name="carbrand_id" value="{{$carbrand->car_brand_id}}">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Model</label>
+                        <label class="col-sm-2 col-form-label">Car Model</label>
                         <div class="col-sm-10">
-                            <input type="text" name="model" class="form-control" placeholder="Model...">
+                            <input type="text" name="model" class="form-control" placeholder="Car Model...">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Vehicle Year</label>
+                        <div class="col-sm-5">
+                            <input type="text" class="form-control datepicker" name="yearS" placeholder="Year Start...">
+                            {{-- <input type="text" class="form-control datepicker" name="yearS[]" placeholder="Year End..."> --}}
+                            {{-- <div id="appendyear"></div>
+                            <button type="button" class="btn btn-primary" id="addyear">Add Year</button> --}}
+                        </div>
+                        <div class="col-sm-5">
+                            {{-- <input type="text" class="form-control datepicker" name="yearS[]" placeholder="Year Start..."> --}}
+                            <input type="text" class="form-control datepicker" name="yearE" placeholder="Year End...">
+                            {{-- <div id="appendyear"></div>
+                            <button type="button" class="btn btn-primary" id="addyear">Add Year</button> --}}
                         </div>
                     </div>
                     <div class="form-group row">
@@ -124,21 +139,6 @@
                             </div>
                             <div id="appendsize"></div>
                             <button class="btn btn-primary" type="button" id="addsize">Add Size</button>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Year</label>
-                        <div class="col-sm-5">
-                            <input type="text" class="form-control datepicker" name="yearS" placeholder="Year Start...">
-                            {{-- <input type="text" class="form-control datepicker" name="yearS[]" placeholder="Year End..."> --}}
-                            {{-- <div id="appendyear"></div>
-                            <button type="button" class="btn btn-primary" id="addyear">Add Year</button> --}}
-                        </div>
-                        <div class="col-sm-5">
-                            {{-- <input type="text" class="form-control datepicker" name="yearS[]" placeholder="Year Start..."> --}}
-                            <input type="text" class="form-control datepicker" name="yearE" placeholder="Year End...">
-                            {{-- <div id="appendyear"></div>
-                            <button type="button" class="btn btn-primary" id="addyear">Add Year</button> --}}
                         </div>
                     </div>
                 </div>
@@ -246,9 +246,7 @@
             $("#editmodal").modal('show');
         });
     }
-</script>
 
-<script>
     function delcarmodel(id) {
         var urlaction =  '{{url('backoffice/carmodeldestroy')}}'+'/'+id;
         const swalWithBootstrapButtons = Swal.mixin({

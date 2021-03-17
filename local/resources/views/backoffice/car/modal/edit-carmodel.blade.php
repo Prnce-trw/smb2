@@ -14,9 +14,28 @@
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Model Name</label>
+                        <label class="col-sm-2 col-form-label">Car Model</label>
                         <div class="col-sm-10">
-                            <input type="text" class="form-control" name="name" placeholder="Model Name..." value="{{$carmodel->car_model_name}}">
+                            <input type="text" class="form-control" name="name" placeholder="Car Model..." value="{{$carmodel->car_model_name}}">
+                        </div>
+                    </div>
+                    <div class="form-group row">
+                        <label class="col-sm-2 col-form-label">Vehicle Year</label>
+                        <div class="col-sm-10">
+                            @foreach ($carmodel->getCarYears as $item)
+                            <div class="row" id="year_{{$item->car_year_id}}">
+                                <div class="col-10">
+                                    <input type="text" class="form-control Editdatepicker" name="edityear[{{$item->car_year_id}}]" placeholder="Vehicle Year..." value="{{$item->car_year_name}}">
+                                </div>
+                                <div class="col-2">
+                                    <button type="button" class="btn btn-danger form-control btn-delete-year" value="{{$item->car_year_id}}"><i class="fa fa-trash-o"></i></button>
+                                </div>
+                            </div>
+                            <br>
+                            @endforeach
+                            <div id="resultDeleteYear"></div>
+                            <div id="appendedityear"></div>
+                            <button type="button" class="btn btn-primary" id="addedityear">Add Year</button>
                         </div>
                     </div>
                     <div class="form-group row">
@@ -48,25 +67,6 @@
                             <div id="edit-appendsize"></div>
                             <button class="btn btn-primary" type="button" id="edit-addsize">Add Size</button>
                             <div id="resultDeleteSize"></div>
-                        </div>
-                    </div>
-                    <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Model Year</label>
-                        <div class="col-sm-10">
-                            @foreach ($carmodel->getCarYears as $item)
-                            <div class="row" id="year_{{$item->car_year_id}}">
-                                <div class="col-10">
-                                    <input type="text" class="form-control Editdatepicker" name="edityear[{{$item->car_year_id}}]" placeholder="Model Year..." value="{{$item->car_year_name}}">
-                                </div>
-                                <div class="col-2">
-                                    <button type="button" class="btn btn-danger form-control btn-delete-year" value="{{$item->car_year_id}}"><i class="fa fa-trash-o"></i></button>
-                                </div>
-                            </div>
-                            <br>
-                            @endforeach
-                            <div id="resultDeleteYear"></div>
-                            <div id="appendedityear"></div>
-                            <button type="button" class="btn btn-primary" id="addedityear">Add Year</button>
                         </div>
                     </div>
                 </div>
