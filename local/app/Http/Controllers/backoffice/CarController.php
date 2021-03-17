@@ -214,14 +214,23 @@ class CarController extends Controller
             //     }
             // }
 
-            $rawYear = $request->yearE - $request->yearS;
-            
-            for ($i = 0; $i < $rawYear ; $i++) { 
+            if ($request->yearE == $request->yearS) {
                 $getCarModel = carmodel::orderBy('car_model_id', 'DESC')->first();
                 $caryear = new caryear();
-                $caryear->car_year_name 	         = $request['yearS']+$i;
-                $caryear->car_year_model_id  	     = $getCarModel->car_model_id;
+                $caryear->car_year_name           = $request['yearS'];
+                $caryear->car_year_model_id        = $getCarModel->car_model_id;
                 $caryear->save();
+            }
+            
+            if ($request->yearE > $request->yearS) {
+                $rawYear = $request->yearE - $request->yearS + 1;
+                for ($i = 0; $i < $rawYear ; $i++) { 
+                    $getCarModel = carmodel::orderBy('car_model_id', 'DESC')->first();
+                    $caryear = new caryear();
+                    $caryear->car_year_name           = $request['yearS']+$i;
+                    $caryear->car_year_model_id        = $getCarModel->car_model_id;
+                    $caryear->save();
+                }
             }
 
             if ($request['width'] != null || $request['overall'] != null || $request['diameter'] != null) {
