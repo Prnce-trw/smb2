@@ -8,7 +8,7 @@
     <link rel="stylesheet" type="text/css" href="{{asset('smb-frontend/css/style.css')}}">
     <link rel="stylesheet" href="{{asset('smb-frontend/css/animate.css')}}">
     <link href="{{asset('smb-frontend/1/ninja-slider.css')}}" rel="stylesheet" type="text/css" />
-    
+
     <!--JS-->
     <script src="{{asset('smb-frontend/js/jquery-3.3.1.slim.min.js')}}"></script>
     <script src="{{asset('smb-frontend/js/jquery.min.js')}}"></script>
@@ -18,7 +18,8 @@
     <!--FONT-->
     <link href="https://fonts.googleapis.com/css2?family=Prompt&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css' integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
+    <link rel='stylesheet' href='https://use.fontawesome.com/releases/v5.6.3/css/all.css'
+        integrity='sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/' crossorigin='anonymous'>
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 
     <!--Flex Slider-->
@@ -28,8 +29,10 @@
     <script type="text/javascript" src="{{asset('smb-frontend/flexslider/js/shBrushJScript.js')}}"></script>
     <script src="{{asset('smb-frontend/flexslider/js/modernizr.js')}}"></script>
 
-    <link rel="stylesheet" type="text/css" href="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}" />
-    <link rel="stylesheet" type="text/css" href="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/assets/owl.carousel.min.css')}}" />
+    <link rel="stylesheet" type="text/css"
+        href="{{asset('smb-frontend/OwlCarousel2-2.3.4/dist/assets/owl.theme.default.min.css')}}" />
 
     <link href="{{asset('smb-frontend/1/ninja-slider.css')}}" rel="stylesheet" type="text/css" />
     <script src="{{asset('smb-frontend/1/ninja-slider.js')}}" type="text/javascript"></script>
@@ -40,7 +43,32 @@
     <!-- Add fancyBox main JS and CSS files -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.css" />
     <script src="https://cdn.jsdelivr.net/gh/fancyapps/fancybox@3.5.7/dist/jquery.fancybox.min.js"></script>
+    <!-- Load Facebook SDK for JavaScript -->
+    <div id="fb-root"></div>
+    <script>
+        window.fbAsyncInit = function () {
+            FB.init({
+                xfbml: true,
+                version: 'v10.0'
+            });
+        };
 
+        (function (d, s, id) {
+            var js, fjs = d.getElementsByTagName(s)[0];
+            if (d.getElementById(id)) return;
+            js = d.createElement(s);
+            js.id = id;
+            js.src = 'https://connect.facebook.net/th_TH/sdk/xfbml.customerchat.js';
+            fjs.parentNode.insertBefore(js, fjs);
+        }(document, 'script', 'facebook-jssdk'));
+
+    </script>
+
+    <!-- Your Chat Plugin code -->
+    <div class="fb-customerchat" attribution="setup_tool" page_id="103727859679297" theme_color="#ff7e29"
+        logged_in_greeting="สวัสดีค่ะ สนใจ สอบถาม ข้อมูลด้านไหน แจ้งแอดมินได้เลย นะคะ"
+        logged_out_greeting="สวัสดีค่ะ สนใจ สอบถาม ข้อมูลด้านไหน แจ้งแอดมินได้เลย นะคะ">
+    </div>
     <script>
         new WOW().init();
     </script>

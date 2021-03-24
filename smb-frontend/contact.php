@@ -65,21 +65,21 @@
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline : 094-3257888
                     </p>
-                    <a href="https://goo.gl/maps/P71geCRrkTMUKiCE9" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขานครราชสีมา</h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 086-3255581
                     </p>
-                    <a href="https://goo.gl/maps/KDXWL2zomfjhNGoi6" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาเทพารักษ์</h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 086-3787128
                     </p>
-                    <a href="https://goo.gl/maps/3SnXK2UrTtQUfTpEA" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                 </div>
@@ -88,21 +88,21 @@
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 089-9676168
                     </p>
-                    <a href="https://goo.gl/maps/H8D1Xd5DLHSuALVU9" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขากาญจนาภิเษก</h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 082-4447772
                     </p>
-                    <a href="https://goo.gl/maps/cxFwniu7M3wPRxs77" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาศรีนครินทร์</h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 085-1623030
                     </p>
-                    <a href="https://goo.gl/maps/uitx4zv9v9CVY8zb9" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                 </div>
@@ -111,21 +111,21 @@
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 086-7897770
                     </p>
-                    <a href="bangna.php" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาประชาอุทิศ 6 </h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 086-3030250
                     </p>
-                    <a href="https://goo.gl/maps/V8mkH9jncm1E1LRPA" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                     <h4 id="contact-2" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">สาขาประชาอุทิศ 13</h4>
                     <p id="white" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         Hotline: 086-3787129
                     </p>
-                    <a href="https://goo.gl/maps/YtzHpoqiudpn8iYC7" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
+                    <a href="#" id="orange" class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
                         ดูแผนที่
                     </a>
                 </div>

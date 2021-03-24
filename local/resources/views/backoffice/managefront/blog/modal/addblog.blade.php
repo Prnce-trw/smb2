@@ -36,7 +36,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Content</label>
                         <div class="col-sm-10">
-                            <textarea class="form-control" name="content" id="" cols="30" rows="10" placeholder="Write Something..."></textarea>
+                            <textarea class="form-control summernote" name="content" id="" cols="30" rows="10" placeholder="Write Something..."></textarea>
                         </div>
                     </div>
                     <div class="form-group row">
