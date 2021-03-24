@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use App\news;
 use Storage;
+use DB;
 use App\banner;
 
 class NewsController extends Controller
