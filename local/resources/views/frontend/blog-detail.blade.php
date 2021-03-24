@@ -119,7 +119,7 @@
                 <img class="mw-100 my-3" src="{{asset('local/storage/app/blog/'.$blog->blog_banner.'')}}">
             </div>
             <a id="fontreadmoreN">
-                <span id="text-span" style="color: #252525">{{$blog->blog_content}}</span>
+                <span id="text-span" style="color: #252525">{!!$blog->blog_content!!}</span>
                 <br>
             </a>
         </div>
