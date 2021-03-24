@@ -56,7 +56,7 @@
             overflow: hidden;
         }
 
-        p {
+        /* p {
             margin-top: 0;
             margin-bottom: 1rem;
             display: -webkit-box;
@@ -65,7 +65,7 @@
             overflow: hidden;
             font-size: 0.93rem !important;
             font-weight: 500 !important;
-        }
+        } */
 
         .btn-black {
             display: inline-block;
@@ -119,7 +119,7 @@
                 <img class="mw-100 my-3" src="{{asset('local/storage/app/blog/'.$blog->blog_banner.'')}}">
             </div>
             <a id="fontreadmoreN">
-                <p style="color: #252525">{!!$blog->blog_content!!}</p>
+                <p style="color: #252525">{{$blog->blog_content}}</p>
                 <br>
             </a>
         </div>
