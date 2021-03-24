@@ -36,7 +36,7 @@
                                             <td class="text-center text-middle">
                                                 <div class="border-checkbox-section">
                                                     <div class="border-checkbox-group border-checkbox-group-primary">
-                                                        <input class="border-checkbox" type="checkbox" id="checkbox{{$item->product_id}}" name="getBestSeller[]" value="{{$item->product_id}}" {{ $item->product_bestseller == 1 ? "checked" : "" }}>
+                                                        <input class="border-checkbox" form="addproduct_wheel" type="checkbox" id="checkbox{{$item->product_id}}" name="getBestSeller[]" value="{{$item->product_id}}" {{ $item->product_bestseller == 1 ? "checked" : "" }}>
                                                         <label class="border-checkbox-label" for="checkbox{{$item->product_id}}"></label>
                                                     </div>
                                                 </div>
