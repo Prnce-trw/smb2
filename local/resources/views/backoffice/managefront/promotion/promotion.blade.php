@@ -199,6 +199,7 @@
 <!-- include summernote css/js -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
 <script>
+    $("#example1").DataTable();
     $(document).ready(function () {
         $('.summernote').summernote({
             placeholder: 'Write Something...',
