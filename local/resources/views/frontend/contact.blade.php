@@ -4,6 +4,12 @@
 <head>
     <title>ติดต่อเรา - SMB Wheel</title>
     @include('frontend.header')
+    <style>
+        .submit{
+            background: #ff8200;
+            color: #252525;
+        }   
+    </style>
 </head>
 
 <body>
@@ -21,7 +27,7 @@
                     <h4 id="black" style="padding-left: 15px;">ติดต่อเรา</h4>
                 </div>
                 <div class="text_about_his" id="aboutU" style="padding-left: 15px;">
-                    <h4 class="mt-lg-0 mt-sm-4" style="letter-spacing: 1px;padding-top: 20px;font-size: 20px;font-weight: 500;color: #ff8200;">SMB ทรัพย์สมบูรณ์ยางยนต์</h4>
+                    <h4 class="mt-lg-0 mt-sm-4" style="letter-spacing: 1px;padding-top: 20px;font-size: 20px;font-weight: 500;color: #ff8200;">{{$contact->contact_title}}</h4>
                     <h6>
                         {{$contact->contact_detail}}
                     </h6>
@@ -50,6 +56,58 @@
                     </div>
                     <br>
                     <br>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="info py-5">
+                        <h4 class="text-center">ติดต่อเรา</h4>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-6">
+                                    <label>ชื่อ-นามสกุล</label>
+                                    <input type="text" class="form-control" id="name" name="name">
+                                </div>
+                                <div class="form-group col-12 col-md-6">
+                                    <label>อีเมล</label>
+                                    <input type="email" class="form-control" id="email" name="email">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-6">
+                                    <label>เบอร์ติดต่อ</label>
+                                    <input type="phone" class="form-control" id="phone" name="phone">
+                                </div>
+                                <div class="form-group col-12 col-md-6">
+                                    <label>หัวข้อ</label>
+                                    <select class="form-control">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label>เรื่องที่ต้องการติดต่อ</label>
+                                    <input type="text" class="form-control" id="subject" name="subject">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label>ข้อความ</label>
+                                    <textarea class="form-control" id="message" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row mt-3">
+                                <div class="form-group col-12 text-center">
+                                    <button type="submit" class="btn submit">ส่งข้อความ</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>

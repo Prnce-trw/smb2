@@ -6,6 +6,13 @@
     <?php require('header.php'); ?>
 </head>
 
+<style>
+    .submit{
+        background: #ff8200;
+        color: #252525;
+    }    
+</style>
+
 <body>
     <?php require('navbar.php'); ?>
     <div class="container-fluid" style="padding-left: 0px; padding-right: 0px;">
@@ -57,6 +64,59 @@
             </div>
         </div>
     </div>
+    <div class="bg-light">
+        <div class="container">
+            <div class="row">
+                <div class="col-12">
+                    <div class="info py-5">
+                        <h4 class="text-center">ติดต่อเรา</h4>
+                        <form>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-6">
+                                    <label>ชื่อ-นามสกุล</label>
+                                    <input type="text" class="form-control" id="name">
+                                </div>
+                                <div class="form-group col-12 col-md-6">
+                                    <label>อีเมล</label>
+                                    <input type="email" class="form-control" id="email">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12 col-md-6">
+                                    <label>เบอร์ติดต่อ</label>
+                                    <input type="phone" class="form-control" id="phone">
+                                </div>
+                                <div class="form-group col-12 col-md-6">
+                                    <label>หัวข้อ</label>
+                                    <select class="form-control">
+                                        <option></option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label>เรื่องที่ต้องการติดต่อ</label>
+                                    <input type="text" class="form-control" id="subject">
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-12">
+                                    <label>ข้อความ</label>
+                                    <textarea class="form-control" id="message" rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-row mt-3">
+                                <div class="form-group col-12 text-center">
+                                    <button type="submit" class="btn submit">ส่งข้อความ</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--
     <div class="head-about-us-2 ">
         <div id="smb-center-2" class="col-12 col-md-12 col-lg-12">
             <div class="row">
@@ -132,6 +192,7 @@
             </div>
         </div>
     </div>
+-->
     <?php require('footer.php'); ?>
 </body>
 

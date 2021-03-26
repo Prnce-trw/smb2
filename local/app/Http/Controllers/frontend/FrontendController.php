@@ -11,6 +11,7 @@ use Auth;
 use URL;
 use Cart;
 use Session;
+use Carbon\Carbon;
 use Illuminate\Support\Str;
 use App\banner;
 use App\product;
@@ -104,8 +105,11 @@ class FrontendController extends Controller
     public function promotion()
     {
         $contact = contact::find(1);
-        $firstPromotion = promotion::orderBy('promotion_id', 'DESC')->where('promotion_show', 1)->first();
-        $promotion = promotion::where('promotion_id', '!=', $firstPromotion->promotion_id)->where('promotion_show', 1)->orderBy('promotion_id', 'DESC')->paginate(6);
+        $firstPromotion = promotion::orderBy('promotion_id', 'DESC')->first();
+        $promotion = promotion::where('promotion_id', '!=', $firstPromotion->promotion_id)
+            ->where('promotion_date_end', '>', Carbon::now()->toDateTimeString())
+            ->orderBy('promotion_id', 'DESC')
+            ->paginate(6);
         $data = array(
             'contact' => $contact,
             'promotion' => $promotion,

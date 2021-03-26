@@ -425,7 +425,7 @@
                 <ul class="largenav2 pull-right">
                     <li class="upper-links" style="padding-right: 0px"><i class="fab fa-line fa-lg" style="color: #ff8200;"></i><a class="links" href="{{$hotline->contact_line}}" id="white"> @smbwheel</a></li>
                     <li class="upper-links" style="border-right: 1px solid;"><a class="links" href="{{url('branch')}}" id="white">ที่ตั้งสาขา</a></li>
-                    <li class="upper-links"><a class="links" href="{{url('contact')}}" id="white">ช่วยเหลือ</a></li>
+                    <li class="upper-links"><a class="links" href="{{url('contact')}}" id="white">ติดต่อเรา</a></li>
                     @if (auth('customer')->user() == null)
                     <a class="links" href="{{url('signin')}}" id="white" title="Sign in">
                         <li class="upper-links" style="padding-right: 0px">
@@ -536,7 +536,7 @@
         <a href="{{url('branch')}}">ที่ตั้งสาขา</a>
     </li>
     <li style="border-bottom: 1px solid #252525;margin-top: -25px;">
-        <a href="{{url('contact')}}">ช่วยเหลือ</a>
+        <a href="{{url('contact')}}">ติดต่อเรา</a>
     </li>
     <div class="row mt-3">
         <div class="col-sm-12" style="padding-left: 30px;">

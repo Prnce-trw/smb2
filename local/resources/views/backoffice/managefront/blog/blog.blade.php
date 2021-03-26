@@ -83,24 +83,6 @@
 <!-- include summernote css/js -->
 <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.16/dist/summernote.min.js"></script>
 <script>
-    $(document).ready(function () {
-        $('.summernote').summernote({
-            placeholder: 'Write Something...',
-            tabsize: 2,
-            height: 200,
-            fontNames: ['Arial', 'Arial Black', 'Comic Sans MS', 'Courier New', 'Merriweather'],
-            toolbar: [
-                // [groupName, [list of button]]
-                ['style', ['bold', 'italic', 'underline', 'clear']],
-                ['font', ['strikethrough', 'superscript', 'subscript']],
-                ['fontsize', ['fontsize']],
-                ['color', ['color']],
-                ['para', ['ul', 'ol', 'paragraph']],
-                ['height', ['height']]
-            ]
-        });
-    })
-    
     function addblog() {
         $.ajax({
             url: '{{url('backoffice/blog/create')}}',

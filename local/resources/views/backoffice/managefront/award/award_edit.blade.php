@@ -86,7 +86,7 @@
         <br>
         <div class="row">
             @foreach ($award->getAwardImgs as $key => $item)
-            <div class="col-lg-4 col-sm-6">
+            <div class="col-lg-6 col-sm-6">
                 <div class="thumbnail">
                     <div class="thumb">
                         <a href="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" data-lightbox="1" data-title="">

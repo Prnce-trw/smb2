@@ -184,19 +184,26 @@ class HomeController extends Controller
     {
         DB::beginTransaction();
         try {
-            $allProduct = product::all();
-            foreach ($allProduct as $key => $value) {
-                $value->product_bestseller     = 0;
-                $value->save();
+            $getProduct = product::findOrFail($request->product_id);
+            if ($getProduct->product_bestseller != 0) {
+                $getProduct->product_bestseller     = 0;
+            } else {
+                $getProduct->product_bestseller     = 1;
             }
+            $getProduct->save();
+            // $allProduct = product::all();
+            // foreach ($allProduct as $key => $value) {
+            //     $value->product_bestseller     = 0;
+            //     $value->save();
+            // }
 
-            if ($request->getBestSeller != null) {
-                foreach ($request->getBestSeller as $key => $value) {
-                    $getProduct = product::findOrFail($value);
-                    $getProduct->product_bestseller     = 1;
-                    $getProduct->save();
-                }
-            }
+            // if ($request->getBestSeller != null) {
+            //     foreach ($request->getBestSeller as $key => $value) {
+            //         $getProduct = product::findOrFail($value);
+            //         $getProduct->product_bestseller     = 1;
+            //         $getProduct->save();
+            //     }
+            // }
 
             // Activity Log
             $log = new activitylog();
@@ -207,7 +214,7 @@ class HomeController extends Controller
             $log->save();
 
             DB::commit();
-            return redirect('backoffice/homeproduct')->withSuccess('Best Seller Has Been Updated!');
+            return redirect('backoffice/homeproduct');
         } catch (\Throwable $th) {
             DB::rollback();
             return redirect('backoffice/homeproduct')->withError('Something Wrong. Best Seller Can Not Updated!');

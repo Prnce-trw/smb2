@@ -10,8 +10,8 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{ url('backoffice/updatebestseller') }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel">
-                @csrf
+            {{-- <form action="{{ url('backoffice/updatebestseller') }}" method="POST" enctype="multipart/form-data" id="addproduct_wheel">
+                @csrf --}}
                 <div class="modal-body">
                     <div class="col-sm-12">
                         <div class="row">
@@ -36,7 +36,7 @@
                                             <td class="text-center text-middle">
                                                 <div class="border-checkbox-section">
                                                     <div class="border-checkbox-group border-checkbox-group-primary">
-                                                        <input class="border-checkbox" form="addproduct_wheel" type="checkbox" id="checkbox{{$item->product_id}}" name="getBestSeller[]" value="{{$item->product_id}}" {{ $item->product_bestseller == 1 ? "checked" : "" }}>
+                                                        <input class="border-checkbox addbestseller" type="checkbox" id="checkbox{{$item->product_id}}" name="getBestSeller[]" value="{{$item->product_id}}" {{ $item->product_bestseller == 1 ? "checked" : "" }}>
                                                         <label class="border-checkbox-label" for="checkbox{{$item->product_id}}"></label>
                                                     </div>
                                                 </div>
@@ -49,7 +49,7 @@
                         </div>
                     </div>
                 </div>
-            </form>
+            {{-- </form> --}}
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
                 <button type="submit" class="btn btn-primary waves-effect waves-light" form="addproduct_wheel">Save
@@ -61,4 +61,22 @@
 
 <script>
     $("#table-addBestSeller").DataTable();
+
+    $(document).on('click', '.addbestseller', function () {
+        var product_id = $(this).val();
+        $.ajax({
+            url: "{{ url('backoffice/updatebestseller') }}",
+            type: "POST",
+            headers: {'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')},
+            data: { product_id: product_id, },
+        }).done(function (data) {
+            swal.fire({
+                icon: 'success',
+                title: 'Success!',
+                text: "Best Seller has been Update, Please Refresh This Page.",
+                timer: 3000,
+                type: 'success'
+            }).then((value) => {}).catch(swal.noop);
+        });
+    })
 </script>

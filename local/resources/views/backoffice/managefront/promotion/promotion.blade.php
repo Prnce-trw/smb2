@@ -47,7 +47,6 @@
                                 <th style="text-align: center;">No.</th>
                                 <th style="text-align: center;">Image</th>
                                 <th style="text-align: center;">Title</th>
-                                <th style="text-align: center;">Show</th>
                                 <th style="text-align: center;">Expire</th>
                                 <th style="text-align: center;">Management</th>
                             </tr>
@@ -58,7 +57,6 @@
                                 <td class="text-center text-middle">{{$key+1}}</td>
                                 <td class="text-center"><img src="{{asset('local/storage/app/promotion/'.$item->promotion_img.'')}}" alt="" width="200px"></td>
                                 <td class="text-middle">{{$item->promotion_header}}</td>
-                                <td class="text-center text-middle">{!!$item->show()!!}</td>
                                 <td class="text-center text-middle">{!!$item->checkDateExpire()!!}</td>
                                 <td class="text-middle text-center">
                                     <div class="row">
@@ -135,10 +133,11 @@
                     </div>
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">
-                            <span class="mytooltip tooltip-effect-5">
-                                <span class="tooltip-item">Image Cover</span>
+                            Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
                                 <span class="tooltip-content clearfix">
-                                    <span class="tooltip-text">Choose One</span>
+                                    <span class="tooltip-text">Choose One. (Height: 460px, width: 460px)</span>
                                 </span>
                             </span>
                         </label>

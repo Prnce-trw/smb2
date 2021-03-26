@@ -98,39 +98,39 @@
             buttonsStyling: false
         })
         swalWithBootstrapButtons.fire({
-                title: 'Are you sure?',
-                text: "You won't be able to revert this!",
-                type: 'warning',
-                showCancelButton: true,
-                confirmButtonText: 'Yes',
-                cancelButtonText: 'No',
-                reverseButtons: true
-            }).then((result) => {
-                // alert(result.value);
-                if (result.value) {
-                    //   alert("ผ่าน");
-                    //   alert("#deleteclass_"+id );
-                    $( "#deleteaward" ).attr('action',urlaction);
-                    $( "#deleteaward" ).submit();
-                    // $(this).closest('form').submit();
-                    
-                    swalWithBootstrapButtons.fire(
-                        'Deleted!',
-                        'Your file has been deleted.',
-                        'success'
-                    )
-                } else if (
-                /* Read more about handling dismissals below */
-                    result.dismiss === Swal.DismissReason.cancel
-                ) 
-                {
-                    swalWithBootstrapButtons.fire(
-                        'Cancelled',
-                        'Undelete Data.',
-                        'error'
-                    )
-                }
-            })
-        }
+            title: 'Are you sure?',
+            text: "You won't be able to revert this!",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes',
+            cancelButtonText: 'No',
+            reverseButtons: true
+        }).then((result) => {
+            // alert(result.value);
+            if (result.value) {
+                //   alert("ผ่าน");
+                //   alert("#deleteclass_"+id );
+                $( "#deleteaward" ).attr('action',urlaction);
+                $( "#deleteaward" ).submit();
+                // $(this).closest('form').submit();
+                
+                swalWithBootstrapButtons.fire(
+                    'Deleted!',
+                    'Your file has been deleted.',
+                    'success'
+                )
+            } else if (
+            /* Read more about handling dismissals below */
+                result.dismiss === Swal.DismissReason.cancel
+            ) 
+            {
+                swalWithBootstrapButtons.fire(
+                    'Cancelled',
+                    'Undelete Data.',
+                    'error'
+                )
+            }
+        })
+    }
 </script>
 @endsection

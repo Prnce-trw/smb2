@@ -110,7 +110,14 @@
                         </div>
                     </div>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Image Cover</label>
+                        <label class="col-sm-2 col-form-label">Image Cover
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
+                                <span class="tooltip-content clearfix">
+                                    <span class="tooltip-text">Choose One. (Height: 270px, width: 330px)</span>
+                                </span>
+                            </span>
+                        </label>
                         <div class="col-sm-10">
                             <div class="row">
                                 <div class="col-sm-6">
