@@ -23,25 +23,22 @@
                     <p class="card-title_b pb-1" style="margin-bottom: 0px!important;font-size: 13px!important;">
                         {{$contact_social->contact_sat}}
                     </p>
-                    <p class="small text-secondary mb-0" style="font-size: 16px"><a href="tel:{{$contact_social->contact_tell}}" id="text-some" style="font-size: 16px">TEL:</a> {{$contact_social->contact_tell}}</p>
+                    <h6 id="text-some" class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;">ที่อยู่</h6>
+                    <p class="card-title_b pb-1" style="margin-bottom: 0px!important;font-size: 13px!important;">
+                        {{$contact_social->contact_address}}
+                    </p>
+                    <p class="small text-secondary mb-0" style="font-size: 16px"><a href="{{$contact_social->contact_tell}}" id="text-some" style="font-size: 16px">Tell:</a> {{$contact_social->contact_address}}</p>
+                    <p class="small text-secondary mb-0" style="font-size: 16px"><a href="{{$contact_social->contact_email}}" id="text-some" style="font-size: 16px">Email:</a> {{$contact_social->contact_email}}</p>
+                    <p class="small text-secondary mb-0" style="font-size: 16px"><a href="tel:{{$contact_social->contact_fax}}" id="text-some" style="font-size: 16px">Fax:</a> {{$contact_social->contact_fax}}</p>
                     <p class="small text-secondary mb-0" style="font-size: 16px"><a href="{{$contact_social->contact_line}}" id="text-some" style="font-size: 16px">LINE:</a> @smbwheel</p>
                 </div>
                 <div class="col-lg-3 tcn location">
-                    <!--
-                    <h4 class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">เปิดบริการทุกวัน</h4>
-                    <p class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ตั้งแต่ 9:00 น. - 19:00 น.
-                    </p>
-                    <h4 class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 20px">ยกเว้นวันอาทิตย์</h4>
-                    <p class="card-title_b" style="margin-bottom: 0px!important;font-size: 16px;">
-                        ปิดทำการ 17:00 น.
-                    </p>
-                -->
                     <h5 class="mt-lg-0 mt-sm-4 mt4 labtop" style="font-weight: 600; letter-spacing: 1px;padding-top: 55px;font-size: 17px">FOLLOW US</h5>
                     <div class="col-12" style="padding-left: 0px;">
                         <a href="{{$contact_social->contact_facebook}}"><img src="{{asset('smb-frontend/images/facebook.png')}}" width="30" height="20" title="facebook" alt="facebook" style="margin-right: 5px;"></a>
                         <a href="{{$contact_social->contact_twitter}}"><img src="{{asset('smb-frontend/images/twitter.png')}}" width="30" height="20" title="line" alt="line" style="margin-right: 5px;"></a>
                         <a href="{{$contact_social->contact_youtube}}"><img src="{{asset('smb-frontend/images/youtube.png')}}" width="30" height="20" title="youtube" alt="youtube" style="margin-right: 5px;"></a>
+                        <a href="{{$contact_social->contact_ig}}"><img src="{{asset('smb-frontend/images/ig2.png')}}" width="30" height="20" title="ig" alt="ig" style="margin-right: 5px;"></a>
                     </div>
                 </div>
             </div>

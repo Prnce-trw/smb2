@@ -48,11 +48,12 @@
                     <a style="font-weight: 500">
                         {{$contact->contact_sat}}
                     </a>
-                    <h4 class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 22px; color: #ff8200;">ติดต่อเรา</h4>
+                    <h4 class="mt-lg-0 mt-sm-4" style="font-weight: 400; letter-spacing: 1px;padding-top: 20px;font-size: 22px; color: #ff8200;">ติดตามเรา</h4>
                     <div class="col-12" style="padding-left: 0px;">
                         <a href="{{$contact->contact_facebook}}"><img src="{{asset('smb-frontend/images/facebook.png')}}" width="30" height="20" title="facebook" alt="facebook" style="margin-right: 5px;"></a>
                         <a href="{{$contact->contact_twitter}}"><img src="{{asset('smb-frontend/images/twitter.png')}}" width="30" height="20" title="line" alt="line" style="margin-right: 5px;"></a>
                         <a href="{{$contact->contact_youtube}}"><img src="{{asset('smb-frontend/images/youtube.png')}}" width="30" height="20" title="youtube" alt="youtube" style="margin-right: 5px;"></a>
+                        <a href="{{$contact->contact_ig}}"><img src="{{asset('smb-frontend/images/ig.png')}}" width="30" height="20" title="instagram" alt="instagram" style="margin-right: 5px;"></a>
                     </div>
                     <br>
                     <br>
@@ -66,31 +67,29 @@
                 <div class="col-12">
                     <div class="info py-5">
                         <h4 class="text-center">ติดต่อเรา</h4>
-                        <form>
+                        <form action="" method="GET" id="email_form">
                             <div class="form-row">
                                 <div class="form-group col-12 col-md-6">
-                                    <label>ชื่อ-นามสกุล</label>
+                                    <label>ชื่อ</label>
                                     <input type="text" class="form-control" id="name" name="name">
                                 </div>
+                                <div class="form-group col-12 col-md-6">
+                                    <label>นามสกุล</label>
+                                    <input type="text" class="form-control" id="lname" name="lname">
+                                </div>
+                            </div>
+                            <div class="form-row">
                                 <div class="form-group col-12 col-md-6">
                                     <label>อีเมล</label>
                                     <input type="email" class="form-control" id="email" name="email">
                                 </div>
-                            </div>
-                            <div class="form-row">
                                 <div class="form-group col-12 col-md-6">
                                     <label>เบอร์ติดต่อ</label>
                                     <input type="phone" class="form-control" id="phone" name="phone">
                                 </div>
-                                <div class="form-group col-12 col-md-6">
-                                    <label>หัวข้อ</label>
-                                    <select class="form-control">
-                                        <option></option>
-                                    </select>
-                                </div>
                             </div>
                             <div class="form-row">
-                                <div class="form-group col-12">
+                                <div class="form-group col-12 col-md-12">
                                     <label>เรื่องที่ต้องการติดต่อ</label>
                                     <input type="text" class="form-control" id="subject" name="subject">
                                 </div>

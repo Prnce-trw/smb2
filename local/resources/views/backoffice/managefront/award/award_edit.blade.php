@@ -137,6 +137,29 @@
                     </div>
                 </div> --}}
                 @if (!$item->getAwardProductBrand->isEmpty())
+                @foreach ($item->getAwardProductBrand as $no => $itemproductbrand)
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Product Brand</label>
+                    <div class="col-sm-4">
+                        <select name="edit_productbrand[{{$item->award_img_id}}]" class="form-control editfilterproduct_brand productbrand" data-product_no="{{$no}}">
+                            <option selected disabled>Select Product Brand...</option>
+                            @foreach ($brand as $number => $itembrand)
+                            <option data-number="{{$key+1}}" {{ $itemproductbrand->award_brand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="col-sm-4">
+                        <select name="edit_productselect[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
+                            <option selected>{{$itemproductbrand->AwardgetProducts->product_name}}</option>
+                        </select>
+                    </div>
+                    <div class="col-sm-2">
+                        <button type="button" class="btn btn-danger" onclick="delete_productbrand({{$itembrand->brand_id}})"><i class="icofont icofont-trash"></i></button>
+                    </div>
+                </div>
+                @endforeach
+                @endif
+                {{-- @if (!$item->getAwardProductBrand->isEmpty())
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Product Brand</label>
                     <div class="col-sm-5">
@@ -163,7 +186,28 @@
                         </select>
                     </div>
                 </div>
-                @endif
+                @foreach ($item->getAwardProductBrand as $itemproductbrand)
+                <div class="form-group row">
+                    <label class="col-sm-2 col-form-label">Product Brand</label>
+                    <div class="col-sm-5">
+                        <select name="edit_productbrand[{{$itemproductbrand->award_img_id}}]" class="form-control filterproduct_brand productbrand">
+                            @if ($item->getAwardProductBrand->isEmpty())
+                            <option selected disabled>Select Product Brand...</option>
+                            @else
+                            @foreach ($item->getAwardProductBrand as $itembrand)
+                            <option value="{{$itembrand->award_brand_id}}">{{$itembrand->award_brand_id}}</option>
+                            @endforeach
+                            @endif
+                            <optgroup label="Select New Brand">
+                                @foreach ($brand as $number => $itembrand)
+                                <option data-number="{{$key+1}}" {{ $item->award_productbrand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>
+                                @endforeach
+                            </optgroup>
+                        </select>
+                    </div>
+                </div>
+                @endforeach
+                @endif --}}
                 <div id="resultappend_{{$item->award_img_id}}"></div>
                 <div class="form-group row">
                     <label class="col-sm-4 col-form-label"></label>
@@ -173,6 +217,7 @@
                 </div>
             </div>
             @endforeach
+            <div id="resultdelete_productbrand"></div>
         </div>
     </div>
     <div class="card-footer">
@@ -218,7 +263,13 @@
     $(document).on('change', '.filterproduct_brand', function () {
         var number = $('option:selected', this).attr('data-number');
         var productBrandid = $('option:selected', this).val();
+        // alert(number);
         filterproduct_brand(productBrandid, number);
+    });
+
+    $(document).on('change', '.editfilterproduct_brand', function () {
+        var number = $('option:selected', this).attr('data-product_no');
+        alert(number);
     });
 
     function filterproduct_brand(productBrandid, number) { 
@@ -237,31 +288,36 @@
 
     var no = 1;
     function addproductbrand(id) {
-        if (id != null) {
-            $('#resultappend_'+id).append('<div id="#resultappendbrand_'+id+'_'+no+'">'+
-                '<div class="form-group row">'+
-                    '<label class="col-sm-2 col-form-label">Product Brand</label>'+
-                        '<div class="col-sm-5">'+
-                            '<input type="hidden" name="img_id[]" value="'+id+'">'+
-                            '<select name="productbrand[]" class="form-control filterproduct_brand productbrand">'+
-                                '<option selected disabled>Select Product Brand...</option>'+
-                                '@foreach ($brand as $number => $itembrand)'+
-                                '<option data-number="'+id+'_'+no+'" value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>'+
-                                '@endforeach'+
-                            '</select>'+
-                        '</div>'+
-                        '<div class="col-sm-5">'+
-                            '<select name="productselect[]" id="product_'+id+'_'+no+'" class="form-control">'+
-                                '@if ($item->award_product_id != null)'+
-                                '<option selected></option>'+
-                                '@else'+
-                                '<option disabled>Select Product...</option>'+
-                                '@endif'+
-                            '</select>'+
-                        '</div>'+
+        $('#resultappend_'+id).append('<div id="#resultappendbrand_'+id+'_'+no+'">'+
+            '<div class="form-group row">'+
+                '<label class="col-sm-2 col-form-label">Product Brand</label>'+
+                    '<div class="col-sm-5">'+
+                        '<input type="hidden" name="img_id[]" value="'+id+'">'+
+                        '<select name="productbrand[]" class="form-control filterproduct_brand productbrand" data-no="'+no+'">'+
+                            '<option selected disabled>Select Product Brand...</option>'+
+                            '@foreach ($brand as $number => $itembrand)'+
+                            '<option data-number="'+id+'_'+no+'" value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>'+
+                            '@endforeach'+
+                        '</select>'+
                     '</div>'+
-                '</div>');
-        }
+                    '<div class="col-sm-5">'+
+                        '<select name="productselect[]" id="product_'+id+'_'+no+'" class="form-control">'+
+                            '@if ($item->award_product_id != null)'+
+                            '<option selected></option>'+
+                            '@else'+
+                            '<option disabled>Select Product...</option>'+
+                            '@endif'+
+                        '</select>'+
+                    '</div>'+
+                '</div>'+
+            '</div>'
+        ) 
+        no++;
+    }
+
+    function delete_productbrand(id) {
+        $('#resultdelete_productbrand').append('<input name="deleteproductbrand" type="hidden" value="'+id+'">');
+        $('#btn_productbrand_'+id).fadeOut('slow');
     }
 
     // image preview

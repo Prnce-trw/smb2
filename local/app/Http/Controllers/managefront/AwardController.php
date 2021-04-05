@@ -102,7 +102,7 @@ class AwardController extends Controller
         $award = award::findOrFail($id);
         $carbrand = carbrand::all();
         $brand = brand::all();
-        // dd($award->getAwardImgs[0]->getAwardProductBrand[0]->AwardgetProducts);
+        // dd($award->getAwardImgs[4]->getAwardProductBrand[0]->AwardgetProducts->product_name);
         $data = array(
             'award' => $award, 
             'carbrand' => $carbrand, 
@@ -122,7 +122,7 @@ class AwardController extends Controller
     {
         DB::beginTransaction();
         try {
-            // dd( $request->all(), $id, isset($request->edit_img));
+            // dd( $request->all(), $id);
             $award = award::findOrFail($id);
             $award->award_cardbrand     = $request['carbrand'];
             $award->award_carmodel      = $request['carmodel'];

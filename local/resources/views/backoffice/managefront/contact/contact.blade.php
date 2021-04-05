@@ -60,6 +60,36 @@
                                     class="form-control" placeholder="Detail...">{{$contact->contact_detail}}</textarea>
                             </div>
                         </div>
+                        <br>
+                        <h4 class="sub-title">Address Setting</h4>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Address</label>
+                            <div class="col-sm-10">
+                                <textarea name="address" id="address" cols="30" rows="10"
+                                    class="form-control" placeholder="Address...">{{$contact->contact_address}}</textarea>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">E-mail</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="email" placeholder="E-mail..."
+                                    value="{{$contact->contact_email}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Tell</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="tell" placeholder="Tell..."
+                                    value="{{$contact->contact_email}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Fax</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="fax" placeholder="Fax..."
+                                    value="{{$contact->contact_fax}}">
+                            </div>
+                        </div>
                     </div>
                     <div class="col-sm-6">
                         <div class="form-group row">
@@ -84,8 +114,8 @@
                         <div class="form-group row">
                             <label class="col-sm-2 col-form-label">Hotline</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" name="tel" placeholder="Hotline..."
-                                    value="{{$contact->contact_tell}}">
+                                <input type="text" class="form-control" name="hotline" placeholder="Hotline..."
+                                    value="{{$contact->contact_hotline}}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -114,6 +144,13 @@
                             <div class="col-sm-10">
                                 <input type="text" class="form-control" name="line" placeholder="Line..."
                                     value="{{$contact->contact_line}}">
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label"><i style="color: #DD2A7B" class="icofont icofont-social-instagram fa-2x"></i></label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" name="ig" placeholder="Instagram..."
+                                    value="{{$contact->contact_ig}}">
                             </div>
                         </div>
                         <div class="form-group row">
@@ -233,7 +270,7 @@
                     <div class="form-group row">
                         <label class="col-sm-2 col-form-label">Phone</label>
                         <div class="col-sm-10">
-                            <input type="text" name="tel" class="form-control" placeholder="Phone...">
+                            <input type="text" name="hotline" class="form-control" placeholder="Phone...">
                         </div>
                     </div>
                     <div class="form-group row">

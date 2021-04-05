@@ -52,7 +52,7 @@ class ContactController extends Controller
             $contact = new contact();
             $contact->contact_title	         = $request['title'];
             $contact->contact_detail	     = $request['detail'];
-            $contact->contact_tell  	     = $request['tel'];
+            $contact->contact_hotline  	     = $request['hotline'];
             $contact->contact_opentime	     = $request['opentime'];
             $contact->contact_sat	         = $request['sat'];
             $contact->contact_facebook	     = $request['facebook'];
@@ -148,12 +148,15 @@ class ContactController extends Controller
             // dd($request->all());
             $contact->contact_title	         = $request['title'];
             $contact->contact_detail	     = $request['detail'];
-            $contact->contact_tell  	     = $request['tel'];
+            $contact->contact_hotline  	     = $request['hotline'];
+            $contact->contact_tell  	     = $request['tell'];
+            $contact->contact_fax  	         = $request['fax'];
             $contact->contact_opentime	     = $request['opentime'];
             $contact->contact_sat	         = $request['sat'];
             $contact->contact_facebook	     = $request['facebook'];
             $contact->contact_twitter	     = $request['twitter'];
             $contact->contact_youtube	     = $request['youtube'];
+            $contact->contact_ig	         = $request['ig'];
             $contact->contact_line	         = $request['line'];
             $contact->contact_linkmap	     = $request['linkgooglemap'];
             $contact->contact_address	     = $request['address'];
