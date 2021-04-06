@@ -85,16 +85,19 @@
                 </div>
             </form>
             </div>
-            <div class="col-lg-2 col-xs-12" style="padding-right: 0px;padding-left: 27px;margin-bottom: 40px;">
+            <div class="col-lg-2 col-xs-12" style="padding-right: 0px; padding-left: 27px; margin-bottom: 40px;">
                 <button type="submit" class="btn btn-border-0 btn-orange" form="search">ค้นหา</button>
             </div>
             <div class="row mb-5">
-                @foreach ($award as $item)
-                <div class="col-lg-6 col-xs-12 mb25">
-                    @if ($item->getAwardImgs[0]->award_cover == 1)
-                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$getCover->award_img_name.'')}}" alt="Card image car">
+                @foreach ($award as $number => $item)
+                @php
+                    $award_img_cover = App\award_img::where('award_img_f', $item->award_id)->orderBy('award_cover', 'DESC')->first();
+                @endphp
+                <div class="col-lg-6 col-xs-12 mb25" style="margin-bottom: 90px !important;">
+                    @if ($award_img_cover != null)
+                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$award_img_cover->award_img_name.'')}}" alt="Card image car" style="width: 541px !important; height: 381px !important;">
                     @else
-                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$item->getAwardImgs[0]->award_img_name.'')}}" alt="Card image car">
+                    <img class="card-img-top img-fluid" src="{{asset('local/storage/app/award/'.$item->getAwardImgs[0]->award_img_name.'')}}" alt="Card image car" style="width: 541px !important; height: 381px !important;">
                     @endif
                     <div class="text-block">
                         <div id="smb-portfolio" class="col-12 col-md-12 col-lg-12">
@@ -110,9 +113,9 @@
                                                 <a id="orange16" style="font-size: 16px;">{{$item->getAwardImgs->count()}} รูป</a>
                                             </div>
                                             <div class="col-lg-6 col-xs-12">
-                                                <a href="#" id="orange" data-toggle="modal" data-target="#B-1" alt="B-1" class="pull-right" style="font-size: 14px;">ดูเพิ่มเติม</a>
+                                                <a href="#" id="orange" data-toggle="modal" data-target="#B-{{$number}}" alt="B-{{$number}}" class="pull-right" style="font-size: 14px;">ดูเพิ่มเติม</a>
                                                 <!-- The modal -->
-                                                <div class="modal fade" id="B-1" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
+                                                <div class="modal fade" id="B-{{$number}}" tabindex="-1" role="dialog" aria-labelledby="modalLabelSmall" aria-hidden="true">
                                                     <div class="modal-dialog modal-lg">
                                                         <div class="modal-content">
                                                             <div class="modal-header">
@@ -121,9 +124,12 @@
                                                                 </button>
                                                             </div>
                                                             <div class="modal-body" style="padding-bottom: 3rem;">
-                                                                <div id="modal1" class="carousel slide" data-ride="carousel" interval="false">
+                                                                <div id="modal_{{$number}}" class="carousel slide" data-ride="carousel" interval="false">
                                                                     <div class="carousel-inner row w-100 mx-auto" role="listbox">
                                                                         @foreach ($item->getAwardImgs as $key => $itemImg)
+                                                                        {{-- @php
+                                                                            dd($itemImg->getAwardProductBrand);
+                                                                        @endphp --}}
                                                                         <div class="carousel-item {{ $key == 0 ? "active" : "" }}">
                                                                             <img class="img-fluid mx-auto d-block" src="{{asset('local/storage/app/award/'.$itemImg->award_img_name.'')}}" alt="slide 1">
                                                                             <div class="text-inside-modal">
@@ -135,9 +141,9 @@
                                                                                         <div class="card-body">
                                                                                             <div class="text_about_his" id="aboutUS" style="padding-left: 15px;">
                                                                                                 <h6 id="orange" class="card-title_inside_modal">
-                                                                                                    @foreach ($itemImg->getAwardProductBrand as $itemproduct)
-                                                                                                    {{$itemproduct->AwardgetProducts->product_name}}, 
-                                                                                                    @endforeach
+                                                                                                    @foreach ($itemImg->getAwardProductBrand as $itemproductbrand)
+                                                                                                    {{$itemproductbrand->AwardgetBrand->brand_name}} {{$itemproductbrand->AwardgetProducts->product_name}},
+                                                                                                    @endforeach 
                                                                                                 </h6>
                                                                                                 {{-- <h6 class="card-title_inside_modal">Lorem Ipsum is not simply random text.</h6>
                                                                                                 <h6 class="card-title_inside_modal">The standard chunk of Lorem Ipsum used since the 1500s</h6> --}}
@@ -150,17 +156,12 @@
                                                                         @endforeach
                                                                     </div>
                                                                 </div>
-                                                               
-                                                                <a class="carousel-control-prev" href="#modal1" role="button" data-slide="prev">
-
+                                                                <a class="carousel-control-prev" href="#modal_{{$number}}" role="button" data-slide="prev">
                                                                     <i id="orange" style="text-decoration: none;" class="fa fa-chevron-circle-left fa-2x"></i>
-
                                                                     <span class="sr-only">Previous</span>
                                                                 </a>
-                                                                <a class="carousel-control-next text-faded" href="#modal1" role="button" data-slide="next">
-
+                                                                <a class="carousel-control-next text-faded" href="#modal_{{$number}}" role="button" data-slide="next">
                                                                     <i id="orange" style="text-decoration: none;" class="fa fa-chevron-circle-right fa-2x"></i>
-
                                                                     <span class="sr-only">Next</span>
                                                                 </a>
                                                             </div>
@@ -182,8 +183,6 @@
             </div>
         </div>
     </div>
-
-
     <div class="container mt-5 my-5">
         <div class="row">
             <div class="col-12">

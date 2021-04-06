@@ -10,11 +10,11 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form action="{{url('backoffice/award')}}" method="POST" enctype="multipart/form-data" id="banner">
+            <form action="{{url('backoffice/award')}}" method="POST" enctype="multipart/form-data" id="award" onsubmit="return award()">
                 @csrf
                 <div class="modal-body">
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Car Brand</label>
+                        <label class="col-sm-2 col-form-label">Car Brand <span style="color: #FF5370;">*</span></label>
                         <div class="col-sm-5">
                             <select name="carbrand" class="form-control filtercar_award" data-count_append="1">
                                 <option selected disabled>Select Car Brand...</option>
@@ -48,7 +48,14 @@
                     <div id="appendproduct"></div>
                     <hr>
                     <div class="form-group row">
-                        <label class="col-sm-2 col-form-label">Image</label>
+                        <label class="col-sm-2 col-form-label">Image
+                            <span class="mytooltip tooltip-effect-5 bg-danger">
+                                <span class="tooltip-item">?</span>
+                                <span class="tooltip-content clearfix">
+                                    <span class="tooltip-text">Multiple. (Height: 541px, width: 381px)</span>
+                                </span>
+                            </span>
+                        </label>
                         <div class="col-sm-10">
                             <input type="file" name="img[]" class="form-control" id="" multiple>
                         </div>
@@ -57,7 +64,7 @@
             </form>
             <div class="modal-footer">
                 <button type="button" class="btn btn-default waves-effect " data-dismiss="modal">Close</button>
-                <button type="submit" class="btn btn-primary waves-effect waves-light" form="banner">Save
+                <button type="submit" class="btn btn-primary waves-effect waves-light" form="award">Save
                     changes</button>
             </div>
         </div>
@@ -65,6 +72,22 @@
 </div>
 
 <script>
+    function award () {
+        var carbrand = document.forms["award"]["carbrand"].value;
+        var carmodel = document.forms["award"]["carmodel"].value;
+        if (carbrand == "Select Car Brand..." || carmodel == "Select Car...") {
+            Swal.fire({
+                icon: 'warning',
+                type: 'warning',
+                title: 'ขออภัย',
+                text: 'กรุณากรอกข้อมูลที่กรุณากรอกข้อมูลให้ครบ'
+            })
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     $(document).on('change', '.filtercar_award',function () {
         var carid = $(this).val();
         filtercar_award(carid);

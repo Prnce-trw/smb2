@@ -160,7 +160,7 @@ class AwardController extends Controller
 
             if ($request['edit_productbrand'] != null || $request['edit_productselect'] != null) {
                 foreach ($request['edit_productbrand'] as $key => $value) {
-                    $dataimgprobrand = award_probrand::where('award_img_id', $key)->first();
+                    $dataimgprobrand = award_probrand::where('award_probrand_id', $key)->first();
                     $dataimgprobrand->award_brand_id         = $request['edit_productbrand'][$key];
                     $dataimgprobrand->award_product_id       = $request['edit_productselect'][$key];
                     $dataimgprobrand->save();
@@ -169,7 +169,6 @@ class AwardController extends Controller
 
             if ($request['productbrand'] != null || $request['productselect'] != null) {
                 foreach ($request['productbrand'] as $number => $value) {
-                    // dd($number);
                     $award_probrand = new award_probrand();
                     $award_probrand->award_img_id           = $request['img_id'][$number];
                     $award_probrand->award_brand_id         = $request['productbrand'][$number];

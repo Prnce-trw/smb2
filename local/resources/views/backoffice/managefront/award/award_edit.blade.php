@@ -76,9 +76,17 @@
         <h5>Gallery</h5>
     </div>
     <div class="card-block">
-        <div class="row">
-            <input type="file" name="img[]" class="file-input" id="addgallery" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
-            <button type="button" class="btn btn-success" onclick="document.getElementById('addgallery').click();"><i class="fa fa-plus"></i> Add Gallery</button>
+        <div class="form-group row">
+            <div class="col-sm-6">
+                <input type="file" name="img[]" class="file-input" id="addgallery" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
+                <button type="button" class="btn btn-success" onclick="document.getElementById('addgallery').click();"><i class="fa fa-plus"></i> Add Gallery</button>
+                <span class="mytooltip tooltip-effect-5 bg-danger">
+                    <span class="tooltip-item">?</span>
+                    <span class="tooltip-content clearfix">
+                        <span class="tooltip-text">Multiple. (Height: 541px, width: 381px)</span>
+                    </span>
+                </span>
+            </div>
         </div>
         <div class="row">
             <div id="preview"></div>
@@ -141,7 +149,7 @@
                 <div class="form-group row">
                     <label class="col-sm-2 col-form-label">Product Brand</label>
                     <div class="col-sm-4">
-                        <select name="edit_productbrand[{{$item->award_img_id}}]" class="form-control editfilterproduct_brand productbrand" data-product_no="{{$no}}">
+                        <select name="edit_productbrand[{{$itemproductbrand->award_probrand_id}}]" class="form-control editfilterproduct_brand productbrand" data-product_no="{{$no}}">
                             <option selected disabled>Select Product Brand...</option>
                             @foreach ($brand as $number => $itembrand)
                             <option data-number="{{$key+1}}" {{ $itemproductbrand->award_brand_id == $itembrand->brand_id ? "selected" : "" }} value="{{$itembrand->brand_id}}">{{$itembrand->brand_name}}</option>
@@ -149,8 +157,8 @@
                         </select>
                     </div>
                     <div class="col-sm-4">
-                        <select name="edit_productselect[{{$item->award_img_id}}]" id="product_{{$key+1}}" class="form-control">
-                            <option selected>{{$itemproductbrand->AwardgetProducts->product_name}}</option>
+                        <select name="edit_productselect[{{$itemproductbrand->award_probrand_id}}]" id="product_{{$key+1}}" class="form-control">
+                            <option value="{{$itemproductbrand->AwardgetProducts->product_id}}" selected>{{$itemproductbrand->AwardgetProducts->product_name}}</option>
                         </select>
                     </div>
                     <div class="col-sm-2">
