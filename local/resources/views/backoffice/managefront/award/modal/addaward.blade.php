@@ -57,8 +57,12 @@
                             </span>
                         </label>
                         <div class="col-sm-10">
-                            <input type="file" name="img[]" class="form-control" id="" multiple>
+                            <input type="file" name="img[]" class="imgaward" id="imgaward" style="display: none;" accept="image/x-png,image/gif,image/jpeg" multiple>
+                            <button type="button" class="btn btn-success" onclick="document.getElementById('imgaward').click();"><i class="fa fa-plus"></i> Add Gallery</button>
                         </div>
+                    </div>
+                    <div class="row">
+                        <div id="previewaward"></div>
                     </div>
                 </div>
             </form>
@@ -151,4 +155,21 @@
             $('#carmodel').html(data.html_carmodel);
         });
     }
+
+    // image set preview
+    function previewAward() {
+        var $preview = $('#previewaward').empty();
+        if (this.files) $.each(this.files, readAndPreview);
+        function readAndPreview(i, file) {
+            if (!/\.(jpe?g|png|gif)$/i.test(file.name)){
+            return alert(file.name +" is not an image");
+        }
+        var reader = new FileReader();
+        $(reader).on("load", function() {
+            $preview.append($('<img>', {src:this.result, height:381, width: 541,}));
+        });
+        reader.readAsDataURL(file);
+        }
+    }
+    $('.imgaward').on("change", previewAward);
 </script>

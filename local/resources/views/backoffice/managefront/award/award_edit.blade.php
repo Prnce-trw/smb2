@@ -83,7 +83,7 @@
                 <span class="mytooltip tooltip-effect-5 bg-danger">
                     <span class="tooltip-item">?</span>
                     <span class="tooltip-content clearfix">
-                        <span class="tooltip-text">Multiple. (Height: 541px, width: 381px)</span>
+                        <span class="tooltip-text">Multiple. (Height: 381px, width: 541px)</span>
                     </span>
                 </span>
             </div>
@@ -95,11 +95,13 @@
         <div class="row">
             @foreach ($award->getAwardImgs as $key => $item)
             <div class="col-lg-6 col-sm-6">
-                <div class="thumbnail">
-                    <div class="thumb">
-                        <a href="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" data-lightbox="1" data-title="">
-                            <img src="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" alt="" class="img-fluid img-thumbnail">
-                        </a>
+                <div>
+                    <div class="thumbnail">
+                        <div class="thumb">
+                            <a href="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" data-lightbox="1" data-title="">
+                                <img src="{{asset('local/storage/app/award/'.$item->award_img_name.'')}}" alt="" class="img-fluid img-thumbnail">
+                            </a>
+                        </div>
                     </div>
                 </div>
                 <div class="form-group row text-center">
